@@ -24,7 +24,7 @@ namespace SKSGroupF.SKS.Package.Services.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class GeoCoordinate : IEquatable<GeoCoordinate>
+    public partial class GeoCoordinate
     { 
         /// <summary>
         /// Latitude of the coordinate.
@@ -77,29 +77,6 @@ namespace SKSGroupF.SKS.Package.Services.Models
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             return obj.GetType() == GetType() && Equals((GeoCoordinate)obj);
-        }
-
-        /// <summary>
-        /// Returns true if GeoCoordinate instances are equal
-        /// </summary>
-        /// <param name="other">Instance of GeoCoordinate to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(GeoCoordinate other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-
-            return 
-                (
-                    Lat == other.Lat ||
-                    Lat != null &&
-                    Lat.Equals(other.Lat)
-                ) && 
-                (
-                    Lon == other.Lon ||
-                    Lon != null &&
-                    Lon.Equals(other.Lon)
-                );
         }
 
         /// <summary>

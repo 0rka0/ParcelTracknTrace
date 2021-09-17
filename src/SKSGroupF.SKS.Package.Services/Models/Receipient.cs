@@ -24,7 +24,7 @@ namespace SKSGroupF.SKS.Package.Services.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class Receipient : IEquatable<Receipient>
+    public partial class Receipient
     { 
         /// <summary>
         /// Name of person or company.
@@ -107,44 +107,6 @@ namespace SKSGroupF.SKS.Package.Services.Models
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             return obj.GetType() == GetType() && Equals((Receipient)obj);
-        }
-
-        /// <summary>
-        /// Returns true if Receipient instances are equal
-        /// </summary>
-        /// <param name="other">Instance of Receipient to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(Receipient other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-
-            return 
-                (
-                    Name == other.Name ||
-                    Name != null &&
-                    Name.Equals(other.Name)
-                ) && 
-                (
-                    Street == other.Street ||
-                    Street != null &&
-                    Street.Equals(other.Street)
-                ) && 
-                (
-                    PostalCode == other.PostalCode ||
-                    PostalCode != null &&
-                    PostalCode.Equals(other.PostalCode)
-                ) && 
-                (
-                    City == other.City ||
-                    City != null &&
-                    City.Equals(other.City)
-                ) && 
-                (
-                    Country == other.Country ||
-                    Country != null &&
-                    Country.Equals(other.Country)
-                );
         }
 
         /// <summary>

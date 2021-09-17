@@ -24,7 +24,7 @@ namespace SKSGroupF.SKS.Package.Services.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class WebhookResponses : List<WebhookResponse>, IEquatable<WebhookResponses>
+    public partial class WebhookResponses : List<WebhookResponse>
     { 
         /// <summary>
         /// Returns the string presentation of the object
@@ -57,19 +57,6 @@ namespace SKSGroupF.SKS.Package.Services.Models
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             return obj.GetType() == GetType() && Equals((WebhookResponses)obj);
-        }
-
-        /// <summary>
-        /// Returns true if WebhookResponses instances are equal
-        /// </summary>
-        /// <param name="other">Instance of WebhookResponses to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(WebhookResponses other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-
-            return false;
         }
 
         /// <summary>

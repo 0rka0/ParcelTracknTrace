@@ -24,7 +24,7 @@ namespace SKSGroupF.SKS.Package.Services.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class Hop : IEquatable<Hop>
+    public partial class Hop
     { 
         /// <summary>
         /// Gets or Sets HopType
@@ -115,49 +115,6 @@ namespace SKSGroupF.SKS.Package.Services.Models
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             return obj.GetType() == GetType() && Equals((Hop)obj);
-        }
-
-        /// <summary>
-        /// Returns true if Hop instances are equal
-        /// </summary>
-        /// <param name="other">Instance of Hop to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(Hop other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-
-            return 
-                (
-                    HopType == other.HopType ||
-                    HopType != null &&
-                    HopType.Equals(other.HopType)
-                ) && 
-                (
-                    Code == other.Code ||
-                    Code != null &&
-                    Code.Equals(other.Code)
-                ) && 
-                (
-                    Description == other.Description ||
-                    Description != null &&
-                    Description.Equals(other.Description)
-                ) && 
-                (
-                    ProcessingDelayMins == other.ProcessingDelayMins ||
-                    ProcessingDelayMins != null &&
-                    ProcessingDelayMins.Equals(other.ProcessingDelayMins)
-                ) && 
-                (
-                    LocationName == other.LocationName ||
-                    LocationName != null &&
-                    LocationName.Equals(other.LocationName)
-                ) && 
-                (
-                    LocationCoordinates == other.LocationCoordinates ||
-                    LocationCoordinates != null &&
-                    LocationCoordinates.Equals(other.LocationCoordinates)
-                );
         }
 
         /// <summary>

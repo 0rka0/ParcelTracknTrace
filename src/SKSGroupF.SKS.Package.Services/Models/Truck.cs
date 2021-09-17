@@ -24,7 +24,7 @@ namespace SKSGroupF.SKS.Package.Services.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class Truck : Hop, IEquatable<Truck>
+    public partial class Truck : Hop
     { 
         /// <summary>
         /// GeoJSON of the are covered by the truck.
@@ -77,29 +77,6 @@ namespace SKSGroupF.SKS.Package.Services.Models
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             return obj.GetType() == GetType() && Equals((Truck)obj);
-        }
-
-        /// <summary>
-        /// Returns true if Truck instances are equal
-        /// </summary>
-        /// <param name="other">Instance of Truck to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(Truck other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-
-            return 
-                (
-                    RegionGeoJson == other.RegionGeoJson ||
-                    RegionGeoJson != null &&
-                    RegionGeoJson.Equals(other.RegionGeoJson)
-                ) && 
-                (
-                    NumberPlate == other.NumberPlate ||
-                    NumberPlate != null &&
-                    NumberPlate.Equals(other.NumberPlate)
-                );
         }
 
         /// <summary>

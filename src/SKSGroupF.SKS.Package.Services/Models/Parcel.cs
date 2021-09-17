@@ -24,7 +24,7 @@ namespace SKSGroupF.SKS.Package.Services.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class Parcel : IEquatable<Parcel>
+    public partial class Parcel
     { 
         /// <summary>
         /// Gets or Sets Weight
@@ -84,34 +84,6 @@ namespace SKSGroupF.SKS.Package.Services.Models
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             return obj.GetType() == GetType() && Equals((Parcel)obj);
-        }
-
-        /// <summary>
-        /// Returns true if Parcel instances are equal
-        /// </summary>
-        /// <param name="other">Instance of Parcel to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(Parcel other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-
-            return 
-                (
-                    Weight == other.Weight ||
-                    Weight != null &&
-                    Weight.Equals(other.Weight)
-                ) && 
-                (
-                    Receipient == other.Receipient ||
-                    Receipient != null &&
-                    Receipient.Equals(other.Receipient)
-                ) && 
-                (
-                    Sender == other.Sender ||
-                    Sender != null &&
-                    Sender.Equals(other.Sender)
-                );
         }
 
         /// <summary>

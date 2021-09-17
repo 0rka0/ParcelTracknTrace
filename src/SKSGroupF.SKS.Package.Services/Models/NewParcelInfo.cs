@@ -24,7 +24,7 @@ namespace SKSGroupF.SKS.Package.Services.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class NewParcelInfo : IEquatable<NewParcelInfo>
+    public partial class NewParcelInfo
     { 
         /// <summary>
         /// The tracking ID of the parcel. 
@@ -66,24 +66,6 @@ namespace SKSGroupF.SKS.Package.Services.Models
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             return obj.GetType() == GetType() && Equals((NewParcelInfo)obj);
-        }
-
-        /// <summary>
-        /// Returns true if NewParcelInfo instances are equal
-        /// </summary>
-        /// <param name="other">Instance of NewParcelInfo to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(NewParcelInfo other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-
-            return 
-                (
-                    TrackingId == other.TrackingId ||
-                    TrackingId != null &&
-                    TrackingId.Equals(other.TrackingId)
-                );
         }
 
         /// <summary>

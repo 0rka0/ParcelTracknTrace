@@ -24,7 +24,7 @@ namespace SKSGroupF.SKS.Package.Services.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class Transferwarehouse : Hop, IEquatable<Transferwarehouse>
+    public partial class Transferwarehouse : Hop
     { 
         /// <summary>
         /// GeoJSON of the are covered by the logistics partner.
@@ -87,34 +87,6 @@ namespace SKSGroupF.SKS.Package.Services.Models
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             return obj.GetType() == GetType() && Equals((Transferwarehouse)obj);
-        }
-
-        /// <summary>
-        /// Returns true if Transferwarehouse instances are equal
-        /// </summary>
-        /// <param name="other">Instance of Transferwarehouse to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(Transferwarehouse other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-
-            return 
-                (
-                    RegionGeoJson == other.RegionGeoJson ||
-                    RegionGeoJson != null &&
-                    RegionGeoJson.Equals(other.RegionGeoJson)
-                ) && 
-                (
-                    LogisticsPartner == other.LogisticsPartner ||
-                    LogisticsPartner != null &&
-                    LogisticsPartner.Equals(other.LogisticsPartner)
-                ) && 
-                (
-                    LogisticsPartnerUrl == other.LogisticsPartnerUrl ||
-                    LogisticsPartnerUrl != null &&
-                    LogisticsPartnerUrl.Equals(other.LogisticsPartnerUrl)
-                );
         }
 
         /// <summary>

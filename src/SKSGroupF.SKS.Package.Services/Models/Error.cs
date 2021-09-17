@@ -24,7 +24,7 @@ namespace SKSGroupF.SKS.Package.Services.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class Error : IEquatable<Error>
+    public partial class Error
     { 
         /// <summary>
         /// The error message.
@@ -67,24 +67,6 @@ namespace SKSGroupF.SKS.Package.Services.Models
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             return obj.GetType() == GetType() && Equals((Error)obj);
-        }
-
-        /// <summary>
-        /// Returns true if Error instances are equal
-        /// </summary>
-        /// <param name="other">Instance of Error to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(Error other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-
-            return 
-                (
-                    ErrorMessage == other.ErrorMessage ||
-                    ErrorMessage != null &&
-                    ErrorMessage.Equals(other.ErrorMessage)
-                );
         }
 
         /// <summary>

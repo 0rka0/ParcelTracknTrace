@@ -24,7 +24,7 @@ namespace SKSGroupF.SKS.Package.Services.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class HopArrival : IEquatable<HopArrival>
+    public partial class HopArrival
     { 
         /// <summary>
         /// Unique CODE of the hop.
@@ -87,34 +87,6 @@ namespace SKSGroupF.SKS.Package.Services.Models
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             return obj.GetType() == GetType() && Equals((HopArrival)obj);
-        }
-
-        /// <summary>
-        /// Returns true if HopArrival instances are equal
-        /// </summary>
-        /// <param name="other">Instance of HopArrival to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(HopArrival other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-
-            return 
-                (
-                    Code == other.Code ||
-                    Code != null &&
-                    Code.Equals(other.Code)
-                ) && 
-                (
-                    Description == other.Description ||
-                    Description != null &&
-                    Description.Equals(other.Description)
-                ) && 
-                (
-                    DateTime == other.DateTime ||
-                    DateTime != null &&
-                    DateTime.Equals(other.DateTime)
-                );
         }
 
         /// <summary>

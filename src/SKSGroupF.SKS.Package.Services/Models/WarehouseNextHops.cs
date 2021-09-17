@@ -24,7 +24,7 @@ namespace SKSGroupF.SKS.Package.Services.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class WarehouseNextHops : IEquatable<WarehouseNextHops>
+    public partial class WarehouseNextHops
     { 
         /// <summary>
         /// Gets or Sets TraveltimeMins
@@ -75,29 +75,6 @@ namespace SKSGroupF.SKS.Package.Services.Models
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             return obj.GetType() == GetType() && Equals((WarehouseNextHops)obj);
-        }
-
-        /// <summary>
-        /// Returns true if WarehouseNextHops instances are equal
-        /// </summary>
-        /// <param name="other">Instance of WarehouseNextHops to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(WarehouseNextHops other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-
-            return 
-                (
-                    TraveltimeMins == other.TraveltimeMins ||
-                    TraveltimeMins != null &&
-                    TraveltimeMins.Equals(other.TraveltimeMins)
-                ) && 
-                (
-                    Hop == other.Hop ||
-                    Hop != null &&
-                    Hop.Equals(other.Hop)
-                );
         }
 
         /// <summary>

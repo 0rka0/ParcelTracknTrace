@@ -24,7 +24,7 @@ namespace SKSGroupF.SKS.Package.Services.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class Warehouse : Hop, IEquatable<Warehouse>
+    public partial class Warehouse : Hop
     { 
         /// <summary>
         /// Gets or Sets Level
@@ -76,29 +76,6 @@ namespace SKSGroupF.SKS.Package.Services.Models
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             return obj.GetType() == GetType() && Equals((Warehouse)obj);
-        }
-
-        /// <summary>
-        /// Returns true if Warehouse instances are equal
-        /// </summary>
-        /// <param name="other">Instance of Warehouse to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(Warehouse other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-
-            return 
-                (
-                    Level == other.Level ||
-                    Level != null &&
-                    Level.Equals(other.Level)
-                ) && 
-                (
-                    NextHops == other.NextHops ||
-                    NextHops != null &&
-                    NextHops.SequenceEqual(other.NextHops)
-                );
         }
 
         /// <summary>

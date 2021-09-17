@@ -24,7 +24,7 @@ namespace SKSGroupF.SKS.Package.Services.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class WebhookMessage : TrackingInformation, IEquatable<WebhookMessage>
+    public partial class WebhookMessage : TrackingInformation
     { 
         /// <summary>
         /// Gets or Sets TrackingId
@@ -65,24 +65,6 @@ namespace SKSGroupF.SKS.Package.Services.Models
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             return obj.GetType() == GetType() && Equals((WebhookMessage)obj);
-        }
-
-        /// <summary>
-        /// Returns true if WebhookMessage instances are equal
-        /// </summary>
-        /// <param name="other">Instance of WebhookMessage to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(WebhookMessage other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-
-            return 
-                (
-                    TrackingId == other.TrackingId ||
-                    TrackingId != null &&
-                    TrackingId.Equals(other.TrackingId)
-                );
         }
 
         /// <summary>
