@@ -18,22 +18,40 @@ using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
-namespace SKSGroupF.SKS.Package.Services.Models
+namespace SKSGroupF.SKS.Package.Services.DTOs.Models
 { 
     /// <summary>
     /// 
     /// </summary>
     [DataContract]
-    public partial class Error
+    public partial class Transferwarehouse : Hop
     { 
         /// <summary>
-        /// The error message.
+        /// GeoJSON of the are covered by the logistics partner.
         /// </summary>
-        /// <value>The error message.</value>
+        /// <value>GeoJSON of the are covered by the logistics partner.</value>
         [Required]
 
-        [DataMember(Name="errorMessage")]
-        public string ErrorMessage { get; set; }
+        [DataMember(Name="regionGeoJson")]
+        public string RegionGeoJson { get; set; }
+
+        /// <summary>
+        /// Name of the logistics partner.
+        /// </summary>
+        /// <value>Name of the logistics partner.</value>
+        [Required]
+
+        [DataMember(Name="logisticsPartner")]
+        public string LogisticsPartner { get; set; }
+
+        /// <summary>
+        /// BaseURL of the logistics partner&#x27;s REST service.
+        /// </summary>
+        /// <value>BaseURL of the logistics partner&#x27;s REST service.</value>
+        [Required]
+
+        [DataMember(Name="logisticsPartnerUrl")]
+        public string LogisticsPartnerUrl { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -42,8 +60,10 @@ namespace SKSGroupF.SKS.Package.Services.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class Error {\n");
-            sb.Append("  ErrorMessage: ").Append(ErrorMessage).Append("\n");
+            sb.Append("class Transferwarehouse {\n");
+            sb.Append("  RegionGeoJson: ").Append(RegionGeoJson).Append("\n");
+            sb.Append("  LogisticsPartner: ").Append(LogisticsPartner).Append("\n");
+            sb.Append("  LogisticsPartnerUrl: ").Append(LogisticsPartnerUrl).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -52,7 +72,7 @@ namespace SKSGroupF.SKS.Package.Services.Models
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public string ToJson()
+        public  new string ToJson()
         {
             return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
@@ -66,7 +86,7 @@ namespace SKSGroupF.SKS.Package.Services.Models
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((Error)obj);
+            return obj.GetType() == GetType() && Equals((Transferwarehouse)obj);
         }
 
         /// <summary>
@@ -79,8 +99,12 @@ namespace SKSGroupF.SKS.Package.Services.Models
             {
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
-                    if (ErrorMessage != null)
-                    hashCode = hashCode * 59 + ErrorMessage.GetHashCode();
+                    if (RegionGeoJson != null)
+                    hashCode = hashCode * 59 + RegionGeoJson.GetHashCode();
+                    if (LogisticsPartner != null)
+                    hashCode = hashCode * 59 + LogisticsPartner.GetHashCode();
+                    if (LogisticsPartnerUrl != null)
+                    hashCode = hashCode * 59 + LogisticsPartnerUrl.GetHashCode();
                 return hashCode;
             }
         }
@@ -88,12 +112,12 @@ namespace SKSGroupF.SKS.Package.Services.Models
         #region Operators
         #pragma warning disable 1591
 
-        public static bool operator ==(Error left, Error right)
+        public static bool operator ==(Transferwarehouse left, Transferwarehouse right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(Error left, Error right)
+        public static bool operator !=(Transferwarehouse left, Transferwarehouse right)
         {
             return !Equals(left, right);
         }

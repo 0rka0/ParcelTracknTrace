@@ -18,13 +18,14 @@ using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
-namespace SKSGroupF.SKS.Package.Services.Models
+namespace SKSGroupF.SKS.Package.Services.DTOs.Models
 { 
     /// <summary>
     /// 
     /// </summary>
     [DataContract]
-    public partial class Hop
+    [JsonConverter(typeof(HopJsonConverter))]
+    public abstract class Hop
     { 
         /// <summary>
         /// Gets or Sets HopType

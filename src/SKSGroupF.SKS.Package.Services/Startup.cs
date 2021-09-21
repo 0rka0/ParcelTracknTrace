@@ -78,10 +78,10 @@ namespace SKSGroupF.SKS.Package.Services
                         Contact = new OpenApiContact()
                         {
                            Name = "SKS",
-                           Url = new Uri("http://www.technikum-wien.at/"),
+                           Url = new Uri("http://www.technikum-wien.at"),
                            Email = ""
                         },
-                        TermsOfService = new Uri("")
+                        TermsOfService = new Uri("http://www.technikum-wien.at")
                     });
                     c.CustomSchemaIds(type => type.FullName);
                     c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{_hostingEnv.ApplicationName}.xml");

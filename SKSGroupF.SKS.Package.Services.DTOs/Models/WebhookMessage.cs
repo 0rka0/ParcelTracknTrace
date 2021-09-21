@@ -18,29 +18,20 @@ using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
-namespace SKSGroupF.SKS.Package.Services.Models
+namespace SKSGroupF.SKS.Package.Services.DTOs.Models
 { 
     /// <summary>
     /// 
     /// </summary>
     [DataContract]
-    public partial class WarehouseNextHops
+    public partial class WebhookMessage : TrackingInformation
     { 
         /// <summary>
-        /// Gets or Sets TraveltimeMins
+        /// Gets or Sets TrackingId
         /// </summary>
-        [Required]
-
-        [DataMember(Name="traveltimeMins")]
-        public int? TraveltimeMins { get; set; }
-
-        /// <summary>
-        /// Gets or Sets Hop
-        /// </summary>
-        [Required]
-
-        [DataMember(Name="hop")]
-        public Hop Hop { get; set; }
+        [RegularExpression("/^[A-Z0-9]{9}$/")]
+        [DataMember(Name="trackingId")]
+        public string TrackingId { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -49,9 +40,8 @@ namespace SKSGroupF.SKS.Package.Services.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class WarehouseNextHops {\n");
-            sb.Append("  TraveltimeMins: ").Append(TraveltimeMins).Append("\n");
-            sb.Append("  Hop: ").Append(Hop).Append("\n");
+            sb.Append("class WebhookMessage {\n");
+            sb.Append("  TrackingId: ").Append(TrackingId).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -60,7 +50,7 @@ namespace SKSGroupF.SKS.Package.Services.Models
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public string ToJson()
+        public  new string ToJson()
         {
             return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
@@ -74,7 +64,7 @@ namespace SKSGroupF.SKS.Package.Services.Models
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((WarehouseNextHops)obj);
+            return obj.GetType() == GetType() && Equals((WebhookMessage)obj);
         }
 
         /// <summary>
@@ -87,10 +77,8 @@ namespace SKSGroupF.SKS.Package.Services.Models
             {
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
-                    if (TraveltimeMins != null)
-                    hashCode = hashCode * 59 + TraveltimeMins.GetHashCode();
-                    if (Hop != null)
-                    hashCode = hashCode * 59 + Hop.GetHashCode();
+                    if (TrackingId != null)
+                    hashCode = hashCode * 59 + TrackingId.GetHashCode();
                 return hashCode;
             }
         }
@@ -98,12 +86,12 @@ namespace SKSGroupF.SKS.Package.Services.Models
         #region Operators
         #pragma warning disable 1591
 
-        public static bool operator ==(WarehouseNextHops left, WarehouseNextHops right)
+        public static bool operator ==(WebhookMessage left, WebhookMessage right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(WarehouseNextHops left, WarehouseNextHops right)
+        public static bool operator !=(WebhookMessage left, WebhookMessage right)
         {
             return !Equals(left, right);
         }

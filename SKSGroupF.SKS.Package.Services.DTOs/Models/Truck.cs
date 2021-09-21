@@ -18,37 +18,31 @@ using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
-namespace SKSGroupF.SKS.Package.Services.Models
+namespace SKSGroupF.SKS.Package.Services.DTOs.Models
 { 
     /// <summary>
     /// 
     /// </summary>
     [DataContract]
-    public partial class Parcel
+    public partial class Truck : Hop
     { 
         /// <summary>
-        /// Gets or Sets Weight
+        /// GeoJSON of the are covered by the truck.
         /// </summary>
+        /// <value>GeoJSON of the are covered by the truck.</value>
         [Required]
 
-        [DataMember(Name="weight")]
-        public float? Weight { get; set; }
+        [DataMember(Name="regionGeoJson")]
+        public string RegionGeoJson { get; set; }
 
         /// <summary>
-        /// Gets or Sets Receipient
+        /// The truck&#x27;s number plate.
         /// </summary>
+        /// <value>The truck&#x27;s number plate.</value>
         [Required]
 
-        [DataMember(Name="receipient")]
-        public Receipient Receipient { get; set; }
-
-        /// <summary>
-        /// Gets or Sets Sender
-        /// </summary>
-        [Required]
-
-        [DataMember(Name="sender")]
-        public Receipient Sender { get; set; }
+        [DataMember(Name="numberPlate")]
+        public string NumberPlate { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -57,10 +51,9 @@ namespace SKSGroupF.SKS.Package.Services.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class Parcel {\n");
-            sb.Append("  Weight: ").Append(Weight).Append("\n");
-            sb.Append("  Receipient: ").Append(Receipient).Append("\n");
-            sb.Append("  Sender: ").Append(Sender).Append("\n");
+            sb.Append("class Truck {\n");
+            sb.Append("  RegionGeoJson: ").Append(RegionGeoJson).Append("\n");
+            sb.Append("  NumberPlate: ").Append(NumberPlate).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -69,7 +62,7 @@ namespace SKSGroupF.SKS.Package.Services.Models
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public string ToJson()
+        public  new string ToJson()
         {
             return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
@@ -83,7 +76,7 @@ namespace SKSGroupF.SKS.Package.Services.Models
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((Parcel)obj);
+            return obj.GetType() == GetType() && Equals((Truck)obj);
         }
 
         /// <summary>
@@ -96,12 +89,10 @@ namespace SKSGroupF.SKS.Package.Services.Models
             {
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
-                    if (Weight != null)
-                    hashCode = hashCode * 59 + Weight.GetHashCode();
-                    if (Receipient != null)
-                    hashCode = hashCode * 59 + Receipient.GetHashCode();
-                    if (Sender != null)
-                    hashCode = hashCode * 59 + Sender.GetHashCode();
+                    if (RegionGeoJson != null)
+                    hashCode = hashCode * 59 + RegionGeoJson.GetHashCode();
+                    if (NumberPlate != null)
+                    hashCode = hashCode * 59 + NumberPlate.GetHashCode();
                 return hashCode;
             }
         }
@@ -109,12 +100,12 @@ namespace SKSGroupF.SKS.Package.Services.Models
         #region Operators
         #pragma warning disable 1591
 
-        public static bool operator ==(Parcel left, Parcel right)
+        public static bool operator ==(Truck left, Truck right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(Parcel left, Parcel right)
+        public static bool operator !=(Truck left, Truck right)
         {
             return !Equals(left, right);
         }

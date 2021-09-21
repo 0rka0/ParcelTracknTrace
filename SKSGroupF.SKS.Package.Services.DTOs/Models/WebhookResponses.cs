@@ -18,7 +18,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
-namespace SKSGroupF.SKS.Package.Services.Models
+namespace SKSGroupF.SKS.Package.Services.DTOs.Models
 { 
     /// <summary>
     /// 

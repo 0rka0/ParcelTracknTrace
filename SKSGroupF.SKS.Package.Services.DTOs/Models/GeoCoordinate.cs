@@ -18,20 +18,31 @@ using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
-namespace SKSGroupF.SKS.Package.Services.Models
+namespace SKSGroupF.SKS.Package.Services.DTOs.Models
 { 
     /// <summary>
     /// 
     /// </summary>
     [DataContract]
-    public partial class WebhookMessage : TrackingInformation
+    public partial class GeoCoordinate
     { 
         /// <summary>
-        /// Gets or Sets TrackingId
+        /// Latitude of the coordinate.
         /// </summary>
-        [RegularExpression("/^[A-Z0-9]{9}$/")]
-        [DataMember(Name="trackingId")]
-        public string TrackingId { get; set; }
+        /// <value>Latitude of the coordinate.</value>
+        [Required]
+
+        [DataMember(Name="lat")]
+        public double? Lat { get; set; }
+
+        /// <summary>
+        /// Longitude of the coordinate.
+        /// </summary>
+        /// <value>Longitude of the coordinate.</value>
+        [Required]
+
+        [DataMember(Name="lon")]
+        public double? Lon { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -40,8 +51,9 @@ namespace SKSGroupF.SKS.Package.Services.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class WebhookMessage {\n");
-            sb.Append("  TrackingId: ").Append(TrackingId).Append("\n");
+            sb.Append("class GeoCoordinate {\n");
+            sb.Append("  Lat: ").Append(Lat).Append("\n");
+            sb.Append("  Lon: ").Append(Lon).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -50,7 +62,7 @@ namespace SKSGroupF.SKS.Package.Services.Models
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public  new string ToJson()
+        public string ToJson()
         {
             return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
@@ -64,7 +76,7 @@ namespace SKSGroupF.SKS.Package.Services.Models
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((WebhookMessage)obj);
+            return obj.GetType() == GetType() && Equals((GeoCoordinate)obj);
         }
 
         /// <summary>
@@ -77,8 +89,10 @@ namespace SKSGroupF.SKS.Package.Services.Models
             {
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
-                    if (TrackingId != null)
-                    hashCode = hashCode * 59 + TrackingId.GetHashCode();
+                    if (Lat != null)
+                    hashCode = hashCode * 59 + Lat.GetHashCode();
+                    if (Lon != null)
+                    hashCode = hashCode * 59 + Lon.GetHashCode();
                 return hashCode;
             }
         }
@@ -86,12 +100,12 @@ namespace SKSGroupF.SKS.Package.Services.Models
         #region Operators
         #pragma warning disable 1591
 
-        public static bool operator ==(WebhookMessage left, WebhookMessage right)
+        public static bool operator ==(GeoCoordinate left, GeoCoordinate right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(WebhookMessage left, WebhookMessage right)
+        public static bool operator !=(GeoCoordinate left, GeoCoordinate right)
         {
             return !Equals(left, right);
         }

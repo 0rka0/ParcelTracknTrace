@@ -17,7 +17,7 @@ using System.ComponentModel.DataAnnotations;
 using SKSGroupF.SKS.Package.Services.Attributes;
 
 using Microsoft.AspNetCore.Authorization;
-using SKSGroupF.SKS.Package.Services.Models;
+using SKSGroupF.SKS.Package.Services.DTOs.Models;
 
 namespace SKSGroupF.SKS.Package.Services.Controllers
 { 
@@ -40,7 +40,7 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
         [SwaggerResponse(statusCode: 200, type: typeof(Warehouse), description: "Successful response")]
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "An error occurred loading.")]
         public virtual IActionResult ExportWarehouses()
-        { 
+        {
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(Warehouse));
 

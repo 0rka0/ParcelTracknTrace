@@ -17,7 +17,7 @@ using System.ComponentModel.DataAnnotations;
 using SKSGroupF.SKS.Package.Services.Attributes;
 
 using Microsoft.AspNetCore.Authorization;
-using SKSGroupF.SKS.Package.Services.Models;
+using SKSGroupF.SKS.Package.Services.DTOs.Models;
 
 namespace SKSGroupF.SKS.Package.Services.Controllers
 { 

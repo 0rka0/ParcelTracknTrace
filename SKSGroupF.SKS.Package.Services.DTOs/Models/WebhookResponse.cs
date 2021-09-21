@@ -18,31 +18,41 @@ using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
-namespace SKSGroupF.SKS.Package.Services.Models
+namespace SKSGroupF.SKS.Package.Services.DTOs.Models
 { 
     /// <summary>
     /// 
     /// </summary>
     [DataContract]
-    public partial class GeoCoordinate
+    public partial class WebhookResponse
     { 
         /// <summary>
-        /// Latitude of the coordinate.
+        /// Gets or Sets Id
         /// </summary>
-        /// <value>Latitude of the coordinate.</value>
-        [Required]
 
-        [DataMember(Name="lat")]
-        public double? Lat { get; set; }
+        [DataMember(Name="id")]
+        public long? Id { get; set; }
 
         /// <summary>
-        /// Longitude of the coordinate.
+        /// Gets or Sets TrackingId
         /// </summary>
-        /// <value>Longitude of the coordinate.</value>
-        [Required]
+        [RegularExpression("/^[A-Z0-9]{9}$/")]
+        [DataMember(Name="trackingId")]
+        public string TrackingId { get; set; }
 
-        [DataMember(Name="lon")]
-        public double? Lon { get; set; }
+        /// <summary>
+        /// Gets or Sets Url
+        /// </summary>
+
+        [DataMember(Name="url")]
+        public string Url { get; set; }
+
+        /// <summary>
+        /// Gets or Sets CreatedAt
+        /// </summary>
+
+        [DataMember(Name="created_at")]
+        public DateTime? CreatedAt { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -51,9 +61,11 @@ namespace SKSGroupF.SKS.Package.Services.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class GeoCoordinate {\n");
-            sb.Append("  Lat: ").Append(Lat).Append("\n");
-            sb.Append("  Lon: ").Append(Lon).Append("\n");
+            sb.Append("class WebhookResponse {\n");
+            sb.Append("  Id: ").Append(Id).Append("\n");
+            sb.Append("  TrackingId: ").Append(TrackingId).Append("\n");
+            sb.Append("  Url: ").Append(Url).Append("\n");
+            sb.Append("  CreatedAt: ").Append(CreatedAt).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -76,7 +88,7 @@ namespace SKSGroupF.SKS.Package.Services.Models
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((GeoCoordinate)obj);
+            return obj.GetType() == GetType() && Equals((WebhookResponse)obj);
         }
 
         /// <summary>
@@ -89,10 +101,14 @@ namespace SKSGroupF.SKS.Package.Services.Models
             {
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
-                    if (Lat != null)
-                    hashCode = hashCode * 59 + Lat.GetHashCode();
-                    if (Lon != null)
-                    hashCode = hashCode * 59 + Lon.GetHashCode();
+                    if (Id != null)
+                    hashCode = hashCode * 59 + Id.GetHashCode();
+                    if (TrackingId != null)
+                    hashCode = hashCode * 59 + TrackingId.GetHashCode();
+                    if (Url != null)
+                    hashCode = hashCode * 59 + Url.GetHashCode();
+                    if (CreatedAt != null)
+                    hashCode = hashCode * 59 + CreatedAt.GetHashCode();
                 return hashCode;
             }
         }
@@ -100,12 +116,12 @@ namespace SKSGroupF.SKS.Package.Services.Models
         #region Operators
         #pragma warning disable 1591
 
-        public static bool operator ==(GeoCoordinate left, GeoCoordinate right)
+        public static bool operator ==(WebhookResponse left, WebhookResponse right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(GeoCoordinate left, GeoCoordinate right)
+        public static bool operator !=(WebhookResponse left, WebhookResponse right)
         {
             return !Equals(left, right);
         }

@@ -18,40 +18,21 @@ using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
-namespace SKSGroupF.SKS.Package.Services.Models
+namespace SKSGroupF.SKS.Package.Services.DTOs.Models
 { 
     /// <summary>
     /// 
     /// </summary>
     [DataContract]
-    public partial class HopArrival
+    public partial class NewParcelInfo
     { 
         /// <summary>
-        /// Unique CODE of the hop.
+        /// The tracking ID of the parcel. 
         /// </summary>
-        /// <value>Unique CODE of the hop.</value>
-        [Required]
-        [RegularExpression("/^[A-Z]{4}\\d{1,4}$/")]
-        [DataMember(Name="code")]
-        public string Code { get; set; }
-
-        /// <summary>
-        /// Description of the hop.
-        /// </summary>
-        /// <value>Description of the hop.</value>
-        [Required]
-
-        [DataMember(Name="description")]
-        public string Description { get; set; }
-
-        /// <summary>
-        /// The date/time the parcel arrived at the hop.
-        /// </summary>
-        /// <value>The date/time the parcel arrived at the hop.</value>
-        [Required]
-
-        [DataMember(Name="dateTime")]
-        public DateTime? DateTime { get; set; }
+        /// <value>The tracking ID of the parcel. </value>
+        [RegularExpression("/^[A-Z0-9]{9}$/")]
+        [DataMember(Name="trackingId")]
+        public string TrackingId { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -60,10 +41,8 @@ namespace SKSGroupF.SKS.Package.Services.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class HopArrival {\n");
-            sb.Append("  Code: ").Append(Code).Append("\n");
-            sb.Append("  Description: ").Append(Description).Append("\n");
-            sb.Append("  DateTime: ").Append(DateTime).Append("\n");
+            sb.Append("class NewParcelInfo {\n");
+            sb.Append("  TrackingId: ").Append(TrackingId).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -86,7 +65,7 @@ namespace SKSGroupF.SKS.Package.Services.Models
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((HopArrival)obj);
+            return obj.GetType() == GetType() && Equals((NewParcelInfo)obj);
         }
 
         /// <summary>
@@ -99,12 +78,8 @@ namespace SKSGroupF.SKS.Package.Services.Models
             {
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
-                    if (Code != null)
-                    hashCode = hashCode * 59 + Code.GetHashCode();
-                    if (Description != null)
-                    hashCode = hashCode * 59 + Description.GetHashCode();
-                    if (DateTime != null)
-                    hashCode = hashCode * 59 + DateTime.GetHashCode();
+                    if (TrackingId != null)
+                    hashCode = hashCode * 59 + TrackingId.GetHashCode();
                 return hashCode;
             }
         }
@@ -112,12 +87,12 @@ namespace SKSGroupF.SKS.Package.Services.Models
         #region Operators
         #pragma warning disable 1591
 
-        public static bool operator ==(HopArrival left, HopArrival right)
+        public static bool operator ==(NewParcelInfo left, NewParcelInfo right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(HopArrival left, HopArrival right)
+        public static bool operator !=(NewParcelInfo left, NewParcelInfo right)
         {
             return !Equals(left, right);
         }

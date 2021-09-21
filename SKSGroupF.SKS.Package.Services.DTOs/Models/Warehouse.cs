@@ -18,31 +18,30 @@ using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
-namespace SKSGroupF.SKS.Package.Services.Models
+namespace SKSGroupF.SKS.Package.Services.DTOs.Models
 { 
     /// <summary>
     /// 
     /// </summary>
     [DataContract]
-    public partial class Truck : Hop
+    public partial class Warehouse : Hop
     { 
         /// <summary>
-        /// GeoJSON of the are covered by the truck.
+        /// Gets or Sets Level
         /// </summary>
-        /// <value>GeoJSON of the are covered by the truck.</value>
         [Required]
 
-        [DataMember(Name="regionGeoJson")]
-        public string RegionGeoJson { get; set; }
+        [DataMember(Name="level")]
+        public int? Level { get; set; }
 
         /// <summary>
-        /// The truck&#x27;s number plate.
+        /// Next hops after this warehouse (warehouses or trucks).
         /// </summary>
-        /// <value>The truck&#x27;s number plate.</value>
+        /// <value>Next hops after this warehouse (warehouses or trucks).</value>
         [Required]
 
-        [DataMember(Name="numberPlate")]
-        public string NumberPlate { get; set; }
+        [DataMember(Name="nextHops")]
+        public List<WarehouseNextHops> NextHops { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -51,9 +50,9 @@ namespace SKSGroupF.SKS.Package.Services.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class Truck {\n");
-            sb.Append("  RegionGeoJson: ").Append(RegionGeoJson).Append("\n");
-            sb.Append("  NumberPlate: ").Append(NumberPlate).Append("\n");
+            sb.Append("class Warehouse {\n");
+            sb.Append("  Level: ").Append(Level).Append("\n");
+            sb.Append("  NextHops: ").Append(NextHops).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -76,7 +75,7 @@ namespace SKSGroupF.SKS.Package.Services.Models
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((Truck)obj);
+            return obj.GetType() == GetType() && Equals((Warehouse)obj);
         }
 
         /// <summary>
@@ -89,10 +88,10 @@ namespace SKSGroupF.SKS.Package.Services.Models
             {
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
-                    if (RegionGeoJson != null)
-                    hashCode = hashCode * 59 + RegionGeoJson.GetHashCode();
-                    if (NumberPlate != null)
-                    hashCode = hashCode * 59 + NumberPlate.GetHashCode();
+                    if (Level != null)
+                    hashCode = hashCode * 59 + Level.GetHashCode();
+                    if (NextHops != null)
+                    hashCode = hashCode * 59 + NextHops.GetHashCode();
                 return hashCode;
             }
         }
@@ -100,12 +99,12 @@ namespace SKSGroupF.SKS.Package.Services.Models
         #region Operators
         #pragma warning disable 1591
 
-        public static bool operator ==(Truck left, Truck right)
+        public static bool operator ==(Warehouse left, Warehouse right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(Truck left, Truck right)
+        public static bool operator !=(Warehouse left, Warehouse right)
         {
             return !Equals(left, right);
         }
