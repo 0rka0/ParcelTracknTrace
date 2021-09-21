@@ -24,7 +24,7 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
     /// <summary>
     /// 
     /// </summary>
-    [ApiController]
+    //[ApiController]
     public class ParcelWebhookApiController : ControllerBase
     { 
         /// <summary>
@@ -39,7 +39,7 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
         [ValidateModelState]
         [SwaggerOperation("ApiParcelByTrackingIdWebhooksGet")]
         [SwaggerResponse(statusCode: 200, type: typeof(WebhookResponses), description: "List of webooks for the &#x60;trackingId&#x60;")]
-        public virtual IActionResult ApiParcelByTrackingIdWebhooksGet([FromRoute][Required][RegularExpression("/^[A-Z0-9]{9}$/")]string trackingId)
+        public virtual IActionResult ApiParcelByTrackingIdWebhooksGet([FromRoute][Required][RegularExpression("^[A-Z0-9]{9}$")]string trackingId)
         { 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(WebhookResponses));
@@ -68,7 +68,7 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
         [ValidateModelState]
         [SwaggerOperation("ApiParcelByTrackingIdWebhooksPost")]
         [SwaggerResponse(statusCode: 200, type: typeof(WebhookResponse), description: "Successful response")]
-        public virtual IActionResult ApiParcelByTrackingIdWebhooksPost([FromRoute][Required][RegularExpression("/^[A-Z0-9]{9}$/")]string trackingId, [FromQuery][Required()]string url)
+        public virtual IActionResult ApiParcelByTrackingIdWebhooksPost([FromRoute][Required][RegularExpression("^[A-Z0-9]{9}$")]string trackingId, [FromQuery][Required()]string url)
         { 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(WebhookResponse));

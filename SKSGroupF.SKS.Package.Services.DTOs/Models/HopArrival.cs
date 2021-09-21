@@ -31,7 +31,7 @@ namespace SKSGroupF.SKS.Package.Services.DTOs.Models
         /// </summary>
         /// <value>Unique CODE of the hop.</value>
         [Required]
-        [RegularExpression("/^[A-Z]{4}\\d{1,4}$/")]
+        [RegularExpression("^[A-Z]{4}\\d{1,4}$")]
         [DataMember(Name="code")]
         public string Code { get; set; }
 

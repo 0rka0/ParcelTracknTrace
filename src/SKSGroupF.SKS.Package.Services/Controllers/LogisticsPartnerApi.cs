@@ -18,6 +18,7 @@ using SKSGroupF.SKS.Package.Services.Attributes;
 
 using Microsoft.AspNetCore.Authorization;
 using SKSGroupF.SKS.Package.Services.DTOs.Models;
+using System.Text.RegularExpressions;
 
 namespace SKSGroupF.SKS.Package.Services.Controllers
 { 
@@ -40,13 +41,22 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
         [SwaggerOperation("TransitionParcel")]
         [SwaggerResponse(statusCode: 200, type: typeof(NewParcelInfo), description: "Successfully transitioned the parcel")]
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "The operation failed due to an error.")]
-        public virtual IActionResult TransitionParcel([FromBody]Parcel body, [FromRoute][Required][RegularExpression("/^[A-Z0-9]{9}$/")]string trackingId)
-        { 
+        public virtual IActionResult TransitionParcel([FromBody]Parcel body, [FromRoute][Required][RegularExpression("^[A-Z0-9]{9}$")]string trackingId)
+        {
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(NewParcelInfo));
 
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(400, default(Error));
+
+            Regex trackingIdRgx = new Regex(@"^[A-Z0-9]{9}$");
+
+            if (!trackingIdRgx.IsMatch(trackingId))
+                throw new ArgumentOutOfRangeException();
+
+            if (body.Sender == null || body.Receipient == null || body.Weight == null)
+                throw new ArgumentOutOfRangeException();
+
             string exampleJson = null;
             exampleJson = "{\n  \"trackingId\" : \"PYJRB4HZ6\"\n}";
             

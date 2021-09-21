@@ -29,7 +29,7 @@ namespace SKSGroupF.SKS.Package.Services.DTOs.Models
         /// <summary>
         /// Gets or Sets TrackingId
         /// </summary>
-        [RegularExpression("/^[A-Z0-9]{9}$/")]
+        [RegularExpression("^[A-Z0-9]{9}$")]
         [DataMember(Name="trackingId")]
         public string TrackingId { get; set; }
 

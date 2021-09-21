@@ -18,6 +18,7 @@ using SKSGroupF.SKS.Package.Services.Attributes;
 
 using Microsoft.AspNetCore.Authorization;
 using SKSGroupF.SKS.Package.Services.DTOs.Models;
+using System.Text.RegularExpressions;
 
 namespace SKSGroupF.SKS.Package.Services.Controllers
 { 
@@ -40,8 +41,8 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
         [SwaggerOperation("TrackParcel")]
         [SwaggerResponse(statusCode: 200, type: typeof(TrackingInformation), description: "Parcel exists, here&#x27;s the tracking information.")]
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "The operation failed due to an error.")]
-        public virtual IActionResult TrackParcel([FromRoute][Required][RegularExpression("/^[A-Z0-9]{9}$/")]string trackingId)
-        { 
+        public virtual IActionResult TrackParcel([FromRoute][Required][RegularExpression("^[A-Z0-9]{9}$")]string trackingId)
+        {
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(TrackingInformation));
 
@@ -50,6 +51,12 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
 
             //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(404);
+
+            Regex trackingIdRgx = new Regex(@"^[A-Z0-9]{9}$");
+
+            if (!trackingIdRgx.IsMatch(trackingId))
+                throw new ArgumentOutOfRangeException();
+
             string exampleJson = null;
             exampleJson = "{\n  \"visitedHops\" : [ {\n    \"dateTime\" : \"2000-01-23T04:56:07.000+00:00\",\n    \"code\" : \"code\",\n    \"description\" : \"description\"\n  }, {\n    \"dateTime\" : \"2000-01-23T04:56:07.000+00:00\",\n    \"code\" : \"code\",\n    \"description\" : \"description\"\n  } ],\n  \"futureHops\" : [ null, null ],\n  \"state\" : \"Pickup\"\n}";
             

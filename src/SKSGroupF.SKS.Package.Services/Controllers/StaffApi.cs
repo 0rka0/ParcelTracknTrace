@@ -18,6 +18,7 @@ using SKSGroupF.SKS.Package.Services.Attributes;
 
 using Microsoft.AspNetCore.Authorization;
 using SKSGroupF.SKS.Package.Services.DTOs.Models;
+using System.Text.RegularExpressions;
 
 namespace SKSGroupF.SKS.Package.Services.Controllers
 { 
@@ -39,8 +40,8 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
         [ValidateModelState]
         [SwaggerOperation("ReportParcelDelivery")]
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "The operation failed due to an error.")]
-        public virtual IActionResult ReportParcelDelivery([FromRoute][Required][RegularExpression("/^[A-Z0-9]{9}$/")]string trackingId)
-        { 
+        public virtual IActionResult ReportParcelDelivery([FromRoute][Required][RegularExpression("^[A-Z0-9]{9}$")]string trackingId)
+        {
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200);
 
@@ -49,6 +50,11 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
 
             //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(404);
+
+            Regex trackingIdRgx = new Regex(@"^[A-Z0-9]{9}$");
+
+            if (!trackingIdRgx.IsMatch(trackingId))
+                throw new ArgumentOutOfRangeException();
 
             throw new NotImplementedException();
         }
@@ -66,7 +72,7 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
         [ValidateModelState]
         [SwaggerOperation("ReportParcelHop")]
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "The operation failed due to an error.")]
-        public virtual IActionResult ReportParcelHop([FromRoute][Required][RegularExpression("/^[A-Z0-9]{9}$/")] string trackingId, [FromRoute][Required][RegularExpression("/^[A-Z]{4}\\d{1,4}$/")] string code)
+        public virtual IActionResult ReportParcelHop([FromRoute][Required][RegularExpression("^[A-Z0-9]{9}$")] string trackingId, [FromRoute][Required][RegularExpression("^[A-Z]{4}\\d{1,4}$")] string code)
         {
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200);
@@ -76,6 +82,15 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
 
             //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(404);
+
+            Regex trackingIdRgx = new Regex(@"^[A-Z0-9]{9}$");
+            Regex codeRgx = new Regex(@"^[A-Z]{4}\\d{1,4}$");
+
+            if (!trackingIdRgx.IsMatch(trackingId))
+                throw new ArgumentOutOfRangeException();
+
+            if (!codeRgx.IsMatch(code))
+                throw new ArgumentOutOfRangeException();
 
             throw new NotImplementedException();
         }
