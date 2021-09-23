@@ -32,3 +32,11 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: 'Azure for Students(2a307a87-863d-48e6-a19d-ea197ff09be5)'
+    appType: 'webApp'
+    appName: 'SKSGroupF-app-dotnet-win'
+    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    deploymentMethod: 'auto'
