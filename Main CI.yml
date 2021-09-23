@@ -51,5 +51,5 @@ steps:
     azureSubscription: 'Azure for Students(2a307a87-863d-48e6-a19d-ea197ff09be5)'
     appType: 'webApp'
     appName: 'SKSGroupF-app-dotnet-win'
-    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
     deploymentMethod: 'auto'
