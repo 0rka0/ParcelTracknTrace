@@ -33,14 +33,6 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- task: AzureWebApp@1
-  inputs:
-    azureSubscription: 'Azure for Students(2a307a87-863d-48e6-a19d-ea197ff09be5)'
-    appType: 'webApp'
-    appName: 'SKSGroupF-app-dotnet-win'
-    package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
-    deploymentMethod: 'auto'
-
 - task: DotNetCoreCLI@2
   displayName: Publish
   inputs:
@@ -53,3 +45,11 @@ steps:
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'SKS_Parcel_TracknTrace' 
+
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: 'Azure for Students(2a307a87-863d-48e6-a19d-ea197ff09be5)'
+    appType: 'webApp'
+    appName: 'SKSGroupF-app-dotnet-win'
+    package: '$(Build.ArtifactStagingDirectory)/**/WebApp.zip'
+    deploymentMethod: 'auto'
