@@ -24,7 +24,8 @@ namespace SKSGroupF.SKS.Package.Services.DTOs.Models
     /// <summary>
     /// 
     /// </summary>
-    [ExcludeFromCodeCoverage][DataContract]
+    [ExcludeFromCodeCoverage]
+    [DataContract]
     [JsonConverter(typeof(HopJsonConverter))]
     public abstract class Hop
     { 
