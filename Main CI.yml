@@ -40,3 +40,5 @@ steps:
     appName: 'SKSGroupF-app-dotnet-win'
     package: '$(System.DefaultWorkingDirectory)/**/*.zip'
     deploymentMethod: 'auto'
+
+- task: PublishBuildArtifacts@1
