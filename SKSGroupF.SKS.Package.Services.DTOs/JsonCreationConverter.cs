@@ -1,9 +1,11 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SKSGroupF.SKS.Package.Services.DTOs
 {
+    [ExcludeFromCodeCoverage]
     public abstract class JsonCreationConverter<T> : JsonConverter
     {
         public override bool CanWrite

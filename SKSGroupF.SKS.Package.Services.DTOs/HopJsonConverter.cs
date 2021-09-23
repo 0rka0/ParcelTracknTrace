@@ -1,10 +1,11 @@
 ﻿using Newtonsoft.Json.Linq;
 using SKSGroupF.SKS.Package.Services.DTOs.Models;
 using System;
-
+using System.Diagnostics.CodeAnalysis;
 
 namespace SKSGroupF.SKS.Package.Services.DTOs
 {
+    [ExcludeFromCodeCoverage]
     public class HopJsonConverter : JsonCreationConverter<Hop>
     {
         protected override Hop Create(Type objectType, JObject jObject)
