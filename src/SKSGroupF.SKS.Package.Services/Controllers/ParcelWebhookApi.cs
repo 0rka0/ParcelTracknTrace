@@ -18,6 +18,7 @@ using SKSGroupF.SKS.Package.Services.Attributes;
 
 using Microsoft.AspNetCore.Authorization;
 using SKSGroupF.SKS.Package.Services.DTOs.Models;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SKSGroupF.SKS.Package.Services.Controllers
 { 
@@ -25,6 +26,7 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
     /// 
     /// </summary>
     //[ApiController]
+    [ExcludeFromCodeCoverage]
     public class ParcelWebhookApiController : ControllerBase
     { 
         /// <summary>
