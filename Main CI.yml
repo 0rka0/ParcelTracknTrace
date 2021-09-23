@@ -41,6 +41,11 @@ steps:
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: true
 
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'SKS_Parcel_TracknTrace' 
+
 - task: AzureWebApp@1
   inputs:
     azureSubscription: 'Azure for Students(2a307a87-863d-48e6-a19d-ea197ff09be5)'
@@ -48,8 +53,3 @@ steps:
     appName: 'SKSGroupF-app-dotnet-win'
     package: '$(System.DefaultWorkingDirectory)/**/*.zip'
     deploymentMethod: 'auto'
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'SKS_Parcel_TracknTrace' 
