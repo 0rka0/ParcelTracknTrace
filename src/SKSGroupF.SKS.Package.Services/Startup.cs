@@ -22,13 +22,14 @@ using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using SKSGroupF.SKS.Package.Services.Filters;
-
+using System.Diagnostics.CodeAnalysis;
 
 namespace SKSGroupF.SKS.Package.Services
 {
     /// <summary>
     /// Startup
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class Startup
     {
         private readonly IWebHostEnvironment _hostingEnv;
