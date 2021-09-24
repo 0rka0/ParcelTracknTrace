@@ -15,7 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SKSGroupF.SKS.Package.Services.DTOs\SKSGroupF.SKS.Package.Services.DTOs.csproj" />
     <ProjectReference Include="..\SKSGroupF.SKS.Package.Services.Interfaces\SKSGroupF.SKS.Package.Services.Interfaces.csproj" />
-    <ProjectReference Include="..\src\SKSGroupF.SKS.Package.Services\SKSGroupF.SKS.Package.Services.csproj" />
+    <ProjectReference Include="..\SKSGroupF.SKS.Package.Services\SKSGroupF.SKS.Package.Services.csproj" />
   </ItemGroup>
 
 </Project>
