@@ -49,13 +49,13 @@ steps:
     command: test
     projects: '**/*Test/*.csproj'
     publishTestResults: true
-    arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
+    arguments: '--configuration $(buildConfiguration) --collect:"XPlat Code Coverage"'
 
 - task: PublishCodeCoverageResults@1
-  displayName: 'Publish code coverage results'
+  displayName: 'Publish code coverage'
   inputs:
-    codeCoverageTool: 'Cobertura'
-    summaryFileLocation: '**/*coverage.cobertura.xml'
+    codeCoverageTool: Cobertura
+    summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
 
 - task: PublishBuildArtifacts@1
   inputs:
