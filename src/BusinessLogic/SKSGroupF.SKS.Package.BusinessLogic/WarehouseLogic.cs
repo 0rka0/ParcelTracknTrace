@@ -9,5 +9,19 @@ namespace SKSGroupF.SKS.Package.BusinessLogic
 {
     public class WarehouseLogic : IWarehouseLogic
     {
+        public string ExportWarehouses()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetWarehouse(string code)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ImportWarehouses()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

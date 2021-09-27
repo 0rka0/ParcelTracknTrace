@@ -9,5 +9,14 @@ namespace SKSGroupF.SKS.Package.BusinessLogic
 {
     public class ParcelLogic : IParcelLogic
     {
+        public void SubmitParcel(/*Parcel parcel*/)
+        {
+
+        }
+
+        public void TransitionParcel(string trackingId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

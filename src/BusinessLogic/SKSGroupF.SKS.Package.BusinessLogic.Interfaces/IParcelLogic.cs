@@ -8,5 +8,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Interfaces
 {
     public interface IParcelLogic
     {
+        public void SubmitParcel(/*Parcel parcel*/);
+        public void TransitionParcel(/*Parcel body,*/ string trackingId);
     }
 }
