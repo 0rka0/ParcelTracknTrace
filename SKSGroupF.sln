@@ -11,13 +11,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKSGroupF.SKS.Package.Servi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKSGroupF.SKS.Package.Services.Interfaces", "src\Services\SKSGroupF.SKS.Package.Services.Interfaces\SKSGroupF.SKS.Package.Services.Interfaces.csproj", "{566DC28D-42A5-4757-802B-DF2B85A6D4AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKSGroupF.SKS.Package.BusinessLogic", "src\BusinessLogic\SKSGroupF.SKS.Package.BusinessLogic\SKSGroupF.SKS.Package.BusinessLogic.csproj", "{F915DA1E-2EA4-4DE4-846A-26E3B02B0E26}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKSGroupF.SKS.Package.BusinessLogic", "src\BusinessLogic\SKSGroupF.SKS.Package.BusinessLogic\SKSGroupF.SKS.Package.BusinessLogic.csproj", "{F915DA1E-2EA4-4DE4-846A-26E3B02B0E26}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKSGroupF.SKS.Package.BusinessLogic.Entities", "src\BusinessLogic\SKSGroupF.SKS.Package.BusinessLogic.Entities\SKSGroupF.SKS.Package.BusinessLogic.Entities.csproj", "{A942E8F6-C12E-4EB9-9C16-24F72044B6F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKSGroupF.SKS.Package.BusinessLogic.Entities", "src\BusinessLogic\SKSGroupF.SKS.Package.BusinessLogic.Entities\SKSGroupF.SKS.Package.BusinessLogic.Entities.csproj", "{A942E8F6-C12E-4EB9-9C16-24F72044B6F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKSGroupF.SKS.Package.BusinessLogic.Interfaces", "src\BusinessLogic\SKSGroupF.SKS.Package.BusinessLogic.Interfaces\SKSGroupF.SKS.Package.BusinessLogic.Interfaces.csproj", "{22E37E9F-F46F-4DFE-A4E7-AF18C01CC092}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKSGroupF.SKS.Package.BusinessLogic.Interfaces", "src\BusinessLogic\SKSGroupF.SKS.Package.BusinessLogic.Interfaces\SKSGroupF.SKS.Package.BusinessLogic.Interfaces.csproj", "{22E37E9F-F46F-4DFE-A4E7-AF18C01CC092}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKSGroupF.SKS.Package.BusinessLogic.Tests", "src\BusinessLogic\SKSGroupF.SKS.Package.BusinessLogic.Tests\SKSGroupF.SKS.Package.BusinessLogic.Tests.csproj", "{5F95774B-C058-4FBF-B99E-8744D75EBD35}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKSGroupF.SKS.Package.BusinessLogic.Tests", "src\BusinessLogic\SKSGroupF.SKS.Package.BusinessLogic.Tests\SKSGroupF.SKS.Package.BusinessLogic.Tests.csproj", "{5F95774B-C058-4FBF-B99E-8744D75EBD35}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{8DDCD2AF-E5B1-4FB2-B3D1-FB1F86EBD24D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BusinessLogic", "BusinessLogic", "{53629DDB-AFC1-4332-AB26-C01D30095285}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,6 +64,16 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F5552B0C-D9DA-466D-A033-ABA1CE0F6C41} = {8DDCD2AF-E5B1-4FB2-B3D1-FB1F86EBD24D}
+		{BAFFA69F-E20C-4B56-BFF8-EE5FA0C4EC69} = {8DDCD2AF-E5B1-4FB2-B3D1-FB1F86EBD24D}
+		{CA6AE04B-2A4A-4186-8D53-8F715B1F596D} = {8DDCD2AF-E5B1-4FB2-B3D1-FB1F86EBD24D}
+		{566DC28D-42A5-4757-802B-DF2B85A6D4AC} = {8DDCD2AF-E5B1-4FB2-B3D1-FB1F86EBD24D}
+		{F915DA1E-2EA4-4DE4-846A-26E3B02B0E26} = {53629DDB-AFC1-4332-AB26-C01D30095285}
+		{A942E8F6-C12E-4EB9-9C16-24F72044B6F8} = {53629DDB-AFC1-4332-AB26-C01D30095285}
+		{22E37E9F-F46F-4DFE-A4E7-AF18C01CC092} = {53629DDB-AFC1-4332-AB26-C01D30095285}
+		{5F95774B-C058-4FBF-B99E-8744D75EBD35} = {53629DDB-AFC1-4332-AB26-C01D30095285}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9BCF6F00-7697-4143-B112-753A6B8C604A}

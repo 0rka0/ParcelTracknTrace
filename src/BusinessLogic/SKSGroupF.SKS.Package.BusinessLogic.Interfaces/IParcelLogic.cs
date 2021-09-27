@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SKSGroupF.SKS.Package.BusinessLogic.Interfaces
 {
-    interface IParcelLogic
+    public interface IParcelLogic
     {
     }
 }
