@@ -3,21 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKSGroupF.SKS.Package.Services", "src\SKSGroupF.SKS.Package.Services\SKSGroupF.SKS.Package.Services.csproj", "{F5552B0C-D9DA-466D-A033-ABA1CE0F6C41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKSGroupF.SKS.Package.Services", "src\Services\SKSGroupF.SKS.Package.Services\SKSGroupF.SKS.Package.Services.csproj", "{F5552B0C-D9DA-466D-A033-ABA1CE0F6C41}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKSGroupF.SKS.Package.Services.Test", "src\SKSGroupF.SKS.Package.Services.Test\SKSGroupF.SKS.Package.Services.Test.csproj", "{BAFFA69F-E20C-4B56-BFF8-EE5FA0C4EC69}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKSGroupF.SKS.Package.Services.Test", "src\Services\SKSGroupF.SKS.Package.Services.Test\SKSGroupF.SKS.Package.Services.Test.csproj", "{BAFFA69F-E20C-4B56-BFF8-EE5FA0C4EC69}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKSGroupF.SKS.Package.Services.DTOs", "src\SKSGroupF.SKS.Package.Services.DTOs\SKSGroupF.SKS.Package.Services.DTOs.csproj", "{CA6AE04B-2A4A-4186-8D53-8F715B1F596D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKSGroupF.SKS.Package.Services.DTOs", "src\Services\SKSGroupF.SKS.Package.Services.DTOs\SKSGroupF.SKS.Package.Services.DTOs.csproj", "{CA6AE04B-2A4A-4186-8D53-8F715B1F596D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKSGroupF.SKS.Package.Services.Interfaces", "src\SKSGroupF.SKS.Package.Services.Interfaces\SKSGroupF.SKS.Package.Services.Interfaces.csproj", "{566DC28D-42A5-4757-802B-DF2B85A6D4AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKSGroupF.SKS.Package.Services.Interfaces", "src\Services\SKSGroupF.SKS.Package.Services.Interfaces\SKSGroupF.SKS.Package.Services.Interfaces.csproj", "{566DC28D-42A5-4757-802B-DF2B85A6D4AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKSGroupF.SKS.Package.BusinessLogic", "src\SKSGroupF.SKS.Package.BusinessLogic\SKSGroupF.SKS.Package.BusinessLogic.csproj", "{F915DA1E-2EA4-4DE4-846A-26E3B02B0E26}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKSGroupF.SKS.Package.BusinessLogic", "src\BusinessLogic\SKSGroupF.SKS.Package.BusinessLogic\SKSGroupF.SKS.Package.BusinessLogic.csproj", "{F915DA1E-2EA4-4DE4-846A-26E3B02B0E26}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKSGroupF.SKS.Package.BusinessLogic.Entities", "src\SKSGroupF.SKS.Package.BusinessLogic.Entities\SKSGroupF.SKS.Package.BusinessLogic.Entities.csproj", "{A942E8F6-C12E-4EB9-9C16-24F72044B6F8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKSGroupF.SKS.Package.BusinessLogic.Entities", "src\BusinessLogic\SKSGroupF.SKS.Package.BusinessLogic.Entities\SKSGroupF.SKS.Package.BusinessLogic.Entities.csproj", "{A942E8F6-C12E-4EB9-9C16-24F72044B6F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKSGroupF.SKS.Package.BusinessLogic.Interfaces", "src\SKSGroupF.SKS.Package.BusinessLogic.Interfaces\SKSGroupF.SKS.Package.BusinessLogic.Interfaces.csproj", "{22E37E9F-F46F-4DFE-A4E7-AF18C01CC092}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKSGroupF.SKS.Package.BusinessLogic.Interfaces", "src\BusinessLogic\SKSGroupF.SKS.Package.BusinessLogic.Interfaces\SKSGroupF.SKS.Package.BusinessLogic.Interfaces.csproj", "{22E37E9F-F46F-4DFE-A4E7-AF18C01CC092}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKSGroupF.SKS.Package.BusinessLogic.Tests", "src\SKSGroupF.SKS.Package.BusinessLogic.Tests\SKSGroupF.SKS.Package.BusinessLogic.Tests.csproj", "{5F95774B-C058-4FBF-B99E-8744D75EBD35}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKSGroupF.SKS.Package.BusinessLogic.Tests", "src\BusinessLogic\SKSGroupF.SKS.Package.BusinessLogic.Tests\SKSGroupF.SKS.Package.BusinessLogic.Tests.csproj", "{5F95774B-C058-4FBF-B99E-8744D75EBD35}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
