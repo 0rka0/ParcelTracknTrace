@@ -7,6 +7,7 @@ public class SenderApiProfile : Profile
     public SenderApiProfile()
     {
         CreateMap<Parcel, BLParcel>().ReverseMap();
+        CreateMap<Receipient, BLReceipient>().ReverseMap();
         CreateMap<NewParcelInfo, BLParcel>().ReverseMap();
         CreateMap<TrackingInformation, BLParcel>().ReverseMap();
     }

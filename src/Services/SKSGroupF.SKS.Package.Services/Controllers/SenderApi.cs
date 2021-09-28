@@ -62,7 +62,6 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
                 throw new ArgumentOutOfRangeException();
 
             BLParcel blParcel = _mapper.Map<BLParcel>(body);
-            //BLParcel test = Mapper.Map<BLParcel>(body);
 
             string exampleJson = null;
             exampleJson = blParcel.Weight.ToString();//"{\n  \"trackingId\" : \"PYJRB4HZ6\"\n}";
