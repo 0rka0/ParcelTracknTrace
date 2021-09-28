@@ -6,7 +6,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Entities
 {
     [ExcludeFromCodeCoverage]
     [DataContract]
-    class BLReceipient
+    public class BLReceipient
     {
         /// <summary>
         /// Name of person or company.

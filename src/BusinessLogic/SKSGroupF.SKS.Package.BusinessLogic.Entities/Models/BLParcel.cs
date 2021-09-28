@@ -8,7 +8,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Entities
 {
     [ExcludeFromCodeCoverage]
     [DataContract]
-    class BLParcel
+    public class BLParcel
     {
         /// <summary>
         /// Gets or Sets Weight

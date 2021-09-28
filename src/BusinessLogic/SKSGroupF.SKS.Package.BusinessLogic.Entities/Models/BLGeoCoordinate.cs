@@ -7,7 +7,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Entities
 {
     [ExcludeFromCodeCoverage]
     [DataContract]
-    class BLGeoCoordinate
+    public class BLGeoCoordinate
     {
         /// <summary>
         /// Latitude of the coordinate.

@@ -6,7 +6,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Entities.Models
 {
     [ExcludeFromCodeCoverage]
     [DataContract]
-    class BLTransferWarehouse
+    public class BLTransferWarehouse
     {
         /// <summary>
         /// GeoJSON of the are covered by the logistics partner.

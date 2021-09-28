@@ -18,6 +18,10 @@ using SKSGroupF.SKS.Package.Services.Attributes;
 
 using Microsoft.AspNetCore.Authorization;
 using SKSGroupF.SKS.Package.Services.DTOs.Models;
+using SKSGroupF.SKS.Package.BusinessLogic;
+using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
+using SKSGroupF.SKS.Package.BusinessLogic.Entities;
+using AutoMapper;
 
 namespace SKSGroupF.SKS.Package.Services.Controllers
 { 
@@ -26,7 +30,14 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
     /// </summary>
     [ApiController]
     public class SenderApiController : ControllerBase
-    { 
+    {
+        private readonly IMapper _mapper;
+
+        public SenderApiController(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
+
         /// <summary>
         /// Submit a new parcel to the logistics service. 
         /// </summary>
@@ -50,8 +61,11 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
             if (body.Sender == null || body.Receipient == null || body.Weight == null)
                 throw new ArgumentOutOfRangeException();
 
+            BLParcel blParcel = _mapper.Map<BLParcel>(body);
+            //BLParcel test = Mapper.Map<BLParcel>(body);
+
             string exampleJson = null;
-            exampleJson = "{\n  \"trackingId\" : \"PYJRB4HZ6\"\n}";
+            exampleJson = blParcel.Weight.ToString();//"{\n  \"trackingId\" : \"PYJRB4HZ6\"\n}";
             
                         var example = exampleJson != null
                         ? JsonConvert.DeserializeObject<NewParcelInfo>(exampleJson)

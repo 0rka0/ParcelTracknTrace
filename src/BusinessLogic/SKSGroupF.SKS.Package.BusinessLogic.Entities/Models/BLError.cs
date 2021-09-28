@@ -6,7 +6,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Entities
 {
     [ExcludeFromCodeCoverage]
     [DataContract]
-    class BLError
+    public class BLError
     {
         /// <summary>
         /// The error message.

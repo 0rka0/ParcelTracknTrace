@@ -9,7 +9,6 @@
  */
 using System;
 using System.IO;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -19,10 +18,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using Swashbuckle.AspNetCore.Swagger;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using SKSGroupF.SKS.Package.Services.Filters;
 using System.Diagnostics.CodeAnalysis;
+using AutoMapper;
 
 namespace SKSGroupF.SKS.Package.Services
 {
@@ -53,6 +51,7 @@ namespace SKSGroupF.SKS.Package.Services
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(typeof(Startup));
             // Add framework services.
             services
                 .AddMvc(options =>

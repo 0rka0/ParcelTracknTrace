@@ -7,7 +7,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Entities
 {
     [ExcludeFromCodeCoverage]
     [DataContract]
-    class BLHop
+    public class BLHop
     {
         /// <summary>
         /// Gets or Sets HopType
