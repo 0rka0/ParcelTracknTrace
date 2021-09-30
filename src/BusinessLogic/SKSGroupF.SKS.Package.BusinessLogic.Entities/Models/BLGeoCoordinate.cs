@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 
-namespace SKSGroupF.SKS.Package.BusinessLogic.Entities
+namespace SKSGroupF.SKS.Package.BusinessLogic.Entities.Models
 {
     [ExcludeFromCodeCoverage]
     [DataContract]
