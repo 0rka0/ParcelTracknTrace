@@ -19,6 +19,9 @@ using SKSGroupF.SKS.Package.Services.Attributes;
 using Microsoft.AspNetCore.Authorization;
 using SKSGroupF.SKS.Package.Services.DTOs.Models;
 using System.Text.RegularExpressions;
+using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
+using SKSGroupF.SKS.Package.BusinessLogic;
+using AutoMapper;
 
 namespace SKSGroupF.SKS.Package.Services.Controllers
 { 
@@ -27,7 +30,13 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
     /// </summary>
     [ApiController]
     public class ReceipientApiController : ControllerBase
-    { 
+    {
+        private readonly IMapper _mapper;
+
+        public ReceipientApiController(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
         /// <summary>
         /// Find the latest state of a parcel by its tracking ID. 
         /// </summary>
@@ -52,10 +61,18 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
             //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(404);
 
+            ITrackingLogic logic = new TrackingLogic();
+
             Regex trackingIdRgx = new Regex(@"^[A-Z0-9]{9}$");
 
             if (!trackingIdRgx.IsMatch(trackingId))
                 throw new ArgumentOutOfRangeException();
+
+            var tmp = logic.TrackParcel(trackingId);
+
+            Parcel parcel = _mapper.Map<Parcel>(tmp); 
+            NewParcelInfo npi = _mapper.Map<NewParcelInfo>(tmp);
+            TrackingInformation ti = _mapper.Map<TrackingInformation>(tmp);
 
             string exampleJson = null;
             exampleJson = "{\n  \"visitedHops\" : [ {\n    \"dateTime\" : \"2000-01-23T04:56:07.000+00:00\",\n    \"code\" : \"code\",\n    \"description\" : \"description\"\n  }, {\n    \"dateTime\" : \"2000-01-23T04:56:07.000+00:00\",\n    \"code\" : \"code\",\n    \"description\" : \"description\"\n  } ],\n  \"futureHops\" : [ null, null ],\n  \"state\" : \"Pickup\"\n}";

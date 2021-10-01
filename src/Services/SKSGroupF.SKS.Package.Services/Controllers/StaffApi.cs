@@ -19,6 +19,9 @@ using SKSGroupF.SKS.Package.Services.Attributes;
 using Microsoft.AspNetCore.Authorization;
 using SKSGroupF.SKS.Package.Services.DTOs.Models;
 using System.Text.RegularExpressions;
+using AutoMapper;
+using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
+using SKSGroupF.SKS.Package.BusinessLogic;
 
 namespace SKSGroupF.SKS.Package.Services.Controllers
 { 
@@ -27,7 +30,13 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
     /// </summary>
     [ApiController]
     public class StaffApiController : ControllerBase
-    { 
+    {
+        private readonly IMapper _mapper;
+
+        public StaffApiController(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
         /// <summary>
         /// Report that a Parcel has been delivered at it&#x27;s final destination address. 
         /// </summary>
@@ -51,10 +60,14 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
             //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(404);
 
+            ITrackingLogic logic = new TrackingLogic();
+
             Regex trackingIdRgx = new Regex(@"^[A-Z0-9]{9}$");
 
             if (!trackingIdRgx.IsMatch(trackingId))
                 throw new ArgumentOutOfRangeException();
+
+            logic.ReportParcelDelivery(trackingId);
 
             throw new NotImplementedException();
         }
@@ -83,6 +96,8 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
             //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(404);
 
+            ITrackingLogic logic = new TrackingLogic();
+
             Regex trackingIdRgx = new Regex(@"^[A-Z0-9]{9}$");
             Regex codeRgx = new Regex(@"^[A-Z]{4}\\d{1,4}$");
 
@@ -91,6 +106,8 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
 
             if (!codeRgx.IsMatch(code))
                 throw new ArgumentOutOfRangeException();
+
+            logic.ReportParcelHop(trackingId, code);
 
             throw new NotImplementedException();
         }

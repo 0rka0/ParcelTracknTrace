@@ -20,7 +20,7 @@ using Microsoft.AspNetCore.Authorization;
 using SKSGroupF.SKS.Package.Services.DTOs.Models;
 using SKSGroupF.SKS.Package.BusinessLogic;
 using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
-using SKSGroupF.SKS.Package.BusinessLogic.Entities;
+using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
 using AutoMapper;
 
 namespace SKSGroupF.SKS.Package.Services.Controllers
@@ -58,10 +58,13 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(400, default(Error));
 
+            IParcelLogic logic = new ParcelLogic();
+
             if (body.Sender == null || body.Receipient == null || body.Weight == null)
                 throw new ArgumentOutOfRangeException();
 
             BLParcel blParcel = _mapper.Map<BLParcel>(body);
+            logic.SubmitParcel(blParcel);
 
             string exampleJson = null;
             exampleJson = blParcel.Weight.ToString();//"{\n  \"trackingId\" : \"PYJRB4HZ6\"\n}";

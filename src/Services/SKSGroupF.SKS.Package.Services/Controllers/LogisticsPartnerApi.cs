@@ -19,6 +19,10 @@ using SKSGroupF.SKS.Package.Services.Attributes;
 using Microsoft.AspNetCore.Authorization;
 using SKSGroupF.SKS.Package.Services.DTOs.Models;
 using System.Text.RegularExpressions;
+using AutoMapper;
+using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
+using SKSGroupF.SKS.Package.BusinessLogic;
+using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
 
 namespace SKSGroupF.SKS.Package.Services.Controllers
 { 
@@ -27,7 +31,13 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
     /// </summary>
     [ApiController]
     public class LogisticsPartnerApiController : ControllerBase
-    { 
+    {
+        private readonly IMapper _mapper;
+
+        public LogisticsPartnerApiController(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
         /// <summary>
         /// Transfer an existing parcel into the system from the service of a logistics partner. 
         /// </summary>
@@ -49,6 +59,8 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(400, default(Error));
 
+            IParcelLogic logic = new ParcelLogic();
+
             Regex trackingIdRgx = new Regex(@"^[A-Z0-9]{9}$");
 
             if (!trackingIdRgx.IsMatch(trackingId))
@@ -56,6 +68,9 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
 
             if (body.Sender == null || body.Receipient == null || body.Weight == null)
                 throw new ArgumentOutOfRangeException();
+
+            BLParcel blParcel = _mapper.Map<BLParcel>(body);
+            logic.TransitionParcel(blParcel, trackingId);
 
             string exampleJson = null;
             exampleJson = "{\n  \"trackingId\" : \"PYJRB4HZ6\"\n}";
