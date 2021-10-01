@@ -84,7 +84,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Entities.Models
         [Required]
 
         [DataMember(Name = "visitedHops")]
-        public List<BLHop> VisitedHops { get; set; }
+        public List<BLHopArrival> VisitedHops { get; set; }
 
         /// <summary>
         /// Hops coming up in the future - their times are estimations.
@@ -93,6 +93,6 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Entities.Models
         [Required]
 
         [DataMember(Name = "futureHops")]
-        public List<BLHop> FutureHops { get; set; }
+        public List<BLHopArrival> FutureHops { get; set; }
     }
 }

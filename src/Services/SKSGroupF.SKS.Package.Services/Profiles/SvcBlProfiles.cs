@@ -13,9 +13,9 @@ public class SvcBlProfiles : Profile
 
         CreateMap<Receipient, BLReceipient>().ReverseMap();
 
-        //Hop --> BLHop
         CreateMap<Hop, BLHop>().ReverseMap();
-        CreateMap<HopArrival, BLHop>().ReverseMap();
+
+        CreateMap<HopArrival, BLHopArrival>().ReverseMap();
 
         CreateMap<Error, BLError>().ReverseMap();
 
