@@ -69,16 +69,24 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
             if (body.Sender == null || body.Receipient == null || body.Weight == null)
                 throw new ArgumentOutOfRangeException();
 
-            BLParcel blParcel = _mapper.Map<BLParcel>(body);
-            logic.TransitionParcel(blParcel, trackingId);
+            string trackingIdJson = null;
 
-            string exampleJson = null;
-            exampleJson = "{\n  \"trackingId\" : \"PYJRB4HZ6\"\n}";
+            try
+            {
+                BLParcel blParcel = _mapper.Map<BLParcel>(body);
+                logic.TransitionParcel(blParcel, trackingId);
+
+                trackingIdJson = $"{{\n  \"trackingId\" : \"{trackingId}\"\n}}";
+            }
+            catch
+            {
+                return StatusCode(400, default(Error));
+            }
             
-                        var example = exampleJson != null
-                        ? JsonConvert.DeserializeObject<NewParcelInfo>(exampleJson)
-                        : default(NewParcelInfo);            //TODO: Change the data returned
-            return new ObjectResult(example);
+            var returnObject = trackingIdJson != null
+                ? JsonConvert.DeserializeObject<NewParcelInfo>(trackingIdJson)
+                : default(NewParcelInfo);            //TODO: Change the data returned
+            return new ObjectResult(returnObject);
         }
     }
 }

@@ -10,14 +10,15 @@ namespace SKSGroupF.SKS.Package.BusinessLogic
 {
     public class ParcelLogic : IParcelLogic
     {
-        public void SubmitParcel(BLParcel parcel)
+        public string SubmitParcel(BLParcel parcel)
         {
-            throw new NotImplementedException();
+            return "PYJRB4HZ6";
         }
 
         public void TransitionParcel(BLParcel parcel, string trackingId)
         {
-            throw new NotImplementedException();
+            if (String.Compare(trackingId, "PYJRB4HZ6") != 0)
+                throw new ArgumentOutOfRangeException();
         }
     }
 }

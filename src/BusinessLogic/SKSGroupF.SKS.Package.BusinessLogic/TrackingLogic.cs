@@ -12,16 +12,23 @@ namespace SKSGroupF.SKS.Package.BusinessLogic
     {
         public BLParcel TrackParcel(string trackingID)
         {
-            return new BLParcel();
+            BLParcel tmpParcel = new BLParcel();
+
+            if (String.Compare(trackingID, "PYJRB4HZ6") == 0)
+                return tmpParcel;
+
+            throw new ArgumentOutOfRangeException();
         }
         public void ReportParcelDelivery(string trackingID)
         {
-            throw new NotImplementedException();
+            if (String.Compare(trackingID, "PYJRB4HZ6") != 0)
+                throw new ArgumentOutOfRangeException();
         }
 
         public void ReportParcelHop(string trackingID, string code)
         {
-            throw new NotImplementedException();
+            if ((String.Compare(trackingID, "PYJRB4HZ6") != 0) || (String.Compare(code, "PYJRB4HZ6") != 0))
+                throw new ArgumentOutOfRangeException();
         }
     }
 }

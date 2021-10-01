@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,8 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Interfaces
 {
     public interface IWarehouseLogic
     {
-        public string ExportWarehouses();
-        public string GetWarehouse(string code);
-        public void ImportWarehouses(/*Warehouse warehouse*/);
+        public IEnumerable<BLWarehouse> ExportWarehouses();
+        public BLWarehouse GetWarehouse(string code);
+        public void ImportWarehouses(BLWarehouse warehouse);
     }
 }

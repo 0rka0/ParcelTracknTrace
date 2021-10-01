@@ -19,6 +19,10 @@ using SKSGroupF.SKS.Package.Services.Attributes;
 using Microsoft.AspNetCore.Authorization;
 using SKSGroupF.SKS.Package.Services.DTOs.Models;
 using System.Text.RegularExpressions;
+using AutoMapper;
+using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
+using SKSGroupF.SKS.Package.BusinessLogic;
+using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
 
 namespace SKSGroupF.SKS.Package.Services.Controllers
 { 
@@ -27,7 +31,13 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
     /// </summary>
     [ApiController]
     public class WarehouseManagementApiController : ControllerBase
-    { 
+    {
+        private readonly IMapper _mapper;
+
+        public WarehouseManagementApiController(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
         /// <summary>
         /// Exports the hierarchy of Warehouse and Truck objects. 
         /// </summary>
@@ -50,13 +60,31 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
 
             //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(404);
-            string exampleJson = null;
-            exampleJson = "";
-            
-                        var example = exampleJson != null
-                        ? JsonConvert.DeserializeObject<Warehouse>(exampleJson)
-                        : default(Warehouse);            //TODO: Change the data returned
-            return new ObjectResult(example);
+
+            IWarehouseLogic logic = new WarehouseLogic();
+            List<Warehouse> returnObject = new List<Warehouse>();
+
+            try
+            {
+                var tmp = logic.ExportWarehouses();
+
+                List<Warehouse> warehouseList = new List<Warehouse>();
+                foreach (var i in tmp)
+                {
+                    warehouseList.Add(_mapper.Map<Warehouse>(i));
+                }
+
+                var warehouseListJson = JsonConvert.SerializeObject(warehouseList);
+                returnObject = warehouseListJson != null
+                    ? JsonConvert.DeserializeObject<List<Warehouse>>(warehouseListJson)
+                    : default(List<Warehouse>);
+            }
+            catch
+            {
+                return StatusCode(400, default(Error));
+            }
+
+            return new ObjectResult(returnObject);
         }
 
         /// <summary>
@@ -83,18 +111,30 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
             //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(404);
 
+            IWarehouseLogic logic = new WarehouseLogic();
+            string warehouseJson = null;
+
             Regex codeRgx = new Regex(@"^[A-Z]{4}\\d{1,4}$");
 
             if (!codeRgx.IsMatch(code))
                 throw new ArgumentOutOfRangeException();
 
-            string exampleJson = null;
-            exampleJson = "";
+            try
+            {
+                var blWarehouse = logic.GetWarehouse(code);
+                Warehouse warehouse = _mapper.Map<Warehouse>(blWarehouse);
+
+                warehouseJson = JsonConvert.SerializeObject(warehouse);
+            }
+            catch
+            {
+                return StatusCode(404);
+            }
             
-                        var example = exampleJson != null
-                        ? JsonConvert.DeserializeObject<Warehouse>(exampleJson)
-                        : default(Warehouse);            //TODO: Change the data returned
-            return new ObjectResult(example);
+            var returnObject = warehouseJson != null
+                ? JsonConvert.DeserializeObject<Warehouse>(warehouseJson)
+                : default(Warehouse);            //TODO: Change the data returned
+            return new ObjectResult(returnObject);
         }
 
         /// <summary>
@@ -116,10 +156,23 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(400, default(Error));
 
+            IWarehouseLogic logic = new WarehouseLogic();
+
+
             if (body == null || body.NextHops == null)
                 throw new ArgumentOutOfRangeException();
 
-            throw new NotImplementedException();
+            try
+            {
+                BLWarehouse blWarehouse = _mapper.Map<BLWarehouse>(body);
+                logic.ImportWarehouses(blWarehouse);
+            }
+            catch
+            {
+                return StatusCode(400, default(Error));
+            }
+
+            return StatusCode(200);
         }
     }
 }

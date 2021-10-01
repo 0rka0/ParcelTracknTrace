@@ -68,19 +68,27 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
             if (!trackingIdRgx.IsMatch(trackingId))
                 throw new ArgumentOutOfRangeException();
 
-            var tmp = logic.TrackParcel(trackingId);
+            string trackingInformationJson = null;
 
-            Parcel parcel = _mapper.Map<Parcel>(tmp); 
-            NewParcelInfo npi = _mapper.Map<NewParcelInfo>(tmp);
-            TrackingInformation ti = _mapper.Map<TrackingInformation>(tmp);
+            try
+            {
+                var blParcel = logic.TrackParcel(trackingId);
 
-            string exampleJson = null;
-            exampleJson = "{\n  \"visitedHops\" : [ {\n    \"dateTime\" : \"2000-01-23T04:56:07.000+00:00\",\n    \"code\" : \"code\",\n    \"description\" : \"description\"\n  }, {\n    \"dateTime\" : \"2000-01-23T04:56:07.000+00:00\",\n    \"code\" : \"code\",\n    \"description\" : \"description\"\n  } ],\n  \"futureHops\" : [ null, null ],\n  \"state\" : \"Pickup\"\n}";
-            
-                        var example = exampleJson != null
-                        ? JsonConvert.DeserializeObject<TrackingInformation>(exampleJson)
-                        : default(TrackingInformation);            //TODO: Change the data returned
-            return new ObjectResult(example);
+                Parcel parcel = _mapper.Map<Parcel>(blParcel);
+                TrackingInformation trackingInfo = _mapper.Map<TrackingInformation>(blParcel);
+
+                trackingInformationJson = JsonConvert.SerializeObject(trackingInfo);
+                //trackingInformationJson = "{\n  \"visitedHops\" : [ {\n    \"dateTime\" : \"2000-01-23T04:56:07.000+00:00\",\n    \"code\" : \"code\",\n    \"description\" : \"description\"\n  }, {\n    \"dateTime\" : \"2000-01-23T04:56:07.000+00:00\",\n    \"code\" : \"code\",\n    \"description\" : \"description\"\n  } ],\n  \"futureHops\" : [ null, null ],\n  \"state\" : \"Pickup\"\n}";
+            }
+            catch
+            {
+                return StatusCode(404, default(Error));
+            }
+                       
+            var returnObject = trackingInformationJson != null
+                ? JsonConvert.DeserializeObject<TrackingInformation>(trackingInformationJson)
+                : default(TrackingInformation);            //TODO: Change the data returned
+            return new ObjectResult(returnObject);
         }
     }
 }

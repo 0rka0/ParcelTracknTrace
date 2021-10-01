@@ -1,4 +1,5 @@
-﻿using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
+﻿using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
+using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,17 +10,35 @@ namespace SKSGroupF.SKS.Package.BusinessLogic
 {
     public class WarehouseLogic : IWarehouseLogic
     {
-        public string ExportWarehouses()
+        public IEnumerable<BLWarehouse> ExportWarehouses()
         {
-            throw new NotImplementedException();
+            try
+            {
+                List<BLWarehouse> WarehouseList = new List<BLWarehouse>();
+                BLWarehouse w1 = new BLWarehouse();
+                WarehouseList.Add(w1);
+                BLWarehouse w2 = new BLWarehouse();
+                WarehouseList.Add(w2);
+                BLWarehouse w3 = new BLWarehouse();
+                WarehouseList.Add(w3);
+
+                return WarehouseList;
+            }
+            catch
+            {
+                throw new Exception();
+            }
         }
 
-        public string GetWarehouse(string code)
+        public BLWarehouse GetWarehouse(string code)
         {
-            throw new NotImplementedException();
+            if(String.Compare(code, "AAAA\\dddd") == 0)
+                return new BLWarehouse();
+
+            throw new ArgumentOutOfRangeException();
         }
 
-        public void ImportWarehouses()
+        public void ImportWarehouses(BLWarehouse)
         {
             throw new NotImplementedException();
         }
