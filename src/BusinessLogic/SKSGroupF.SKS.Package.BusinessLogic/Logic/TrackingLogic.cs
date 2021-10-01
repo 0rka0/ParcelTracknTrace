@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
 using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
 
-namespace SKSGroupF.SKS.Package.BusinessLogic
+namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
 {
     public class TrackingLogic : ITrackingLogic
     {

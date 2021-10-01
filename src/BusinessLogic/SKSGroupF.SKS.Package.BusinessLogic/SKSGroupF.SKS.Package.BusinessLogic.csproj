@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SKSGroupF.SKS.Package.BusinessLogic.Entities\SKSGroupF.SKS.Package.BusinessLogic.Entities.csproj" />
     <ProjectReference Include="..\SKSGroupF.SKS.Package.BusinessLogic.Interfaces\SKSGroupF.SKS.Package.BusinessLogic.Interfaces.csproj" />
   </ItemGroup>

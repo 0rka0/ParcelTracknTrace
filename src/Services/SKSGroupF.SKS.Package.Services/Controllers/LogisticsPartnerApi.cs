@@ -21,7 +21,7 @@ using SKSGroupF.SKS.Package.Services.DTOs.Models;
 using System.Text.RegularExpressions;
 using AutoMapper;
 using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
-using SKSGroupF.SKS.Package.BusinessLogic;
+using SKSGroupF.SKS.Package.BusinessLogic.Logic;
 using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
 
 namespace SKSGroupF.SKS.Package.Services.Controllers

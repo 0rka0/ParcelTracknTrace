@@ -18,7 +18,7 @@ using SKSGroupF.SKS.Package.Services.Attributes;
 
 using Microsoft.AspNetCore.Authorization;
 using SKSGroupF.SKS.Package.Services.DTOs.Models;
-using SKSGroupF.SKS.Package.BusinessLogic;
+using SKSGroupF.SKS.Package.BusinessLogic.Logic;
 using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
 using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
 using AutoMapper;

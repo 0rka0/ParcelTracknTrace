@@ -20,7 +20,7 @@ using Microsoft.AspNetCore.Authorization;
 using SKSGroupF.SKS.Package.Services.DTOs.Models;
 using System.Text.RegularExpressions;
 using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
-using SKSGroupF.SKS.Package.BusinessLogic;
+using SKSGroupF.SKS.Package.BusinessLogic.Logic;
 using AutoMapper;
 
 namespace SKSGroupF.SKS.Package.Services.Controllers

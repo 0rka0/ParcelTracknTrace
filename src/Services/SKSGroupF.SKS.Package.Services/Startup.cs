@@ -20,7 +20,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using SKSGroupF.SKS.Package.Services.Filters;
 using System.Diagnostics.CodeAnalysis;
-using AutoMapper;
+using FluentValidation.AspNetCore;
 
 namespace SKSGroupF.SKS.Package.Services
 {
@@ -59,6 +59,8 @@ namespace SKSGroupF.SKS.Package.Services
                     options.InputFormatters.RemoveType<Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonInputFormatter>();
                     options.OutputFormatters.RemoveType<Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter>();
                 })
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<BusinessLogic.Validators.ParcelValidator>())
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<BusinessLogic.Validators.ReceipientValidator>())
                 .AddNewtonsoftJson(opts =>
                 {
                     opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
