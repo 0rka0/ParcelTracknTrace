@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SKSGroupF.SKS.Package.Services.Controllers;
 using SKSGroupF.SKS.Package.Services.DTOs.Models;
 using System;
+using AutoMapper;
 
 namespace SKSGroupF.SKS.Package.Services.Test
 {
@@ -12,7 +13,12 @@ namespace SKSGroupF.SKS.Package.Services.Test
         [SetUp]
         public void Setup()
         {
-            this.controller = new LogisticsPartnerApiController();
+            var config = new MapperConfiguration(opts =>
+            {
+                opts.AddProfile(new SvcBlProfiles());
+            });
+            var mapper = config.CreateMapper();
+            this.controller = new LogisticsPartnerApiController(mapper);
         }
 
         [Test]

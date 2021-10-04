@@ -4,6 +4,7 @@ using SKSGroupF.SKS.Package.Services.Controllers;
 using SKSGroupF.SKS.Package.Services.DTOs.Models;
 using System;
 using System.Collections.Generic;
+using AutoMapper;
 
 namespace SKSGroupF.SKS.Package.Services.Test
 {
@@ -13,7 +14,12 @@ namespace SKSGroupF.SKS.Package.Services.Test
         [SetUp]
         public void Setup()
         {
-            this.controller = new WarehouseManagementApiController();
+            var config = new MapperConfiguration(opts =>
+            {
+                opts.AddProfile(new SvcBlProfiles());
+            });
+            var mapper = config.CreateMapper();
+            this.controller = new WarehouseManagementApiController(mapper);
         }
 
         [Test]

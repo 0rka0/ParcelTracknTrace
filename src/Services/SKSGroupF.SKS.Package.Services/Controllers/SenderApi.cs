@@ -32,10 +32,18 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
     public class SenderApiController : ControllerBase
     {
         private readonly IMapper _mapper;
+        private readonly IParcelLogic _logic;
 
         public SenderApiController(IMapper mapper)
         {
             _mapper = mapper;
+            _logic = new ParcelLogic();
+        }
+
+        public SenderApiController(IMapper mapper, IParcelLogic logic)
+        {
+            _mapper = mapper;
+            _logic = logic;
         }
 
         /// <summary>
@@ -58,14 +66,12 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(400, default(Error));
 
-            IParcelLogic logic = new ParcelLogic();
-
             string trackingIdJson = null;
 
             try
             {
                 BLParcel blParcel = _mapper.Map<BLParcel>(body);
-                string trackingId = logic.SubmitParcel(blParcel);
+                string trackingId = _logic.SubmitParcel(blParcel);
 
                 trackingIdJson = $"{{\n  \"trackingId\" : \"{trackingId}\"\n}}";
             }

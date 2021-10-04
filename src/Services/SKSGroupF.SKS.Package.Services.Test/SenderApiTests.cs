@@ -5,12 +5,14 @@ using SKSGroupF.SKS.Package.Services.DTOs.Models;
 using System;
 using AutoMapper;
 using Moq;
+using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
+using FizzWare.NBuilder;
 
 namespace SKSGroupF.SKS.Package.Services.Test
 {
     public class SenderApiTests
     {
-        private SenderApiController controller;
+        private IMapper mapper;
         [SetUp]
         public void Setup()
         {
@@ -18,31 +20,46 @@ namespace SKSGroupF.SKS.Package.Services.Test
             {
                 opts.AddProfile(new SvcBlProfiles());
             });
-            var mapper = config.CreateMapper();
-            this.controller = new SenderApiController(mapper);
+            mapper = config.CreateMapper();
         }
 
         [Test]
         public void SubmitParcel_InvalidData_ReturnsErrorStatusCode()
         {
-            Parcel parcel = new Parcel();
-            parcel.Receipient = null;
-            parcel.Sender = new Receipient();
-            parcel.Weight = 5.0f;
+            Mock<IParcelLogic> mockLogic = new();
+            mockLogic.Setup(m => m.SubmitParcel(It.IsAny<BusinessLogic.Entities.Models.BLParcel>())).Throws(new ArgumentOutOfRangeException());
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => controller.SubmitParcel(parcel));
+            SenderApiController controller = new SenderApiController(mapper, mockLogic.Object);
+
+            var parcel = Builder<Parcel>.CreateNew()
+                .With(p => p.Receipient = Builder<Receipient>.CreateNew().Build())
+                .With(p => p.Sender = Builder<Receipient>.CreateNew().Build())
+                .With(p => p.Weight = 0)
+                .Build();
+
+            var result = (ObjectResult)controller.SubmitParcel(parcel);
+
+
+            Assert.AreEqual(400, result.StatusCode);
         }
 
         [Test]
-        public void ValidData()
+        public void SubmitParcel_ValidData_ReturnsNewParcelInfoObjectWithTrackingId()
         {
-            Parcel parcel = new Parcel();
-            parcel.Receipient = new Receipient();
-            parcel.Sender = new Receipient();
-            parcel.Weight = 5.0f;
+            Mock<IParcelLogic> mockLogic = new();
+            mockLogic.Setup(m => m.SubmitParcel(It.IsAny<BusinessLogic.Entities.Models.BLParcel>())).Returns("PYJRB4HZ6");
+
+            SenderApiController controller = new SenderApiController(mapper, mockLogic.Object);
+
+            var parcel = Builder<Parcel>.CreateNew()
+                .With(p => p.Receipient = Builder<Receipient>.CreateNew().Build())
+                .With(p => p.Sender = Builder<Receipient>.CreateNew().Build())
+                .With(p => p.Weight = 0)
+                .Build();
 
             ObjectResult result = (ObjectResult)controller.SubmitParcel(parcel);
-            Assert.NotNull(result);
+            Assert.NotNull(result.Value);
+            Assert.AreEqual("PYJRB4HZ6", ((NewParcelInfo)result.Value).TrackingId);
         }
     }
 }
