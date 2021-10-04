@@ -16,6 +16,14 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Validators
                 .SetValidator(new ReceipientValidator())
                 .NotNull()
                 .NotEqual(p => p.Sender);
+            RuleFor(p => p.Sender)
+                .SetValidator(new ReceipientValidator())
+                .NotNull()
+                .NotEqual(p => p.Receipient);
+            RuleFor(p => p.TrackingId).Matches("^[A-Z0-9]{9}$");
+            RuleFor(p => p.Weight).GreaterThanOrEqualTo(0.0f);
+            RuleFor(p => p.VisitedHops).NotNull();
+            RuleFor(p => p.FutureHops).NotNull();
         }
     }
 }

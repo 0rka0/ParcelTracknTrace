@@ -60,9 +60,6 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
 
             IParcelLogic logic = new ParcelLogic();
 
-            if (body.Sender == null || body.Receipient == null || body.Weight == null)
-                throw new ArgumentOutOfRangeException();
-
             string trackingIdJson = null;
 
             try
@@ -79,7 +76,7 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
             
             var returnObject = trackingIdJson != null
                 ? JsonConvert.DeserializeObject<NewParcelInfo>(trackingIdJson)
-                : default(NewParcelInfo);            //TODO: Change the data returned
+                : default(NewParcelInfo);          
             return new ObjectResult(returnObject);
         }
     }

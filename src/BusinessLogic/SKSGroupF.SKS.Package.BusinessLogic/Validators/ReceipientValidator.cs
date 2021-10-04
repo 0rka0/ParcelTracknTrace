@@ -12,11 +12,14 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Validators
     {
         public ReceipientValidator()
         {
-            RuleFor(p => p.Name).Matches(@"^[A-Z][A-Za-z\-\s]*$");
-            RuleFor(p => p.Country).Equal("Austria").Equal("Österreich");
-            RuleFor(p => p.Street).Matches(@"^([A-Za-zßäöüÄÖÜ]+([\s][[A-Za-zßäöüÄÖÜ\S])?)+([\s][0-9]+[A-Za-z]?)(([\/][^\/])[0-9]*)*$");
-            RuleFor(p => p.PostalCode).Matches("^A-[0-9]{4}$");
-            RuleFor(p => p.City).Matches(@"^[A-Z][A-Za-z\-\s]*$");
+            When(p => p.Country.Equals("Austria") || p.Country.Equals("Österreich"), () =>
+            {
+                //RuleFor(p => p.Country).Equal("Austria").Equal("Österreich");
+                RuleFor(p => p.Name).Matches(@"^[A-Z][A-Za-zßÄÖÜäöü\-\s]*$");
+                RuleFor(p => p.Street).Matches(@"^([A-Za-zßäöüÄÖÜ]+([\s][[A-Za-zßäöüÄÖÜ\S])?)+([\s][0-9]+[A-Za-z]?)(([\/][^\/])[0-9]*)*$");
+                RuleFor(p => p.PostalCode).Matches("^A-[0-9]{4}$");
+                RuleFor(p => p.City).Matches(@"^[A-Z][A-Za-zßÄÖÜäöü\-\s]*$");
+            });
         }
     }
 }

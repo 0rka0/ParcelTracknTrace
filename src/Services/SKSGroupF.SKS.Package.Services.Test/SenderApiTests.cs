@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using SKSGroupF.SKS.Package.Services.Controllers;
 using SKSGroupF.SKS.Package.Services.DTOs.Models;
 using System;
+using AutoMapper;
+using Moq;
 
 namespace SKSGroupF.SKS.Package.Services.Test
 {
@@ -12,11 +14,16 @@ namespace SKSGroupF.SKS.Package.Services.Test
         [SetUp]
         public void Setup()
         {
-            this.controller = new SenderApiController();
+            var config = new MapperConfiguration(opts =>
+            {
+                opts.AddProfile(new SvcBlProfiles());
+            });
+            var mapper = config.CreateMapper();
+            this.controller = new SenderApiController(mapper);
         }
 
         [Test]
-        public void InvalidData_ThrowsOutOfRangeException()
+        public void SubmitParcel_InvalidData_ReturnsErrorStatusCode()
         {
             Parcel parcel = new Parcel();
             parcel.Receipient = null;

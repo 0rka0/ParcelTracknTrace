@@ -6,7 +6,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Entities.Models
 {
     [ExcludeFromCodeCoverage]
     [DataContract]
-    public class BLTruck
+    public class BLTruck : BLHop
     {
         /// <summary>
         /// GeoJSON of the are covered by the truck.

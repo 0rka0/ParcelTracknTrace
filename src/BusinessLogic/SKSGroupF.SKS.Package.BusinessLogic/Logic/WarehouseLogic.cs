@@ -38,7 +38,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
             throw new ArgumentOutOfRangeException();
         }
 
-        public void ImportWarehouses(BLWarehouse)
+        public void ImportWarehouses(BLWarehouse warehouse)
         {
             throw new NotImplementedException();
         }

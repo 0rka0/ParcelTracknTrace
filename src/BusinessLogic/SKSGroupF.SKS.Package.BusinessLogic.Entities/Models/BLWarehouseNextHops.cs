@@ -7,7 +7,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Entities.Models
 {
     [ExcludeFromCodeCoverage]
     [DataContract]
-    public class BLWarehouseNextHops
+    public class BLWarehouseNextHops : BLHop
     {
         /// <summary>
         /// Gets or Sets TraveltimeMins

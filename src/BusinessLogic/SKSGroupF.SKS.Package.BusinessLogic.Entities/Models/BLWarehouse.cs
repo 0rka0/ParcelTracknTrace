@@ -7,7 +7,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Entities.Models
 {
     [ExcludeFromCodeCoverage]
     [DataContract]
-    public class BLWarehouse
+    public class BLWarehouse : BLHop
     {
         /// <summary>
         /// Gets or Sets Level
