@@ -31,12 +31,21 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
     [ApiController]
     public class StaffApiController : ControllerBase
     {
-        private readonly IMapper _mapper;
+        private readonly IMapper mapper;
+        private readonly ITrackingLogic logic;
 
         public StaffApiController(IMapper mapper)
         {
-            _mapper = mapper;
+            this.mapper = mapper;
+            this.logic = new TrackingLogic();
         }
+
+        public StaffApiController(IMapper mapper, ITrackingLogic logic)
+        {
+            this.mapper = mapper;
+            this.logic = logic;
+        }
+
         /// <summary>
         /// Report that a Parcel has been delivered at it&#x27;s final destination address. 
         /// </summary>
@@ -59,13 +68,6 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
 
             //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(404);
-
-            ITrackingLogic logic = new TrackingLogic();
-
-            Regex trackingIdRgx = new Regex(@"^[A-Z0-9]{9}$");
-
-            if (!trackingIdRgx.IsMatch(trackingId))
-                throw new ArgumentOutOfRangeException();
 
             try
             {
@@ -102,17 +104,6 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
 
             //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(404);
-
-            ITrackingLogic logic = new TrackingLogic();
-
-            Regex trackingIdRgx = new Regex(@"^[A-Z0-9]{9}$");
-            Regex codeRgx = new Regex(@"^[A-Z]{4}\\d{1,4}$");
-
-            if (!trackingIdRgx.IsMatch(trackingId))
-                throw new ArgumentOutOfRangeException();
-
-            if (!codeRgx.IsMatch(code))
-                throw new ArgumentOutOfRangeException();
 
             try
             {

@@ -24,7 +24,7 @@ namespace SKSGroupF.SKS.Package.Services.Test
         }
 
         [Test]
-        public void SubmitParcel_InvalidData_ReturnsErrorStatusCode()
+        public void SubmitParcel_BLGetsInvalidData_ReturnsErrorStatusCode()
         {
             Mock<IParcelLogic> mockLogic = new();
             mockLogic.Setup(m => m.SubmitParcel(It.IsAny<BusinessLogic.Entities.Models.BLParcel>())).Throws(new ArgumentOutOfRangeException());
@@ -39,12 +39,11 @@ namespace SKSGroupF.SKS.Package.Services.Test
 
             var result = (ObjectResult)controller.SubmitParcel(parcel);
 
-
             Assert.AreEqual(400, result.StatusCode);
         }
 
         [Test]
-        public void SubmitParcel_ValidData_ReturnsNewParcelInfoObjectWithTrackingId()
+        public void SubmitParcel_BLGetsValidData_ReturnsNewParcelInfoObjectWithTrackingId()
         {
             Mock<IParcelLogic> mockLogic = new();
             mockLogic.Setup(m => m.SubmitParcel(It.IsAny<BusinessLogic.Entities.Models.BLParcel>())).Returns("PYJRB4HZ6");

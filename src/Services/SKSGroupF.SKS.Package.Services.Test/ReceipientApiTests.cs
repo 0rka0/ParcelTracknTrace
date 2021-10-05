@@ -4,12 +4,14 @@ using SKSGroupF.SKS.Package.Services.Controllers;
 using SKSGroupF.SKS.Package.Services.DTOs.Models;
 using System;
 using AutoMapper;
+using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
+using Moq;
 
 namespace SKSGroupF.SKS.Package.Services.Test
 {
     public class ReceipientApiTests
     {
-        private ReceipientApiController controller;
+        private IMapper mapper;
         [SetUp]
         public void Setup()
         {
@@ -17,21 +19,34 @@ namespace SKSGroupF.SKS.Package.Services.Test
             {
                 opts.AddProfile(new SvcBlProfiles());
             });
-            var mapper = config.CreateMapper();
-            this.controller = new ReceipientApiController(mapper);
+            mapper = config.CreateMapper();
         }
 
         [Test]
-        public void InvalidData_ThrowsOutOfRangeException()
+        public void TrackParcel_BLGetsInvalidData_ReturnsErrorStatusCode()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => controller.TrackParcel("ABCDEFGH"));
+            Mock<ITrackingLogic> mockLogic = new();
+            mockLogic.Setup(m => m.TrackParcel(It.IsNotIn("PYJRB4HZ6"))).Throws(new ArgumentOutOfRangeException());
+
+            ReceipientApiController controller = new ReceipientApiController(mapper, mockLogic.Object);
+            var result = (ObjectResult)controller.TrackParcel("ABCDEFGH");
+
+            Assert.AreEqual(404, result.StatusCode);
         }
 
         [Test]
-        public void ValidData()
+        public void TrackParcel_BLGets_ValidData_ReturnsNewBLParcelObjectWithState()
         {
+            var mockBlParcel = new BusinessLogic.Entities.Models.BLParcel();
+            mockBlParcel.State = BusinessLogic.Entities.Models.BLParcel.StateEnum.InTransportEnum;
+            Mock<ITrackingLogic> mockLogic = new();
+            mockLogic.Setup(m => m.TrackParcel(It.IsIn("PYJRB4HZ6"))).Returns(mockBlParcel);
+
+            ReceipientApiController controller = new ReceipientApiController(mapper, mockLogic.Object);
             ObjectResult result = (ObjectResult)controller.TrackParcel("PYJRB4HZ6");
-            Assert.NotNull(result);
+
+            Assert.NotNull(result.Value);
+            Assert.AreEqual(TrackingInformation.StateEnum.InTransportEnum, ((TrackingInformation)result.Value).State);
         }
     }
 }

@@ -32,12 +32,21 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
     [ApiController]
     public class WarehouseManagementApiController : ControllerBase
     {
-        private readonly IMapper _mapper;
+        private readonly IMapper mapper;
+        private readonly IWarehouseLogic logic;
 
         public WarehouseManagementApiController(IMapper mapper)
         {
-            _mapper = mapper;
+            this.mapper = mapper;
+            logic = new WarehouseLogic();
         }
+
+        public WarehouseManagementApiController(IMapper mapper, IWarehouseLogic logic)
+        {
+            this.mapper = mapper;
+            this.logic = logic;
+        }
+
         /// <summary>
         /// Exports the hierarchy of Warehouse and Truck objects. 
         /// </summary>
@@ -61,7 +70,6 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
             //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(404);
 
-            IWarehouseLogic logic = new WarehouseLogic();
             List<Warehouse> returnObject = new List<Warehouse>();
 
             try
@@ -71,7 +79,7 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
                 List<Warehouse> warehouseList = new List<Warehouse>();
                 foreach (var i in tmp)
                 {
-                    warehouseList.Add(_mapper.Map<Warehouse>(i));
+                    warehouseList.Add(mapper.Map<Warehouse>(i));
                 }
 
                 var warehouseListJson = JsonConvert.SerializeObject(warehouseList);
@@ -111,18 +119,12 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
             //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(404);
 
-            IWarehouseLogic logic = new WarehouseLogic();
             string warehouseJson = null;
-
-            Regex codeRgx = new Regex(@"^[A-Z]{4}\\d{1,4}$");
-
-            if (!codeRgx.IsMatch(code))
-                throw new ArgumentOutOfRangeException();
 
             try
             {
                 var blWarehouse = logic.GetWarehouse(code);
-                Warehouse warehouse = _mapper.Map<Warehouse>(blWarehouse);
+                Warehouse warehouse = mapper.Map<Warehouse>(blWarehouse);
 
                 warehouseJson = JsonConvert.SerializeObject(warehouse);
             }
@@ -156,15 +158,9 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(400, default(Error));
 
-            IWarehouseLogic logic = new WarehouseLogic();
-
-
-            if (body == null || body.NextHops == null)
-                throw new ArgumentOutOfRangeException();
-
             try
             {
-                BLWarehouse blWarehouse = _mapper.Map<BLWarehouse>(body);
+                BLWarehouse blWarehouse = mapper.Map<BLWarehouse>(body);
                 logic.ImportWarehouses(blWarehouse);
             }
             catch

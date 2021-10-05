@@ -28,7 +28,13 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
 
         public void TransitionParcel(BLParcel parcel, string trackingId)
         {
-            if (String.Compare(trackingId, "PYJRB4HZ6") != 0)
+            IValidator<BLParcel> parcelValidator = new ParcelValidator();
+            IValidator<string> trackingIdValidator = new StringValidator(true);
+
+            var parcelResult = parcelValidator.Validate(parcel);
+            var tidResult = trackingIdValidator.Validate(trackingId);
+
+            if ((!parcelResult.IsValid) || (!tidResult.IsValid))
                 throw new ArgumentOutOfRangeException();
         }
     }

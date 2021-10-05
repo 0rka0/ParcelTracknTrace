@@ -31,12 +31,21 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
     [ApiController]
     public class ReceipientApiController : ControllerBase
     {
-        private readonly IMapper _mapper;
+        private readonly IMapper mapper;
+        private readonly ITrackingLogic logic;
 
         public ReceipientApiController(IMapper mapper)
         {
-            _mapper = mapper;
+            this.mapper = mapper;
+            logic = new TrackingLogic();
         }
+
+        public ReceipientApiController(IMapper mapper, ITrackingLogic logic)
+        {
+            this.mapper = mapper;
+            this.logic = logic;
+        }
+
         /// <summary>
         /// Find the latest state of a parcel by its tracking ID. 
         /// </summary>
@@ -61,21 +70,14 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
             //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(404);
 
-            ITrackingLogic logic = new TrackingLogic();
-
-            Regex trackingIdRgx = new Regex(@"^[A-Z0-9]{9}$");
-
-            if (!trackingIdRgx.IsMatch(trackingId))
-                throw new ArgumentOutOfRangeException();
-
             string trackingInformationJson = null;
 
             try
             {
                 var blParcel = logic.TrackParcel(trackingId);
 
-                Parcel parcel = _mapper.Map<Parcel>(blParcel);
-                TrackingInformation trackingInfo = _mapper.Map<TrackingInformation>(blParcel);
+                Parcel parcel = mapper.Map<Parcel>(blParcel);
+                TrackingInformation trackingInfo = mapper.Map<TrackingInformation>(blParcel);
 
                 trackingInformationJson = JsonConvert.SerializeObject(trackingInfo);
                 //trackingInformationJson = "{\n  \"visitedHops\" : [ {\n    \"dateTime\" : \"2000-01-23T04:56:07.000+00:00\",\n    \"code\" : \"code\",\n    \"description\" : \"description\"\n  }, {\n    \"dateTime\" : \"2000-01-23T04:56:07.000+00:00\",\n    \"code\" : \"code\",\n    \"description\" : \"description\"\n  } ],\n  \"futureHops\" : [ null, null ],\n  \"state\" : \"Pickup\"\n}";

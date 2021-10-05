@@ -31,19 +31,19 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
     [ApiController]
     public class SenderApiController : ControllerBase
     {
-        private readonly IMapper _mapper;
-        private readonly IParcelLogic _logic;
+        private readonly IMapper mapper;
+        private readonly IParcelLogic logic;
 
         public SenderApiController(IMapper mapper)
         {
-            _mapper = mapper;
-            _logic = new ParcelLogic();
+            this.mapper = mapper;
+            logic = new ParcelLogic();
         }
 
         public SenderApiController(IMapper mapper, IParcelLogic logic)
         {
-            _mapper = mapper;
-            _logic = logic;
+            this.mapper = mapper;
+            this.logic = logic;
         }
 
         /// <summary>
@@ -70,8 +70,8 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
 
             try
             {
-                BLParcel blParcel = _mapper.Map<BLParcel>(body);
-                string trackingId = _logic.SubmitParcel(blParcel);
+                BLParcel blParcel = mapper.Map<BLParcel>(body);
+                string trackingId = logic.SubmitParcel(blParcel);
 
                 trackingIdJson = $"{{\n  \"trackingId\" : \"{trackingId}\"\n}}";
             }

@@ -5,12 +5,16 @@ using SKSGroupF.SKS.Package.Services.DTOs.Models;
 using System;
 using System.Collections.Generic;
 using AutoMapper;
+using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
+using Moq;
+using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
+using FizzWare.NBuilder;
 
 namespace SKSGroupF.SKS.Package.Services.Test
 {
     public class WarehouseManagementApiTests
     {
-        private WarehouseManagementApiController controller;
+        private IMapper mapper;
         [SetUp]
         public void Setup()
         {
@@ -18,44 +22,97 @@ namespace SKSGroupF.SKS.Package.Services.Test
             {
                 opts.AddProfile(new SvcBlProfiles());
             });
-            var mapper = config.CreateMapper();
-            this.controller = new WarehouseManagementApiController(mapper);
+            mapper = config.CreateMapper();
         }
 
         [Test]
-        public void ExportWarehouses_NoException()
+        public void ExportWarehouses_ExceptionThrown_ReturnsErrorStatusCode()
         {
+            Mock<IWarehouseLogic> mockLogic = new();
+            mockLogic.Setup(m => m.ExportWarehouses()).Throws(new Exception());
+
+            WarehouseManagementApiController controller = new WarehouseManagementApiController(mapper, mockLogic.Object);
+
             ObjectResult result = (ObjectResult)controller.ExportWarehouses();
-            Assert.NotNull(result);
-        }
 
-       [Test]
-        public void GetWarehouse_InvalidData_ThrowsOutOfRangeException()
-        {
-            Assert.Throws<ArgumentOutOfRangeException>(() => controller.GetWarehouse("ABCD\\aaaa"));
+            Assert.AreEqual(400, result.StatusCode);
         }
 
         [Test]
-        public void GetWarehouse_ValidData()
+        public void ExportWarehouses_Runs_ReturnsOkayStatusCode()
         {
+            Mock<IWarehouseLogic> mockLogic = new();
+            mockLogic.Setup(m => m.ExportWarehouses()).Returns(new List<BLWarehouse> { new BLWarehouse(), new BLWarehouse(), new BLWarehouse() });
+
+            WarehouseManagementApiController controller = new WarehouseManagementApiController(mapper, mockLogic.Object);
+
             ObjectResult result = (ObjectResult)controller.ExportWarehouses();
-            Assert.NotNull(result);
+
+            Assert.NotNull(result.Value);
+            Assert.AreEqual(3, ((List<Warehouse>)result.Value).Count);
         }
 
         [Test]
-        public void ImportWarehouses_InvalidDataCode_ThrowsOutOfRangeException()
+        public void GetWarehouse_BLGetsInvalidData_ReturnsErrorStatusCode()
         {
-            Warehouse warehouse = new Warehouse();
-            warehouse.NextHops = null;
-            Assert.Throws<ArgumentOutOfRangeException>(() => controller.ImportWarehouses(warehouse));
+            Mock<IWarehouseLogic> mockLogic = new();
+            mockLogic.Setup(m => m.GetWarehouse(It.IsNotIn("ABCD\\dddd"))).Throws(new ArgumentOutOfRangeException());
+
+            WarehouseManagementApiController controller = new WarehouseManagementApiController(mapper, mockLogic.Object);
+
+            var result = (StatusCodeResult)controller.GetWarehouse("ABCD\\ddddd");
+
+            Assert.AreEqual(404, result.StatusCode);
+        }
+
+        [Test]
+        public void GetWarehouse_BLGetsValidData_ReturnsWarehouseObjectWithCode()
+        {
+            var mockBlWarehouse = new BLWarehouse();
+            mockBlWarehouse.Code = "ABCD\\dddd";
+            Mock<IWarehouseLogic> mockLogic = new();
+            mockLogic.Setup(m => m.GetWarehouse(It.IsIn("ABCD\\dddd"))).Returns(mockBlWarehouse);
+
+            WarehouseManagementApiController controller = new WarehouseManagementApiController(mapper, mockLogic.Object);
+
+            var result = (ObjectResult)controller.GetWarehouse("ABCD\\dddd");
+
+            Assert.NotNull(result.Value);
+            Assert.AreEqual("ABCD\\dddd", ((Warehouse)result.Value).Code);
+        }
+
+        [Test]
+        public void ImportWarehouses_BLGetsInvalidData_ReturnsErrorStatusCode()
+        {
+            Mock<IWarehouseLogic> mockLogic = new();
+            mockLogic.Setup(m => m.ImportWarehouses(It.IsAny<BLWarehouse>())).Throws(new ArgumentOutOfRangeException());
+
+            WarehouseManagementApiController controller = new WarehouseManagementApiController(mapper, mockLogic.Object);
+
+            var warehouse = Builder<Warehouse>.CreateNew()
+                .With(p => p.NextHops = null)
+                .Build();
+
+            var result = (ObjectResult)controller.ImportWarehouses(warehouse);
+
+            Assert.AreEqual(400, result.StatusCode);
         }
 
         [Test]
         public void ImportWarehouses_ValidData()
         {
-            Warehouse warehouse = new Warehouse();
-            warehouse.NextHops = new List<WarehouseNextHops>();
-            Assert.Throws<NotImplementedException>(() => controller.ImportWarehouses(warehouse));
+            Mock<IWarehouseLogic> mockLogic = new();
+            mockLogic.Setup(m => m.ImportWarehouses(It.IsAny<BLWarehouse>()));
+
+            WarehouseManagementApiController controller = new WarehouseManagementApiController(mapper, mockLogic.Object);
+
+            var warehouse = Builder<Warehouse>.CreateNew()
+                .With(p => p.NextHops = null)
+                .Build();
+
+            var result = (StatusCodeResult)controller.ImportWarehouses(warehouse);
+
+            Assert.AreEqual(200, result.StatusCode);
         }
     }
 }

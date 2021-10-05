@@ -4,12 +4,15 @@ using SKSGroupF.SKS.Package.Services.Controllers;
 using SKSGroupF.SKS.Package.Services.DTOs.Models;
 using System;
 using AutoMapper;
+using Moq;
+using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
+using FizzWare.NBuilder;
 
 namespace SKSGroupF.SKS.Package.Services.Test
 {
     public class LogisticsPartnerApiTests
     {
-        private LogisticsPartnerApiController controller;
+        private IMapper mapper;
         [SetUp]
         public void Setup()
         {
@@ -17,39 +20,84 @@ namespace SKSGroupF.SKS.Package.Services.Test
             {
                 opts.AddProfile(new SvcBlProfiles());
             });
-            var mapper = config.CreateMapper();
-            this.controller = new LogisticsPartnerApiController(mapper);
+            mapper = config.CreateMapper();
         }
 
         [Test]
-        public void InvalidDataTrackingId_ThrowsOutOfRangeException()
+        public void TransitionParcel_BLGetsInvalidDataTid_ReturnsErrorStatusCode()
         {
-            Parcel parcel = new Parcel();
-            parcel.Sender = new Receipient();
-            parcel.Receipient = new Receipient();
-            parcel.Weight = 5.0f;
-            Assert.Throws<ArgumentOutOfRangeException>(() => controller.TransitionParcel(parcel, "ABCDEFGH"));
+            Mock<IParcelLogic> mockLogic = new();
+            mockLogic.Setup(m => m.TransitionParcel(It.IsAny<BusinessLogic.Entities.Models.BLParcel>(), It.IsNotIn("PYJRB4HZ6"))).Throws(new ArgumentOutOfRangeException());
+
+            LogisticsPartnerApiController controller = new LogisticsPartnerApiController(mapper, mockLogic.Object);
+
+            var parcel = Builder<Parcel>.CreateNew()
+                .With(p => p.Receipient = Builder<Receipient>.CreateNew().Build())
+                .With(p => p.Sender = Builder<Receipient>.CreateNew().Build())
+                .With(p => p.Weight = 0)
+                .Build();
+
+            var result = (ObjectResult)controller.TransitionParcel(parcel, "ABCDEFGH");
+
+            Assert.AreEqual(400, result.StatusCode);
         }
 
         [Test]
-        public void InvalidDataParcel_ThrowsOutOfRangeException()
+        public void TransitionParcel_BLGetsInvalidDataParcel_ReturnsErrorStatusCode()
         {
-            Parcel parcel = new Parcel();
-            parcel.Sender = new Receipient();
-            parcel.Receipient = null;
-            parcel.Weight = 5.0f;
-            Assert.Throws<ArgumentOutOfRangeException>(() => controller.TransitionParcel(parcel, "PYJRB4HZ6"));
+            Mock<IParcelLogic> mockLogic = new();
+            mockLogic.Setup(m => m.TransitionParcel(It.IsAny<BusinessLogic.Entities.Models.BLParcel>(), It.IsIn("PYJRB4HZ6"))).Throws(new ArgumentOutOfRangeException());
+
+            LogisticsPartnerApiController controller = new LogisticsPartnerApiController(mapper, mockLogic.Object);
+
+            var parcel = Builder<Parcel>.CreateNew()
+                .With(p => p.Receipient = Builder<Receipient>.CreateNew().Build())
+                .With(p => p.Sender = Builder<Receipient>.CreateNew().Build())
+                .With(p => p.Weight = 0)
+                .Build();
+
+            var result = (ObjectResult)controller.TransitionParcel(parcel, "PYJRB4HZ6");
+
+            Assert.AreEqual(400, result.StatusCode);
+        }
+
+        [Test]
+        public void TransitionParcel_BLGetsInvalidDataTidParcel_ReturnsErrorStatusCode()
+        {
+            Mock<IParcelLogic> mockLogic = new();
+            mockLogic.Setup(m => m.TransitionParcel(It.IsAny<BusinessLogic.Entities.Models.BLParcel>(), It.IsNotIn("PYJRB4HZ6"))).Throws(new ArgumentOutOfRangeException());
+
+            LogisticsPartnerApiController controller = new LogisticsPartnerApiController(mapper, mockLogic.Object);
+
+            var parcel = Builder<Parcel>.CreateNew()
+                .With(p => p.Receipient = Builder<Receipient>.CreateNew().Build())
+                .With(p => p.Sender = Builder<Receipient>.CreateNew().Build())
+                .With(p => p.Weight = 0)
+                .Build();
+
+            var result = (ObjectResult)controller.TransitionParcel(parcel, "ABCDEFGH");
+
+            Assert.AreEqual(400, result.StatusCode);
         }
 
         [Test]
         public void ValidData()
         {
-            Parcel parcel = new Parcel();
-            parcel.Sender = new Receipient();
-            parcel.Receipient = new Receipient();
-            parcel.Weight = 5.0f;
-            ObjectResult result = (ObjectResult)controller.TransitionParcel(parcel, "PYJRB4HZ6");
-            Assert.NotNull(result);
+            Mock<IParcelLogic> mockLogic = new();
+            mockLogic.Setup(m => m.TransitionParcel(It.IsAny<BusinessLogic.Entities.Models.BLParcel>(), It.IsIn("PYJRB4HZ6")));
+
+            LogisticsPartnerApiController controller = new LogisticsPartnerApiController(mapper, mockLogic.Object);
+
+            var parcel = Builder<Parcel>.CreateNew()
+                .With(p => p.Receipient = Builder<Receipient>.CreateNew().Build())
+                .With(p => p.Sender = Builder<Receipient>.CreateNew().Build())
+                .With(p => p.Weight = 0)
+                .Build();
+
+            var result = (ObjectResult)controller.TransitionParcel(parcel, "PYJRB4HZ6");
+
+            Assert.NotNull(result.Value);
+            Assert.AreEqual("PYJRB4HZ6", ((NewParcelInfo)result.Value).TrackingId);
         }
     }
 }

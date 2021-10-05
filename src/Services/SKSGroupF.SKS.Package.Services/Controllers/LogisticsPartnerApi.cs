@@ -33,11 +33,20 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
     public class LogisticsPartnerApiController : ControllerBase
     {
         private readonly IMapper _mapper;
+        private readonly IParcelLogic logic;
 
         public LogisticsPartnerApiController(IMapper mapper)
         {
             _mapper = mapper;
+            logic = new ParcelLogic();
         }
+
+        public LogisticsPartnerApiController(IMapper mapper, IParcelLogic logic)
+        {
+            _mapper = mapper;
+            this.logic = logic;
+        }
+
         /// <summary>
         /// Transfer an existing parcel into the system from the service of a logistics partner. 
         /// </summary>
@@ -58,16 +67,6 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
 
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(400, default(Error));
-
-            IParcelLogic logic = new ParcelLogic();
-
-            Regex trackingIdRgx = new Regex(@"^[A-Z0-9]{9}$");
-
-            if (!trackingIdRgx.IsMatch(trackingId))
-                throw new ArgumentOutOfRangeException();
-
-            if (body.Sender == null || body.Receipient == null || body.Weight == null)
-                throw new ArgumentOutOfRangeException();
 
             string trackingIdJson = null;
 

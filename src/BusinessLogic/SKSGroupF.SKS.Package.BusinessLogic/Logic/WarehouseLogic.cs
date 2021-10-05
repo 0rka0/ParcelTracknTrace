@@ -1,5 +1,7 @@
-﻿using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
+﻿using FluentValidation;
+using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
 using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
+using SKSGroupF.SKS.Package.BusinessLogic.Validators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,15 +34,27 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
 
         public BLWarehouse GetWarehouse(string code)
         {
-            if(String.Compare(code, "AAAA\\dddd") == 0)
-                return new BLWarehouse();
+            var blWarehouse = new BLWarehouse();
+            blWarehouse.Code = code;
+
+            IValidator<string> validator = new StringValidator(false);
+
+            var result = validator.Validate(code);
+
+            if (result.IsValid)
+                return blWarehouse;
 
             throw new ArgumentOutOfRangeException();
         }
 
         public void ImportWarehouses(BLWarehouse warehouse)
         {
-            throw new NotImplementedException();
+            IValidator<BLWarehouse> validator = new WarehouseValidator();
+            
+            var result = validator.Validate(warehouse);
+
+            if (!result.IsValid)
+                throw new ArgumentOutOfRangeException();
         }
     }
 }
