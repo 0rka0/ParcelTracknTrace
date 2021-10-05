@@ -24,5 +24,22 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
 
             Assert.IsTrue(result.IsValid);
         }
+
+        [Test]
+        public void ReceipientValidator_ReceivesInvalidData_IsValidIsFalse()
+        {
+            var receipient = Builder<BLReceipient>.CreateNew()
+                .With(p => p.Country = "Atria")
+                .With(p => p.City = "Vienna")
+                .With(p => p.Name = "David")
+                .With(p => p.PostalCode = "A-0000")
+                .With(p => p.Street = "Hauptstraße 1")
+                .Build();
+
+            IValidator<BLReceipient> validator = new ReceipientValidator();
+            var result = validator.Validate(receipient);
+
+            Assert.IsFalse(result.IsValid);
+        }
     }
 }
