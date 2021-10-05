@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKSGroupF.SKS.Package.Services", "src\Services\SKSGroupF.SKS.Package.Services\SKSGroupF.SKS.Package.Services.csproj", "{F5552B0C-D9DA-466D-A033-ABA1CE0F6C41}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKSGroupF.SKS.Package.Services.Test", "src\Services\SKSGroupF.SKS.Package.Services.Test\SKSGroupF.SKS.Package.Services.Test.csproj", "{BAFFA69F-E20C-4B56-BFF8-EE5FA0C4EC69}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKSGroupF.SKS.Package.Services.Tests", "src\Services\SKSGroupF.SKS.Package.Services.Tests\SKSGroupF.SKS.Package.Services.Tests.csproj", "{BAFFA69F-E20C-4B56-BFF8-EE5FA0C4EC69}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKSGroupF.SKS.Package.Services.DTOs", "src\Services\SKSGroupF.SKS.Package.Services.DTOs\SKSGroupF.SKS.Package.Services.DTOs.csproj", "{CA6AE04B-2A4A-4186-8D53-8F715B1F596D}"
 EndProject
