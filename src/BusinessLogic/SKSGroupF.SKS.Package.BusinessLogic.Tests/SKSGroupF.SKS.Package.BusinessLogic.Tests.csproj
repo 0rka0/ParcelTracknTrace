@@ -8,9 +8,17 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
+    <PackageReference Include="Moq" Version="4.16.1" />
+    <PackageReference Include="NBuilder" Version="6.1.0" />
     <PackageReference Include="NUnit" Version="3.13.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
     <PackageReference Include="coverlet.collector" Version="3.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SKSGroupF.SKS.Package.BusinessLogic.Entities\SKSGroupF.SKS.Package.BusinessLogic.Entities.csproj" />
+    <ProjectReference Include="..\SKSGroupF.SKS.Package.BusinessLogic.Interfaces\SKSGroupF.SKS.Package.BusinessLogic.Interfaces.csproj" />
+    <ProjectReference Include="..\SKSGroupF.SKS.Package.BusinessLogic\SKSGroupF.SKS.Package.BusinessLogic.csproj" />
   </ItemGroup>
 
 </Project>

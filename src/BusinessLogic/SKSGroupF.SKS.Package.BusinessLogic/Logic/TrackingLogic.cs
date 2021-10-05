@@ -15,7 +15,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
         public BLParcel TrackParcel(string trackingID)
         {
             BLParcel tmpParcel = new BLParcel();
-            tmpParcel.TrackingId = "PYJRB4HZ6";
+            tmpParcel.TrackingId = trackingID;
 
             IValidator<string> validator = new StringValidator(true);
             var result = validator.Validate(tmpParcel.TrackingId);

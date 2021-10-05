@@ -14,6 +14,8 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
     {
         public string SubmitParcel(BLParcel parcel)
         {
+            parcel.TrackingId = "PYJRB4HZ6";
+
             IValidator<BLParcel> validator = new ParcelValidator();
 
             var result = validator.Validate(parcel);
@@ -26,13 +28,15 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
 
         public void TransitionParcel(BLParcel parcel, string trackingId)
         {
-            IValidator<BLParcel> parcelValidator = new ParcelValidator();
+            parcel.TrackingId = trackingId;
+
             IValidator<string> trackingIdValidator = new StringValidator(true);
+            IValidator<BLParcel> parcelValidator = new ParcelValidator();
 
-            var parcelResult = parcelValidator.Validate(parcel);
             var tidResult = trackingIdValidator.Validate(trackingId);
+            var parcelResult = parcelValidator.Validate(parcel);
 
-            if ((!parcelResult.IsValid) || (!tidResult.IsValid))
+            if ((!tidResult.IsValid) || (!parcelResult.IsValid))
                 throw new ArgumentOutOfRangeException();
         }
     }
