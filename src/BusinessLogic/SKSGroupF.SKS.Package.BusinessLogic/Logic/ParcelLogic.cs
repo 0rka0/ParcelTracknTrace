@@ -14,8 +14,6 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
     {
         public string SubmitParcel(BLParcel parcel)
         {
-            parcel.TrackingId = "PYJRB4HZ6";
-
             IValidator<BLParcel> validator = new ParcelValidator();
 
             var result = validator.Validate(parcel);
