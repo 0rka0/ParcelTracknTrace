@@ -11,8 +11,8 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
     public class Tests
     {
         private IParcelLogic logic;
-        BLParcel validParcel;
-        BLParcel invalidParcel;
+        private BLParcel validParcel;
+        private BLParcel invalidParcel;
 
         [SetUp]
         public void Setup()
