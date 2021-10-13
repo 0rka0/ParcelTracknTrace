@@ -23,6 +23,7 @@ using AutoMapper;
 using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
 using SKSGroupF.SKS.Package.BusinessLogic.Logic;
 using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace SKSGroupF.SKS.Package.Services.Controllers
 { 
@@ -35,6 +36,7 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
         private readonly IMapper mapper;
         private readonly IWarehouseLogic logic;
 
+        [ActivatorUtilitiesConstructor]
         public WarehouseManagementApiController(IMapper mapper)
         {
             this.mapper = mapper;

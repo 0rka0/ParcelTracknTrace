@@ -34,7 +34,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
                     .With(p => p.PostalCode = "A-0000")
                     .With(p => p.Street = "Straße 1")
                     .Build())
-                .With(p => p.Weight = 0)
+                .With(p => p.Weight = 5.0f)
                 .With(p => p.FutureHops = Builder<BLHopArrival>.CreateListOfSize(3).Build().ToList())
                 .With(p => p.VisitedHops = Builder<BLHopArrival>.CreateListOfSize(3).Build().ToList())
                 .With(p => p.State = BLParcel.StateEnum.InTransportEnum)

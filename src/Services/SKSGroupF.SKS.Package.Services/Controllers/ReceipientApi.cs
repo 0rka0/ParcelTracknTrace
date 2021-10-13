@@ -22,6 +22,7 @@ using System.Text.RegularExpressions;
 using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
 using SKSGroupF.SKS.Package.BusinessLogic.Logic;
 using AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace SKSGroupF.SKS.Package.Services.Controllers
 { 
@@ -34,6 +35,7 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
         private readonly IMapper mapper;
         private readonly ITrackingLogic logic;
 
+        [ActivatorUtilitiesConstructor]
         public ReceipientApiController(IMapper mapper)
         {
             this.mapper = mapper;

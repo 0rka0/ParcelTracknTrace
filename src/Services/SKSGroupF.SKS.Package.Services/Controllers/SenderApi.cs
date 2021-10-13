@@ -22,6 +22,7 @@ using SKSGroupF.SKS.Package.BusinessLogic.Logic;
 using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
 using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
 using AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace SKSGroupF.SKS.Package.Services.Controllers
 { 
@@ -34,6 +35,7 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
         private readonly IMapper mapper;
         private readonly IParcelLogic logic;
 
+        [ActivatorUtilitiesConstructor]
         public SenderApiController(IMapper mapper)
         {
             this.mapper = mapper;
