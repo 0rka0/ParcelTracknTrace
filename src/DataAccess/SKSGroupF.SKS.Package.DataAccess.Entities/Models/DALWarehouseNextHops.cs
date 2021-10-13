@@ -7,7 +7,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Entities.Models
 {
     [ExcludeFromCodeCoverage]
     [DataContract]
-    public class DALWarehouseNextHops : DALHop
+    public class DALWarehouseNextHops
     {
         /// <summary>
         /// Gets or Sets TraveltimeMins

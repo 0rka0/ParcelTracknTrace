@@ -6,7 +6,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Entities.Models
 {
     [ExcludeFromCodeCoverage]
     [DataContract]
-    public class DALTransferWarehouse
+    public class DALTransferWarehouse : DALHop
     {
         /// <summary>
         /// GeoJSON of the are covered by the logistics partner.
