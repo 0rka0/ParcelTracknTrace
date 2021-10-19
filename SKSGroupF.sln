@@ -25,13 +25,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BusinessLogic", "BusinessLo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataAccess", "DataAccess", "{FCDB8024-582C-4971-B86B-FAA79E68191F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKSGroupF.SKS.Package.DataAccess.Sql", "src\DataAccess\SKSGroupF.SKS.Package.DataAccess.Sql\SKSGroupF.SKS.Package.DataAccess.Sql.csproj", "{E1D00A01-2A00-46C0-88B4-DA2CA3516128}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKSGroupF.SKS.Package.DataAccess.Sql", "src\DataAccess\SKSGroupF.SKS.Package.DataAccess.Sql\SKSGroupF.SKS.Package.DataAccess.Sql.csproj", "{E1D00A01-2A00-46C0-88B4-DA2CA3516128}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKSGroupF.SKS.Package.DataAccess.Interfaces", "src\DataAccess\SKSGroupF.SKS.Package.DataAccess.Interfaces\SKSGroupF.SKS.Package.DataAccess.Interfaces.csproj", "{AF0BE1C8-3A76-49A7-B53E-7FFC1F72AE36}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKSGroupF.SKS.Package.DataAccess.Interfaces", "src\DataAccess\SKSGroupF.SKS.Package.DataAccess.Interfaces\SKSGroupF.SKS.Package.DataAccess.Interfaces.csproj", "{AF0BE1C8-3A76-49A7-B53E-7FFC1F72AE36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKSGroupF.SKS.Package.DataAccess.Entities", "src\DataAccess\SKSGroupF.SKS.Package.DataAccess.Entities\SKSGroupF.SKS.Package.DataAccess.Entities.csproj", "{FD0B9371-BDC5-4EF9-BE66-03963084F431}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKSGroupF.SKS.Package.DataAccess.Entities", "src\DataAccess\SKSGroupF.SKS.Package.DataAccess.Entities\SKSGroupF.SKS.Package.DataAccess.Entities.csproj", "{FD0B9371-BDC5-4EF9-BE66-03963084F431}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKSGroupF.SKS.Package.DataAccess.Tests", "src\DataAccess\SKSGroupF.SKS.Package.DataAccess.Tests\SKSGroupF.SKS.Package.DataAccess.Tests.csproj", "{6D156DF6-B24E-432B-937B-9BE268D7D9B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKSGroupF.SKS.Package.DataAccess.Tests", "src\DataAccess\SKSGroupF.SKS.Package.DataAccess.Tests\SKSGroupF.SKS.Package.DataAccess.Tests.csproj", "{6D156DF6-B24E-432B-937B-9BE268D7D9B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

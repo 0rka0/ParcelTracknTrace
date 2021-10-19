@@ -11,6 +11,13 @@ namespace SKSGroupF.SKS.Package.DataAccess.Entities.Models
     public class DALParcel
     {
         /// <summary>
+        /// Gets or Sets Id
+        /// </summary>
+        [Required, Key]
+        [DataMember(Name = "id")]
+        public int Id { get; set; }
+
+        /// <summary>
         /// Gets or Sets Weight
         /// </summary>
         [Required]
