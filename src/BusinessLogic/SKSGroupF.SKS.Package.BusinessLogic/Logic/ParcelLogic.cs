@@ -37,11 +37,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
             var parcelResult = parcelValidator.Validate(parcel);
 
             if ((!tidResult.IsValid) || (!parcelResult.IsValid))
-            {
-                throw new ArgumentOutOfRangeException(
-                    string.Concat(tidResult.Errors.Select(p=>p.ErrorMessage)) + "---" + string.Concat(parcelResult.Errors.Select(p => p.ErrorMessage))
-                    );
-            }
+                throw new ArgumentOutOfRangeException();
         }
     }
 }
