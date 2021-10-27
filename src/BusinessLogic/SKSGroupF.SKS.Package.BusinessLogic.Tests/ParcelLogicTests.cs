@@ -1,8 +1,11 @@
+using AutoMapper;
 using FizzWare.NBuilder;
+using Moq;
 using NUnit.Framework;
 using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
 using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
 using SKSGroupF.SKS.Package.BusinessLogic.Logic;
+using SKSGroupF.SKS.Package.DataAccess.Interfaces;
 using System;
 using System.Linq;
 
@@ -13,11 +16,23 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
         private IParcelLogic logic;
         private BLParcel validParcel;
         private BLParcel invalidParcel;
+        private IMapper mapper;
 
         [SetUp]
         public void Setup()
         {
-            logic = new ParcelLogic();
+            var config = new MapperConfiguration(opts =>
+            {
+                opts.AddProfile(new BlDalProfiles());
+            });
+            mapper = config.CreateMapper();
+
+            Mock<IParcelRepository> mockRepo = new();
+            mockRepo.Setup(m => m.Create(It.IsAny<DataAccess.Entities.Models.DALParcel>())).Returns(1);
+            mockRepo.Setup(m => m.Update(It.IsAny<DataAccess.Entities.Models.DALParcel>()));
+
+
+            logic = new ParcelLogic(mapper, mockRepo.Object);
 
             validParcel = Builder<BLParcel>.CreateNew()
                 .With(p => p.Receipient = Builder<BLReceipient>.CreateNew()
@@ -53,14 +68,14 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
             Assert.Throws<ArgumentOutOfRangeException>(() => logic.SubmitParcel(invalidParcel));
         }
 
-        /*[Test]
+        [Test]
         public void SubmitParcel_ReceivesValidParcel_ReturnsTrackingIdOfParcel()
         {
             string expectedTrackingID = "PYJRB4HZ6";
             string actualTrackingID = logic.SubmitParcel(validParcel);
 
             Assert.AreEqual(expectedTrackingID, actualTrackingID);
-        }*/
+        }
 
         [Test]
         public void TransitionParcel_ReceivesInvalidParcel_ThrowsException()
@@ -78,7 +93,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
             Assert.Throws<ArgumentOutOfRangeException>(() => logic.TransitionParcel(validParcel, trackingID));
         }
 
-        /*[Test]
+        [Test]
         public void TransitionParcel_ReceivesValidData_RunsWithoutException()
         {
             string trackingID = "PYJRB4HZ6";
@@ -86,7 +101,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
             logic.TransitionParcel(validParcel, trackingID);
 
             Assert.IsTrue(true);
-        }*/
+        }
 
     }
 }

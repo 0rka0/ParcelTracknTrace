@@ -34,10 +34,17 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
 
             if (result.IsValid)
             {
-                int? dbId = repo.Create(mapper.Map<DALParcel>(parcel));
+                try
+                {
+                    int? dbId = repo.Create(mapper.Map<DALParcel>(parcel));
 
-                if(dbId != null)
-                    return parcel.TrackingId;
+                    if (dbId != null)
+                        return parcel.TrackingId;
+                }
+                catch
+                {
+                    throw;
+                }
             }
 
             throw new ArgumentOutOfRangeException();
@@ -55,6 +62,15 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
 
             if ((!tidResult.IsValid) || (!parcelResult.IsValid))
                 throw new ArgumentOutOfRangeException();
+
+            try
+            {
+                repo.Update(mapper.Map<DALParcel>(parcel));
+            }
+            catch
+            {
+                throw;
+            }
         }
     }
 }

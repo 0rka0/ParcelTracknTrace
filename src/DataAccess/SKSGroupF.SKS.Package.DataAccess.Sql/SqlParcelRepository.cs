@@ -10,16 +10,13 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
     {
         public int Create(DALParcel parcel)
         {
-            if (parcel == null)
-                throw new ArgumentOutOfRangeException();
-
-            parcel.Id = 1;
-            return parcel.Id; 
+            //Insert Parcel and return db ID
+            return 1; 
         }
 
         public void Update(DALParcel parcel)
         {
-            throw new NotImplementedException();
+            //Update trackingID of parcel to match received parcel
         }
 
         public void Delete(int id)
@@ -30,6 +27,14 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
         public IEnumerable<DALParcel> GetAll()
         {
             throw new NotImplementedException();
+        }
+
+        public DALParcel GetByTrackingId(string tid)
+        {
+            //Return parcel by trackingID
+            DALParcel parcel = new DALParcel();
+            parcel.TrackingId = tid;
+            return parcel;
         }
 
         public IEnumerable<DALParcel> GetByReceipient(DALReceipient receipient)
@@ -47,14 +52,19 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
             throw new NotImplementedException();
         }
 
-        public DALParcel GetByTrackingId(string tid)
+        public IEnumerable<DALParcel> GetByWeight(int min, int max)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<DALParcel> GetByWeight(int min, int max)
+        public void UpdateHopState(DALParcel parcel, string code)
         {
-            throw new NotImplementedException();
+            //Selects FutureHop by Code and marks it as VisitedHop
+        }
+
+        public void UpdateDelivered()
+        {
+            //Marks parcel as delievered
         }
     }
 }

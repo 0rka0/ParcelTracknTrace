@@ -5,11 +5,12 @@ using System.Collections.Generic;
 
 namespace SKSGroupF.SKS.Package.DataAccess.Sql
 {
-    class SqlHopRepository : IHopRepository
+    public class SqlHopRepository : IHopRepository
     {
         public int Create(DALHop hop)
         {
-            throw new NotImplementedException();
+            //Insert Warehouse and return db ID
+            return 1;
         }
 
         public void Delete(int id)
@@ -19,7 +20,15 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
 
         public IEnumerable<DALHop> GetAll()
         {
-            throw new NotImplementedException();
+            List<DALHop> WarehouseList = new List<DALHop>();
+            DALHop w1 = new DALWarehouse();
+            WarehouseList.Add(w1);
+            DALHop w2 = new DALWarehouse();
+            WarehouseList.Add(w2);
+            DALHop w3 = new DALWarehouse();
+            WarehouseList.Add(w3);
+
+            return WarehouseList;
         }
 
         public IEnumerable<DALHop> GetAllTransferWarehouse()
@@ -52,9 +61,11 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
             throw new NotImplementedException();
         }
 
-        public DALHop SelectByCode(string code)
+        public DALHop GetByCode(string code)
         {
-            throw new NotImplementedException();
+            DALHop hop = new DALWarehouse();
+            hop.Code = code;
+            return hop;
         }
 
         public void Update(DALHop hop)

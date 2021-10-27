@@ -1,30 +1,39 @@
-﻿using FluentValidation;
+﻿using AutoMapper;
+using FluentValidation;
 using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
 using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
 using SKSGroupF.SKS.Package.BusinessLogic.Validators;
+using SKSGroupF.SKS.Package.DataAccess.Entities.Models;
+using SKSGroupF.SKS.Package.DataAccess.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
 {
     public class WarehouseLogic : IWarehouseLogic
     {
-        public IEnumerable<BLWarehouse> ExportWarehouses()
+        private readonly IHopRepository repo;
+        private readonly IMapper mapper;
+
+        public WarehouseLogic(IMapper mapper, IHopRepository repo)
+        {
+            this.mapper = mapper;
+            this.repo = repo;
+        }
+
+        public IEnumerable<BLHop> ExportWarehouses()
         {
             try
             {
-                List<BLWarehouse> WarehouseList = new List<BLWarehouse>();
-                BLWarehouse w1 = new BLWarehouse();
-                WarehouseList.Add(w1);
-                BLWarehouse w2 = new BLWarehouse();
-                WarehouseList.Add(w2);
-                BLWarehouse w3 = new BLWarehouse();
-                WarehouseList.Add(w3);
+                var tmpHopList = repo.GetAll();
 
-                return WarehouseList;
+                List<BLHop> hopList = new List<BLHop>();
+                foreach (var i in tmpHopList)
+                {
+                    hopList.Add(mapper.Map<BLHop>(i));
+                }
+
+                return hopList;
             }
             catch
             {
@@ -32,17 +41,26 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
             }
         }
 
-        public BLWarehouse GetWarehouse(string code)
+        public BLHop GetWarehouse(string code)
         {
-            var blWarehouse = new BLWarehouse();
-            blWarehouse.Code = code;
+            BLHop tmpHop;
 
             IValidator<string> validator = new StringValidator(false);
 
             var result = validator.Validate(code);
 
             if (result.IsValid)
-                return blWarehouse;
+            {
+                try
+                {
+                    tmpHop = mapper.Map<BLHop>(repo.GetByCode(code));
+                    return tmpHop;
+                }
+                catch
+                {
+                    throw;
+                }
+            }
 
             throw new ArgumentOutOfRangeException();
         }
@@ -54,7 +72,18 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
             var result = validator.Validate(warehouse);
 
             if (!result.IsValid)
+            {
                 throw new ArgumentOutOfRangeException();
+            }
+
+            try
+            {
+                repo.Create(mapper.Map<DALWarehouse>(warehouse));
+            }
+            catch
+            {
+                throw;
+            }
         }
     }
 }

@@ -9,12 +9,15 @@ namespace SKSGroupF.SKS.Package.DataAccess.Interfaces
         void Update(DALParcel parcel);
         void Delete(int id);
 
+        DALParcel GetByTrackingId(string tid);
+
         IEnumerable<DALParcel> GetAll();
         IEnumerable<DALParcel> GetByWeight(int min, int max);
         IEnumerable<DALParcel> GetBySender(DALReceipient sender);
         IEnumerable<DALParcel> GetByReceipient(DALReceipient receipient);
         IEnumerable<DALParcel> GetByState(DALParcel.StateEnum state);
 
-        DALParcel GetByTrackingId(string tid);
+        void UpdateHopState(DALParcel parcel, string code);
+        void UpdateDelivered();
     }
 }

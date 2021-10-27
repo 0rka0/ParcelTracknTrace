@@ -18,7 +18,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Interfaces
         IEnumerable<DALHop> GetAllTrucks();
         IEnumerable<DALHop> GetAllTransferWarehouse();
 
-        DALHop SelectByCode(string code);
+        DALHop GetByCode(string code);
 
         IEnumerable<DALHop> GetByLevel(int level);
         IEnumerable<DALHop> GetByLogisticsPartner(string partner);

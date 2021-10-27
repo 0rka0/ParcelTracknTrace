@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Services\SKSGroupF.SKS.Package.Services\SKSGroupF.SKS.Package.Services.csproj" />
     <ProjectReference Include="..\SKSGroupF.SKS.Package.BusinessLogic.Entities\SKSGroupF.SKS.Package.BusinessLogic.Entities.csproj" />
     <ProjectReference Include="..\SKSGroupF.SKS.Package.BusinessLogic.Interfaces\SKSGroupF.SKS.Package.BusinessLogic.Interfaces.csproj" />
     <ProjectReference Include="..\SKSGroupF.SKS.Package.BusinessLogic\SKSGroupF.SKS.Package.BusinessLogic.csproj" />
