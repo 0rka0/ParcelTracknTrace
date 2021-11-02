@@ -1,8 +1,6 @@
 ﻿using SKSGroupF.SKS.Package.DataAccess.Entities.Models;
 using SKSGroupF.SKS.Package.DataAccess.Interfaces;
-using System;
 using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore.SqlServer;
 using System.Linq;
 
 namespace SKSGroupF.SKS.Package.DataAccess.Sql
@@ -11,12 +9,12 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
     {
         private ISqlDbContext context;
 
-        SqlParcelRepository()
+        public SqlParcelRepository()
         {
             context = new SqlDbContext();
         }
 
-        SqlParcelRepository(ISqlDbContext context)
+        public SqlParcelRepository(ISqlDbContext context)
         {
             this.context = context;
         }
@@ -44,32 +42,56 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
 
         public IEnumerable<DALParcel> GetAll()
         {
-            return context.DbParcel.ToList();
+            try
+            {
+                return context.DbParcel.ToList();
+            }
+            catch { return null; }
         }
 
         public DALParcel GetByTrackingId(string tid)
         {
-            return context.DbParcel.Single(p => p.TrackingId == tid);
+            try
+            {
+                return context.DbParcel.Single(p => p.TrackingId == tid);
+            }
+            catch { return null; }
         }
 
         public IEnumerable<DALParcel> GetByReceipient(DALReceipient receipient)
         {
-            return context.DbParcel.Where(p => p.Receipient == receipient).ToList();
+            try
+            {
+                return context.DbParcel.Where(p => p.Receipient == receipient).ToList();
+            }
+            catch { return null; }
         }
 
         public IEnumerable<DALParcel> GetBySender(DALReceipient sender)
         {
-            return context.DbParcel.Where(p => p.Sender == sender).ToList();
+            try
+            {
+                return context.DbParcel.Where(p => p.Sender == sender).ToList();
+            }
+            catch { return null; }
         }
 
         public IEnumerable<DALParcel> GetByState(DALParcel.StateEnum state)
         {
-            return context.DbParcel.Where(p => p.State == state).ToList();
+            try
+            {
+                return context.DbParcel.Where(p => p.State == state).ToList();
+            }
+            catch { return null; }
         }
 
-        public IEnumerable<DALParcel> GetByWeight(int min, int max)
+        public IEnumerable<DALParcel> GetByWeight(float min, float max)
         {
-            return context.DbParcel.Where(p => p.Weight >= min && p.Weight <= max).ToList();
+            try
+            {
+                return context.DbParcel.Where(p => p.Weight >= min && p.Weight <= max).ToList();
+            }
+            catch { return null; }
         }
 
         public void UpdateHopState(DALParcel parcel, string code)

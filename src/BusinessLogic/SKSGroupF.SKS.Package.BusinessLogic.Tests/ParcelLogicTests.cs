@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
 {
-    public class Tests
+    public class ParcelLogicTests
     {
         private IParcelLogic logic;
         private BLParcel validParcel;

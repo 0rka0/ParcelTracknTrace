@@ -12,7 +12,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Interfaces
         DALParcel GetByTrackingId(string tid);
 
         IEnumerable<DALParcel> GetAll();
-        IEnumerable<DALParcel> GetByWeight(int min, int max);
+        IEnumerable<DALParcel> GetByWeight(float min, float max);
         IEnumerable<DALParcel> GetBySender(DALReceipient sender);
         IEnumerable<DALParcel> GetByReceipient(DALReceipient receipient);
         IEnumerable<DALParcel> GetByState(DALParcel.StateEnum state);

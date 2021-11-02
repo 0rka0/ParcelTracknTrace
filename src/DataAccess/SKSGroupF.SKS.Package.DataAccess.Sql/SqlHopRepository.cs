@@ -2,75 +2,81 @@
 using SKSGroupF.SKS.Package.DataAccess.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SKSGroupF.SKS.Package.DataAccess.Sql
 {
     public class SqlHopRepository : IHopRepository
     {
+        private ISqlDbContext context;
+
+        public SqlHopRepository()
+        {
+            context = new SqlDbContext();
+        }
+
+        public SqlHopRepository(ISqlDbContext context)
+        {
+            this.context = context;
+        }
+
         public int Create(DALHop hop)
         {
-            //Insert Warehouse and return db ID
-            return 1;
+            //Insert Warehouse and return db ID        
+            var hopEnt = context.DbHop.Add(hop);
+            context.SaveChangesToDb();
+            return hopEnt.Entity.Id;
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            var hop = context.DbHop.Find(id);
+            context.DbHop.Remove(hop);
+            context.SaveChangesToDb();
         }
-
-        public IEnumerable<DALHop> GetAll()
+        public void Update(DALHop hop)
         {
-            List<DALHop> WarehouseList = new List<DALHop>();
-            DALHop w1 = new DALWarehouse();
-            WarehouseList.Add(w1);
-            DALHop w2 = new DALWarehouse();
-            WarehouseList.Add(w2);
-            DALHop w3 = new DALWarehouse();
-            WarehouseList.Add(w3);
-
-            return WarehouseList;
+            context.DbHop.Update(hop);
+            context.SaveChangesToDb();
         }
-
-        public IEnumerable<DALHop> GetAllTransferWarehouse()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<DALHop> GetAllTrucks()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<DALHop> GetAllWarehouses()
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<DALHop> GetByLevel(int level)
         {
-            throw new NotImplementedException();
+            return context.DbWarehouse.Where(wh => wh.Level == level).ToList();
         }
 
         public IEnumerable<DALHop> GetByLogisticsPartner(string partner)
         {
-            throw new NotImplementedException();
+            return context.DbTransferWarehouse.Where(twh => twh.LogisticsPartner == partner).ToList();
         }
 
         public IEnumerable<DALHop> GetByNumberPlate(string number)
         {
-            throw new NotImplementedException();
+            return context.DbTruck.Where(t => t.NumberPlate == number).ToList();
         }
 
         public DALHop GetByCode(string code)
         {
-            DALHop hop = new DALWarehouse();
-            hop.Code = code;
-            return hop;
+            return context.DbHop.Single(h => h.Code == code);
+        }
+        public IEnumerable<DALHop> GetAll()
+        {
+            return context.DbHop.ToList();
         }
 
-        public void Update(DALHop hop)
+        public IEnumerable<DALHop> GetAllTransferWarehouse()
         {
-            throw new NotImplementedException();
+            return context.DbTransferWarehouse.ToList();
         }
+
+        public IEnumerable<DALHop> GetAllTrucks()
+        {
+            return context.DbTruck.ToList();
+        }
+
+        public IEnumerable<DALHop> GetAllWarehouses()
+        {
+            return context.DbWarehouse.ToList();
+        }
+
     }
 }
