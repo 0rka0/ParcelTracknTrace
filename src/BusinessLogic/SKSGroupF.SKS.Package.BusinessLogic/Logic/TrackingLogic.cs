@@ -56,7 +56,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
 
             try
             {
-                repo.UpdateDelivered();
+                repo.UpdateDelivered(repo.GetByTrackingId(trackingID));
             }
             catch
             {

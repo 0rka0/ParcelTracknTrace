@@ -9,6 +9,13 @@ namespace SKSGroupF.SKS.Package.DataAccess.Entities.Models
     public class DALReceipient
     {
         /// <summary>
+        /// Gets or Sets Id
+        /// </summary>
+        [Required, Key]
+        [DataMember(Name = "id")]
+        public int Id { get; set; }
+
+        /// <summary>
         /// Name of person or company.
         /// </summary>
         /// <value>Name of person or company.</value>

@@ -101,5 +101,10 @@ namespace SKSGroupF.SKS.Package.DataAccess.Entities.Models
 
         [DataMember(Name = "futureHops")]
         public List<DALHopArrival> FutureHops { get; set; }
+
+        [Required]
+
+        [DataMember(Name = "futureHops")]
+        public bool Delievered { get; set; } = false;
     }
 }

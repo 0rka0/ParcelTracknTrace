@@ -18,6 +18,6 @@ namespace SKSGroupF.SKS.Package.DataAccess.Interfaces
         IEnumerable<DALParcel> GetByState(DALParcel.StateEnum state);
 
         void UpdateHopState(DALParcel parcel, string code);
-        void UpdateDelivered();
+        void UpdateDelivered(DALParcel parcel);
     }
 }

@@ -10,6 +10,13 @@ namespace SKSGroupF.SKS.Package.DataAccess.Entities.Models
     public class DALHop
     {
         /// <summary>
+        /// Gets or Sets Id
+        /// </summary>
+        [Required, Key]
+        [DataMember(Name = "id")]
+        public int Id { get; set; }
+
+        /// <summary>
         /// Gets or Sets HopType
         /// </summary>
         [Required]
