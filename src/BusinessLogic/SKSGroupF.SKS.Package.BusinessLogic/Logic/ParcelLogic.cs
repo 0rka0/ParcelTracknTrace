@@ -27,6 +27,9 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
         public string SubmitParcel(BLParcel parcel)
         {
             parcel.TrackingId = "PYJRB4HZ6";
+            parcel.FutureHops = new List<BLHopArrival>();
+            parcel.VisitedHops = new List<BLHopArrival>();
+            parcel.State = BLParcel.StateEnum.InTransportEnum;
 
             IValidator<BLParcel> validator = new ParcelValidator();
 
@@ -54,7 +57,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
         {
             parcel.TrackingId = trackingId;
 
-            IValidator<string> trackingIdValidator = new StringValidator(true);
+            IValidator<string> trackingIdValidator = new TrackingIdValidator();
             IValidator<BLParcel> parcelValidator = new ParcelValidator();
 
             var tidResult = trackingIdValidator.Validate(trackingId);

@@ -10,6 +10,13 @@ namespace SKSGroupF.SKS.Package.DataAccess.Entities.Models
     public class DALHopArrival
     {
         /// <summary>
+        /// Gets or Sets Id
+        /// </summary>
+        [Required, Key]
+        [DataMember(Name = "id")]
+        public int Id { get; set; }
+
+        /// <summary>
         /// Unique CODE of the hop.
         /// </summary>
         /// <value>Unique CODE of the hop.</value>

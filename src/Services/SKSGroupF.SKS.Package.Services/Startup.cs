@@ -65,7 +65,8 @@ namespace SKSGroupF.SKS.Package.Services
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<BusinessLogic.Validators.HopArrivalValidator>())
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<BusinessLogic.Validators.WarehouseValidator>())
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<BusinessLogic.Validators.WarehouseNextHopsValidator>())
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<BusinessLogic.Validators.StringValidator>())
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<BusinessLogic.Validators.TrackingIdValidator>())
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<BusinessLogic.Validators.CodeValidator>())
                 .AddNewtonsoftJson(opts =>
                 {
                     opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();

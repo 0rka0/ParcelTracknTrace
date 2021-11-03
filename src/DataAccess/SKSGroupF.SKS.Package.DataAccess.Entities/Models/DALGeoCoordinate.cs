@@ -9,6 +9,13 @@ namespace SKSGroupF.SKS.Package.DataAccess.Entities.Models
     public class DALGeoCoordinate
     {
         /// <summary>
+        /// Gets or Sets Id
+        /// </summary>
+        [Required, Key]
+        [DataMember(Name = "id")]
+        public int Id { get; set; }
+
+        /// <summary>
         /// Latitude of the coordinate.
         /// </summary>
         /// <value>Latitude of the coordinate.</value>

@@ -7,14 +7,14 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
 {
     public class SqlDbContext : DbContext, ISqlDbContext
     {
-        private readonly string connectionString;
+        private string connectionString;
         private IConfiguration config;
 
         public SqlDbContext()
         {
             config = new ConfigurationBuilder().AddJsonFile("appsettings.json", false, true).Build();
             this.connectionString = $"{config["SqlDbContext"]}";
-            this.Database.EnsureDeleted();
+            //this.Database.EnsureDeleted();
             this.Database.EnsureCreated();
         }
 
@@ -23,13 +23,13 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
             optionsBuilder.UseSqlServer(connectionString);
         }
 
-        public DbSet<DALParcel> DbParcel { get; set; }
-        public DbSet<DALReceipient> DbReceipient { get; set; }
-        public DbSet<DALHop> DbHop { get; set; }
-        public DbSet<DALWarehouse> DbWarehouse { get; set; }
-        public DbSet<DALTruck> DbTruck { get; set; }
-        public DbSet<DALTransferWarehouse> DbTransferWarehouse { get; set; }
-        public DbSet<DALHopArrival> DbHopArrival { get; set; }
+        public virtual DbSet<DALParcel> DbParcel { get; set; }
+        public virtual DbSet<DALReceipient> DbReceipient { get; set; }
+        public virtual DbSet<DALHop> DbHop { get; set; }
+        public virtual DbSet<DALWarehouse> DbWarehouse { get; set; }
+        public virtual DbSet<DALTruck> DbTruck { get; set; }
+        public virtual DbSet<DALTransferWarehouse> DbTransferWarehouse { get; set; }
+        public virtual DbSet<DALHopArrival> DbHopArrival { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -48,7 +48,20 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
                 entity.HasKey(p => p.Id);
             });
 
-            builder.Entity<DALHopArrival>();
+            builder.Entity<DALHopArrival>(entity =>
+            {
+                entity.HasKey(p => p.Id);
+            });
+
+            builder.Entity<DALGeoCoordinate>(entity =>
+            {
+                entity.HasKey(p => p.Id);
+            });
+
+            builder.Entity<DALWarehouseNextHops>(entity =>
+            {
+                entity.HasKey(p => p.Id);
+            });
         }
 
         public int SaveChangesToDb()

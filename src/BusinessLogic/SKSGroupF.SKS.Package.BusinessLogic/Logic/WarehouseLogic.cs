@@ -45,7 +45,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
         {
             BLHop tmpHop;
 
-            IValidator<string> validator = new StringValidator(false);
+            IValidator<string> validator = new CodeValidator();
 
             var result = validator.Validate(code);
 

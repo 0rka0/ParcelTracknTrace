@@ -27,7 +27,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
         {
             BLParcel tmpParcel;
 
-            IValidator<string> validator = new StringValidator(true);
+            IValidator<string> validator = new TrackingIdValidator();
             var result = validator.Validate(trackingID);
 
             if (result.IsValid)
@@ -48,7 +48,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
 
         public void ReportParcelDelivery(string trackingID)
         {
-            IValidator<string> validator = new StringValidator(true);
+            IValidator<string> validator = new TrackingIdValidator();
             var result = validator.Validate(trackingID);
 
             if (!result.IsValid)
@@ -66,8 +66,8 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
 
         public void ReportParcelHop(string trackingID, string code)
         {
-            IValidator<string> tidValidator = new StringValidator(true);
-            IValidator<string> codeValidator = new StringValidator(false);
+            IValidator<string> tidValidator = new TrackingIdValidator();
+            IValidator<string> codeValidator = new CodeValidator();
 
             var tidResult = tidValidator.Validate(trackingID);
             var codeResult = codeValidator.Validate(code);
