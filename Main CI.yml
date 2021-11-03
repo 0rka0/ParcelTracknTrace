@@ -16,6 +16,12 @@ variables:
 steps:
 - task: NuGetToolInstaller@1
 
+- task: FileTransform@1
+  inputs:
+    folderPath: '$(System.DefaultWorkingDirectory)'
+    fileType: 'json'
+    targetFiles: 'appsettings.json'
+
 - task: DotNetCoreCLI@2
   displayName: 'Restore'
   inputs:
