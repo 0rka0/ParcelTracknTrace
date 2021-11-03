@@ -14,9 +14,9 @@ namespace SKSGroupF.SKS.Package.DataAccess.Interfaces
         void Delete(int id);
 
         IEnumerable<DALHop> GetAll();
-        IEnumerable<DALHop> GetAllWarehouses();
+        /*IEnumerable<DALHop> GetAllWarehouses();
         IEnumerable<DALHop> GetAllTrucks();
-        IEnumerable<DALHop> GetAllTransferWarehouse();
+        IEnumerable<DALHop> GetAllTransferWarehouse();*/
 
         DALHop GetByCode(string code);
 

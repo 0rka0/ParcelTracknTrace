@@ -16,8 +16,6 @@ namespace SKSGroupF.SKS.Package.DataAccess.Tests
     {
         private IParcelRepository repo;
         List<DALParcel> parcels;
-        List<DALReceipient> receipients;
-        List<DALHop> hops;
         List<DALHopArrival> hopArrivals;
         DALParcel validParcel;
 
@@ -42,16 +40,12 @@ namespace SKSGroupF.SKS.Package.DataAccess.Tests
                 p.State = DALParcel.StateEnum.InTransportEnum;
                 p.Weight = 3.0f;
             }
-            receipients = Builder<DALReceipient>.CreateListOfSize(6).Build().ToList();
-            hops = Builder<DALHop>.CreateListOfSize(5).Build().ToList();
             hopArrivals = Builder<DALHopArrival>.CreateListOfSize(10).Build().ToList();
 
             hopArrivals[3] = validParcel.FutureHops[0];
 
             var DBMock = new Mock<ISqlDbContext>();
-            DBMock.Setup(p => p.DbParcel).Returns(SqlDbContextMock.GetQueryableMockDbSet<DALParcel>(parcels));
-            DBMock.Setup(p => p.DbReceipient).Returns(SqlDbContextMock.GetQueryableMockDbSet(receipients));
-            DBMock.Setup(p => p.DbHop).Returns(SqlDbContextMock.GetQueryableMockDbSet(hops));
+            DBMock.Setup(p => p.DbParcel).Returns(SqlDbContextMock.GetQueryableMockDbSet(parcels));
             DBMock.Setup(p => p.DbHopArrival).Returns(SqlDbContextMock.GetQueryableMockDbSet(hopArrivals));
             DBMock.Setup(p => p.SaveChangesToDb()).Returns(1);
 

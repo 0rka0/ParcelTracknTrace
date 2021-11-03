@@ -63,9 +63,9 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
             return context.DbHop.ToList();
         }
 
-        public IEnumerable<DALHop> GetAllTransferWarehouse()
+        /*public IEnumerable<DALHop> GetAllTransferWarehouse()
         {
-            return context.DbTransferWarehouse.ToList();
+            return context.DbHop.Where(t => t.HopType == "TransferWarehouse").ToList();
         }
 
         public IEnumerable<DALHop> GetAllTrucks()
@@ -76,7 +76,6 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
         public IEnumerable<DALHop> GetAllWarehouses()
         {
             return context.DbWarehouse.ToList();
-        }
-
+        }*/
     }
 }
