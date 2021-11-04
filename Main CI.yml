@@ -57,11 +57,19 @@ steps:
     publishTestResults: true
     arguments: '--configuration $(buildConfiguration) --collect:"XPlat Code Coverage"'
 
+- task: reportgenerator@4
+  displayName: "Merge code coverage reports"
+  inputs:
+    reports: "**/coverage.cobertura.xml"
+    targetdir: "$(Build.ArtifactStagingDirectory)/coverlet"
+    reporttypes: "Cobertura"
+    verbosity: "Verbose"
+
 - task: PublishCodeCoverageResults@1
-  displayName: 'Publish code coverage'
+  displayName: "Publish code coverage results"
   inputs:
     codeCoverageTool: Cobertura
-    summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
+    summaryFileLocation: "$(Build.ArtifactStagingDirectory)/coverlet/Cobertura.xml"
 
 - task: PublishBuildArtifacts@1
   inputs:
