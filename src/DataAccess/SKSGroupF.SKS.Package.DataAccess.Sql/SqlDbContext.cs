@@ -2,9 +2,11 @@
 using Microsoft.Extensions.Configuration;
 using SKSGroupF.SKS.Package.DataAccess.Entities.Models;
 using SKSGroupF.SKS.Package.DataAccess.Interfaces;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SKSGroupF.SKS.Package.DataAccess.Sql
 {
+    [ExcludeFromCodeCoverage]
     public class SqlDbContext : DbContext, ISqlDbContext
     {
         private string connectionString;
