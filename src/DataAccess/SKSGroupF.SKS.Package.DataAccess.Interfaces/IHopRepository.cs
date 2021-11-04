@@ -20,8 +20,8 @@ namespace SKSGroupF.SKS.Package.DataAccess.Interfaces
 
         DALHop GetByCode(string code);
 
-        IEnumerable<DALHop> GetByLevel(int level);
+        /*IEnumerable<DALHop> GetByLevel(int level);
         IEnumerable<DALHop> GetByLogisticsPartner(string partner);
-        IEnumerable<DALHop> GetByNumberPlate(string number);
+        IEnumerable<DALHop> GetByNumberPlate(string number);*/
     }
 }

@@ -44,5 +44,75 @@ namespace SKSGroupF.SKS.Package.DataAccess.Tests
 
             Assert.AreEqual(counter, hops.Count);
         }
+        [Test]
+        public void Create_InsertsHopIntoDB_InsertsHopCorrectly()
+        {
+            validHop.Id = 5;
+            validHop.Code = "ACDC";
+            var expected = validHop.Code;
+
+            try
+            {
+                repo.Create(validHop);
+            }
+            catch { }
+
+            Assert.AreEqual(expected, hops.Last().Code);
+        }
+        [Test]
+        public void Update_UpdatesHopInDb_AppliesChangesCorrectly()
+        {
+            validHop.Id = 5;
+            validHop.Code = "ACDC";
+            var expected = "gggg";
+
+            try
+            {
+                repo.Create(validHop);
+            }
+            catch { }
+
+            validHop.Code = "gggg";
+            repo.Update(validHop);
+
+            Assert.AreEqual(expected, hops.Last().Code);
+        }
+        [Test]
+        public void Delete_DeletesHopWithId_DecreasesDbCountByOne()
+        {
+            var counter = hops.Count - 1;
+
+            repo.Delete(2);
+
+            Assert.AreEqual(counter, hops.Count);
+        }
+
+        [Test]
+        public void Delete_DeletesHopWithId_CorrectParcelRemovedFromDb()
+        {
+            var expected1 = 1;
+            var expected2 = 3;
+
+            repo.Delete(2);
+
+            Assert.AreEqual(expected1, hops[0].Id);
+            Assert.AreEqual(expected2, hops[1].Id);
+        }
+
+        [Test]
+        public void GetAll_SelectsAllHopsFromDb_SelectsHopsCorrectly()
+        {
+            var hopList = repo.GetAll();
+
+            Assert.AreEqual(hops.Count, hopList.ToList().Count);
+        }
+
+        [Test]
+        public void GetByCode_SelectsHopWithValidCode_SelectsCorrectHop()
+        {
+            var hop = repo.GetByCode(hops[1].Code);
+
+            Assert.AreEqual(hops[1].Code, hop.Code);
+        }
     }
 }

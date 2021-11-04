@@ -34,12 +34,24 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
             context.DbHop.Remove(hop);
             context.SaveChangesToDb();
         }
+
         public void Update(DALHop hop)
         {
             context.DbHop.Update(hop);
             context.SaveChangesToDb();
         }
-        public IEnumerable<DALHop> GetByLevel(int level)
+
+        public DALHop GetByCode(string code)
+        {
+            return context.DbHop.Single(h => h.Code == code);
+        }
+
+        public IEnumerable<DALHop> GetAll()
+        {
+            return context.DbHop.ToList();
+        }
+
+        /*public IEnumerable<DALHop> GetByLevel(int level)
         {
             return context.DbWarehouse.Where(wh => wh.Level == level).ToList();
         }
@@ -52,16 +64,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
         public IEnumerable<DALHop> GetByNumberPlate(string number)
         {
             return context.DbTruck.Where(t => t.NumberPlate == number).ToList();
-        }
-
-        public DALHop GetByCode(string code)
-        {
-            return context.DbHop.Single(h => h.Code == code);
-        }
-        public IEnumerable<DALHop> GetAll()
-        {
-            return context.DbHop.ToList();
-        }
+        }*/
 
         /*public IEnumerable<DALHop> GetAllTransferWarehouse()
         {
