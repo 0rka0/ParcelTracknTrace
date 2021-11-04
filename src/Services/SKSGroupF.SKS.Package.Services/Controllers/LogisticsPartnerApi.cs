@@ -24,6 +24,7 @@ using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
 using SKSGroupF.SKS.Package.BusinessLogic.Logic;
 using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
 using Microsoft.Extensions.DependencyInjection;
+using SKSGroupF.SKS.Package.DataAccess.Sql;
 
 namespace SKSGroupF.SKS.Package.Services.Controllers
 { 
@@ -40,7 +41,7 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
         public LogisticsPartnerApiController(IMapper mapper)
         {
             _mapper = mapper;
-            logic = new ParcelLogic();
+            logic = new ParcelLogic(mapper, new SqlParcelRepository());
         }
 
         public LogisticsPartnerApiController(IMapper mapper, IParcelLogic logic)

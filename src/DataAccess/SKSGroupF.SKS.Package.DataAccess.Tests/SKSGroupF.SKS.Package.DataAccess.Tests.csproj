@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
+    <PackageReference Include="Moq" Version="4.16.1" />
+    <PackageReference Include="NBuilder" Version="6.1.0" />
+    <PackageReference Include="NUnit" Version="3.13.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
+    <PackageReference Include="coverlet.collector" Version="3.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SKSGroupF.SKS.Package.DataAccess.Entities\SKSGroupF.SKS.Package.DataAccess.Entities.csproj" />
+    <ProjectReference Include="..\SKSGroupF.SKS.Package.DataAccess.Interfaces\SKSGroupF.SKS.Package.DataAccess.Interfaces.csproj" />
+    <ProjectReference Include="..\SKSGroupF.SKS.Package.DataAccess.Sql\SKSGroupF.SKS.Package.DataAccess.Sql.csproj" />
+  </ItemGroup>
+
+</Project>

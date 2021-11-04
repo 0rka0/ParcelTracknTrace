@@ -2,11 +2,11 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 
-namespace SKSGroupF.SKS.Package.BusinessLogic.Entities.Models
+namespace SKSGroupF.SKS.Package.DataAccess.Entities.Models
 {
     [ExcludeFromCodeCoverage]
     [DataContract]
-    public class BLTransferWarehouse : BLHop
+    public class DALTransferWarehouse : DALHop
     {
         /// <summary>
         /// GeoJSON of the are covered by the logistics partner.

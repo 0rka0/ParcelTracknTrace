@@ -23,6 +23,7 @@ using AutoMapper;
 using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
 using SKSGroupF.SKS.Package.BusinessLogic.Logic;
 using Microsoft.Extensions.DependencyInjection;
+using SKSGroupF.SKS.Package.DataAccess.Sql;
 
 namespace SKSGroupF.SKS.Package.Services.Controllers
 { 
@@ -39,7 +40,7 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
         public StaffApiController(IMapper mapper)
         {
             this.mapper = mapper;
-            this.logic = new TrackingLogic();
+            logic = new TrackingLogic(this.mapper, new SqlParcelRepository());
         }
 
         public StaffApiController(IMapper mapper, ITrackingLogic logic)

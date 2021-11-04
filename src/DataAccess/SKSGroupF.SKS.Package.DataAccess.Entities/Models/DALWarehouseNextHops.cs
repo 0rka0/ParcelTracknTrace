@@ -3,12 +3,19 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 
-namespace SKSGroupF.SKS.Package.BusinessLogic.Entities.Models
+namespace SKSGroupF.SKS.Package.DataAccess.Entities.Models
 {
     [ExcludeFromCodeCoverage]
     [DataContract]
-    public class BLWarehouseNextHops
+    public class DALWarehouseNextHops
     {
+        /// <summary>
+        /// Gets or Sets Id
+        /// </summary>
+        [Required, Key]
+        [DataMember(Name = "id")]
+        public int Id { get; set; }
+
         /// <summary>
         /// Gets or Sets TraveltimeMins
         /// </summary>
@@ -23,6 +30,6 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Entities.Models
         [Required]
 
         [DataMember(Name = "hop")]
-        public BLHop Hop { get; set; }
+        public DALHop Hop { get; set; }
     }
 }

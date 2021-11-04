@@ -23,6 +23,7 @@ using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
 using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
 using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
+using SKSGroupF.SKS.Package.DataAccess.Sql;
 
 namespace SKSGroupF.SKS.Package.Services.Controllers
 { 
@@ -39,7 +40,7 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
         public SenderApiController(IMapper mapper)
         {
             this.mapper = mapper;
-            logic = new ParcelLogic();
+            logic = new ParcelLogic(this.mapper, new SqlParcelRepository());
         }
 
         public SenderApiController(IMapper mapper, IParcelLogic logic)

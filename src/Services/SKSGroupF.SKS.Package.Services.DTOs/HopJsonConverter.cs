@@ -12,11 +12,11 @@ namespace SKSGroupF.SKS.Package.Services.DTOs
         {
             if (jObject == null) throw new ArgumentNullException("jObject");
 
-            if (jObject["transferwarehouse"] != null)
+            if (jObject["LogisticsPartner"] != null)
             {
                 return new Transferwarehouse();
             }
-            else if (jObject["truck"] != null)
+            else if (jObject["NumberPlate"] != null)
             {
                 return new Truck();
             }

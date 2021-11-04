@@ -1,23 +1,38 @@
+using AutoMapper;
 using FizzWare.NBuilder;
+using Moq;
 using NUnit.Framework;
 using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
 using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
 using SKSGroupF.SKS.Package.BusinessLogic.Logic;
+using SKSGroupF.SKS.Package.DataAccess.Interfaces;
 using System;
 using System.Linq;
 
 namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
 {
-    public class ParcelLogicTestsTests
+    public class ParcelLogicTests
     {
         private IParcelLogic logic;
         private BLParcel validParcel;
         private BLParcel invalidParcel;
+        private IMapper mapper;
 
         [SetUp]
         public void Setup()
         {
-            logic = new ParcelLogic();
+            var config = new MapperConfiguration(opts =>
+            {
+                opts.AddProfile(new BlDalProfiles());
+            });
+            mapper = config.CreateMapper();
+
+            Mock<IParcelRepository> mockRepo = new();
+            mockRepo.Setup(m => m.Create(It.IsAny<DataAccess.Entities.Models.DALParcel>())).Returns(1);
+            mockRepo.Setup(m => m.Update(It.IsAny<DataAccess.Entities.Models.DALParcel>()));
+
+
+            logic = new ParcelLogic(mapper, mockRepo.Object);
 
             validParcel = Builder<BLParcel>.CreateNew()
                 .With(p => p.Receipient = Builder<BLReceipient>.CreateNew()

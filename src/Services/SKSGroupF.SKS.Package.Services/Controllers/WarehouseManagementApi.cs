@@ -24,6 +24,7 @@ using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
 using SKSGroupF.SKS.Package.BusinessLogic.Logic;
 using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
 using Microsoft.Extensions.DependencyInjection;
+using SKSGroupF.SKS.Package.DataAccess.Sql;
 
 namespace SKSGroupF.SKS.Package.Services.Controllers
 { 
@@ -40,7 +41,7 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
         public WarehouseManagementApiController(IMapper mapper)
         {
             this.mapper = mapper;
-            logic = new WarehouseLogic();
+            logic = new WarehouseLogic(this.mapper, new SqlHopRepository());
         }
 
         public WarehouseManagementApiController(IMapper mapper, IWarehouseLogic logic)

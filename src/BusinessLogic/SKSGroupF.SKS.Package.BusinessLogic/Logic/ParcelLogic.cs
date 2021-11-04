@@ -3,25 +3,52 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using FluentValidation;
 using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
 using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
 using SKSGroupF.SKS.Package.BusinessLogic.Validators;
+using SKSGroupF.SKS.Package.DataAccess.Entities.Models;
+using SKSGroupF.SKS.Package.DataAccess.Interfaces;
 
 namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
 {
     public class ParcelLogic : IParcelLogic
     {
+        private readonly IParcelRepository repo;
+        private readonly IMapper mapper;
+
+        public ParcelLogic(IMapper mapper, IParcelRepository repo)
+        {
+            this.mapper = mapper;
+            this.repo = repo;
+        }
+
         public string SubmitParcel(BLParcel parcel)
         {
             parcel.TrackingId = "PYJRB4HZ6";
+            parcel.FutureHops = new List<BLHopArrival>();
+            parcel.VisitedHops = new List<BLHopArrival>();
+            parcel.State = BLParcel.StateEnum.InTransportEnum;
 
             IValidator<BLParcel> validator = new ParcelValidator();
 
             var result = validator.Validate(parcel);
 
-            if(result.IsValid)
-                return parcel.TrackingId;
+            if (result.IsValid)
+            {
+                try
+                {
+                    int? dbId = repo.Create(mapper.Map<DALParcel>(parcel));
+
+                    if (dbId != null)
+                        return parcel.TrackingId;
+                }
+                catch
+                {
+                    throw;
+                }
+            }
 
             throw new ArgumentOutOfRangeException();
         }
@@ -30,7 +57,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
         {
             parcel.TrackingId = trackingId;
 
-            IValidator<string> trackingIdValidator = new StringValidator(true);
+            IValidator<string> trackingIdValidator = new TrackingIdValidator();
             IValidator<BLParcel> parcelValidator = new ParcelValidator();
 
             var tidResult = trackingIdValidator.Validate(trackingId);
@@ -38,6 +65,15 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
 
             if ((!tidResult.IsValid) || (!parcelResult.IsValid))
                 throw new ArgumentOutOfRangeException();
+
+            try
+            {
+                repo.Update(mapper.Map<DALParcel>(parcel));
+            }
+            catch
+            {
+                throw;
+            }
         }
     }
 }

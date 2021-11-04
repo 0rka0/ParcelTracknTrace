@@ -9,8 +9,8 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Interfaces
 {
     public interface IWarehouseLogic
     {
-        public IEnumerable<BLWarehouse> ExportWarehouses();
-        public BLWarehouse GetWarehouse(string code);
+        public IEnumerable<BLHop> ExportWarehouses();
+        public BLHop GetWarehouse(string code);
         public void ImportWarehouses(BLWarehouse warehouse);
     }
 }
