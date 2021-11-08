@@ -76,6 +76,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
             var validWarehouse = Builder<BLWarehouse>.CreateNew()
                 .With(p => p.Description = "Lager1")
                 .With(p => p.NextHops = Builder<BLWarehouseNextHops>.CreateListOfSize(3).Build().ToList())
+                .With(p => p.LocationCoordinates = Builder<BLGeoCoordinate>.CreateNew().Build())
                 .Build();
 
             logic.ImportWarehouses(validWarehouse);

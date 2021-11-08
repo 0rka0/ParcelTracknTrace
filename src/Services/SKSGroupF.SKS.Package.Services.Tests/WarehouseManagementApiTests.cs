@@ -42,14 +42,14 @@ namespace SKSGroupF.SKS.Package.Services.Test
         public void ExportWarehouses_Runs_ReturnsOkayStatusCode()
         {
             Mock<IWarehouseLogic> mockLogic = new();
-            mockLogic.Setup(m => m.ExportWarehouses()).Returns(new List<BLWarehouse> { new BLWarehouse(), new BLWarehouse(), new BLWarehouse() });
+            mockLogic.Setup(m => m.ExportWarehouses()).Returns(new List<BLHop> { new BLWarehouse(), new BLWarehouse(), new BLWarehouse() });
 
             WarehouseManagementApiController controller = new WarehouseManagementApiController(mapper, mockLogic.Object);
 
             ObjectResult result = (ObjectResult)controller.ExportWarehouses();
 
             Assert.NotNull(result.Value);
-            Assert.AreEqual(3, ((List<Warehouse>)result.Value).Count);
+            Assert.AreEqual(3, ((List<Hop>)result.Value).Count);
         }
 
         [Test]

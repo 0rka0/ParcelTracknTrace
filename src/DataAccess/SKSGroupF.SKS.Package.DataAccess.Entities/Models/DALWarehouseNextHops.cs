@@ -20,7 +20,6 @@ namespace SKSGroupF.SKS.Package.DataAccess.Entities.Models
         /// Gets or Sets TraveltimeMins
         /// </summary>
         [Required]
-
         [DataMember(Name = "traveltimeMins")]
         public int? TraveltimeMins { get; set; }
 
