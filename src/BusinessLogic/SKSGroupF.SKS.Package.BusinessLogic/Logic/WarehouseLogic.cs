@@ -65,9 +65,9 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
             throw new ArgumentOutOfRangeException();
         }
 
-        public void ImportWarehouses(BLWarehouse warehouse)
+        public void ImportWarehouses(BLHop warehouse)
         {
-            IValidator<BLWarehouse> validator = new WarehouseValidator();
+            IValidator<BLHop> validator = new HopValidator();
             
             var result = validator.Validate(warehouse);
 
@@ -78,7 +78,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
 
             try
             {
-                repo.Create(mapper.Map<DALWarehouse>(warehouse));
+                repo.Create(mapper.Map<DALHop>(warehouse));
             }
             catch
             {

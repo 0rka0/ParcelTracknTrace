@@ -7,7 +7,6 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Validators
     {
         public WarehouseValidator()
         {
-            RuleFor(p => p.Description).Matches(@"^[A-Za-z0-9\-\s]*$");
             RuleFor(p => p.NextHops).NotNull();
         }
     }

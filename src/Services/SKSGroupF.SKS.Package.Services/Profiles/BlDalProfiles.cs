@@ -12,7 +12,11 @@ public class BlDalProfiles : Profile
 
         CreateMap<BLReceipient, DALReceipient>().ReverseMap();
 
-        CreateMap<BLHop, DALHop>().ReverseMap();
+        CreateMap<BLHop, DALHop>()
+            .Include<BLTruck, DALTruck>()
+            .Include<BLTransferWarehouse, DALTransferWarehouse>()
+            .Include<BLWarehouse, DALWarehouse>()
+            .ReverseMap();
 
         CreateMap<BLHopArrival, DALHopArrival>().ReverseMap();
 

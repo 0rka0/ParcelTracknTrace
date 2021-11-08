@@ -13,7 +13,11 @@ public class SvcBlProfiles : Profile
 
         CreateMap<Receipient, BLReceipient>().ReverseMap();
 
-        CreateMap<Hop, BLHop>().ReverseMap();
+        CreateMap<Hop, BLHop>()
+            .Include<Truck, BLTruck>()
+            .Include<Warehouse, BLWarehouse>()
+            .Include<Transferwarehouse, BLTransferWarehouse>()
+            .ReverseMap();
 
         CreateMap<HopArrival, BLHopArrival>().ReverseMap();
 

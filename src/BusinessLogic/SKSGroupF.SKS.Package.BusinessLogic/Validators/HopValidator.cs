@@ -7,6 +7,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Validators
     {
         public HopValidator()
         {
+            RuleFor(p => p.Description).Matches(@"^[A-Za-zÄÖÜäöü0-9\-\s]*$");
             RuleFor(p => p.LocationCoordinates).NotNull();
         }
     }

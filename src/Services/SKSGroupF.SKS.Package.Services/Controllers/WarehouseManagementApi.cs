@@ -73,22 +73,22 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
             //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(404);
 
-            List<Warehouse> returnObject = new List<Warehouse>();
+            List<Hop> returnObject = new List<Hop>();
 
             try
             {
                 var tmp = logic.ExportWarehouses();
 
-                List<Warehouse> warehouseList = new List<Warehouse>();
+                List<Hop> warehouseList = new List<Hop>();
                 foreach (var i in tmp)
                 {
-                    warehouseList.Add(mapper.Map<Warehouse>(i));
+                    warehouseList.Add(mapper.Map<Hop>(i));
                 }
 
                 var warehouseListJson = JsonConvert.SerializeObject(warehouseList);
                 returnObject = warehouseListJson != null
-                    ? JsonConvert.DeserializeObject<List<Warehouse>>(warehouseListJson)
-                    : default(List<Warehouse>);
+                    ? JsonConvert.DeserializeObject<List<Hop>>(warehouseListJson)
+                    : default(List<Hop>);
             }
             catch
             {
@@ -127,7 +127,7 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
             try
             {
                 var blWarehouse = logic.GetWarehouse(code);
-                Warehouse warehouse = mapper.Map<Warehouse>(blWarehouse);
+                Hop warehouse = mapper.Map<Hop>(blWarehouse);
 
                 warehouseJson = JsonConvert.SerializeObject(warehouse);
             }
@@ -153,7 +153,7 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
         [ValidateModelState]
         [SwaggerOperation("ImportWarehouses")]
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "The operation failed due to an error.")]
-        public virtual IActionResult ImportWarehouses([FromBody]Warehouse body)
+        public virtual IActionResult ImportWarehouses([FromBody]Hop body)
         {
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200);
@@ -163,7 +163,7 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
 
             try
             {
-                BLWarehouse blWarehouse = mapper.Map<BLWarehouse>(body);
+                var blWarehouse = mapper.Map<BLHop>(body);
                 logic.ImportWarehouses(blWarehouse);
             }
             catch

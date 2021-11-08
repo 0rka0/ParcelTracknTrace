@@ -22,7 +22,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
 
         public int Create(DALHop hop)
         {
-            //Insert Warehouse and return db ID        
+            //Insert Warehouse and return db ID
             var hopEnt = context.DbHop.Add(hop);
             context.SaveChangesToDb();
             return hopEnt.Entity.Id;

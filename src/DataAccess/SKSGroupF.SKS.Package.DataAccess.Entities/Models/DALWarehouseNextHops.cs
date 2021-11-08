@@ -28,7 +28,6 @@ namespace SKSGroupF.SKS.Package.DataAccess.Entities.Models
         /// Gets or Sets Hop
         /// </summary>
         [Required]
-
         [DataMember(Name = "hop")]
         public DALHop Hop { get; set; }
     }
