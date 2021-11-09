@@ -38,12 +38,6 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
         private readonly IParcelLogic logic;
 
         [ActivatorUtilitiesConstructor]
-        public LogisticsPartnerApiController(IMapper mapper)
-        {
-            _mapper = mapper;
-            logic = new ParcelLogic(mapper, new SqlParcelRepository());
-        }
-
         public LogisticsPartnerApiController(IMapper mapper, IParcelLogic logic)
         {
             _mapper = mapper;

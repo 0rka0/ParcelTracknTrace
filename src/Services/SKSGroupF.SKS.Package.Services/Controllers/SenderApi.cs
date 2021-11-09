@@ -37,12 +37,6 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
         private readonly IParcelLogic logic;
 
         [ActivatorUtilitiesConstructor]
-        public SenderApiController(IMapper mapper)
-        {
-            this.mapper = mapper;
-            logic = new ParcelLogic(this.mapper, new SqlParcelRepository());
-        }
-
         public SenderApiController(IMapper mapper, IParcelLogic logic)
         {
             this.mapper = mapper;

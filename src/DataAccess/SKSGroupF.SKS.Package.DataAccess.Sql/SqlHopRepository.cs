@@ -10,11 +10,6 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
     {
         private ISqlDbContext context;
 
-        public SqlHopRepository()
-        {
-            context = new SqlDbContext();
-        }
-
         public SqlHopRepository(ISqlDbContext context)
         {
             this.context = context;

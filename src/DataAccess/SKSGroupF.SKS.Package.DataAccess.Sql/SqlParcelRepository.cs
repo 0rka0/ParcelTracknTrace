@@ -9,11 +9,6 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
     {
         private ISqlDbContext context;
 
-        public SqlParcelRepository()
-        {
-            context = new SqlDbContext();
-        }
-
         public SqlParcelRepository(ISqlDbContext context)
         {
             this.context = context;

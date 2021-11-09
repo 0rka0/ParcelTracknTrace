@@ -21,6 +21,7 @@ using Newtonsoft.Json.Serialization;
 using SKSGroupF.SKS.Package.Services.Filters;
 using System.Diagnostics.CodeAnalysis;
 using FluentValidation.AspNetCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace SKSGroupF.SKS.Package.Services
 {
@@ -52,6 +53,21 @@ namespace SKSGroupF.SKS.Package.Services
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(typeof(Startup));
+
+            services.AddTransient<BusinessLogic.Interfaces.IParcelLogic, BusinessLogic.Logic.ParcelLogic>();
+            services.AddTransient<BusinessLogic.Interfaces.ITrackingLogic, BusinessLogic.Logic.TrackingLogic>();
+            services.AddTransient<BusinessLogic.Interfaces.IWarehouseLogic, BusinessLogic.Logic.WarehouseLogic>();
+
+            services.AddScoped<DataAccess.Interfaces.IParcelRepository, DataAccess.Sql.SqlParcelRepository>();
+            services.AddScoped<DataAccess.Interfaces.IHopRepository, DataAccess.Sql.SqlHopRepository>();
+
+            services.AddTransient<DataAccess.Interfaces.ISqlDbContext, DataAccess.Sql.SqlDbContext>();
+
+            services.AddDbContext<DataAccess.Sql.SqlDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration["SqlDbContext"]);
+            });
+
             // Add framework services.
             services
                 .AddMvc(options =>

@@ -38,12 +38,6 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
         private readonly IWarehouseLogic logic;
 
         [ActivatorUtilitiesConstructor]
-        public WarehouseManagementApiController(IMapper mapper)
-        {
-            this.mapper = mapper;
-            logic = new WarehouseLogic(this.mapper, new SqlHopRepository());
-        }
-
         public WarehouseManagementApiController(IMapper mapper, IWarehouseLogic logic)
         {
             this.mapper = mapper;

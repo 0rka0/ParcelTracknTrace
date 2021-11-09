@@ -9,20 +9,10 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
     [ExcludeFromCodeCoverage]
     public class SqlDbContext : DbContext, ISqlDbContext
     {
-        private string connectionString;
-        private IConfiguration config;
-
-        public SqlDbContext()
+        public SqlDbContext(DbContextOptions<SqlDbContext> options) : base(options)
         {
-            config = new ConfigurationBuilder().AddJsonFile("appsettings.json", false, true).Build();
-            this.connectionString = $"{config["SqlDbContext"]}";
-            this.Database.EnsureDeleted();
-            this.Database.EnsureCreated();
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(connectionString);
+            //this.Database.EnsureCreated();
+            //this.Database.EnsureDeleted();
         }
 
         public virtual DbSet<DALParcel> DbParcel { get; set; }

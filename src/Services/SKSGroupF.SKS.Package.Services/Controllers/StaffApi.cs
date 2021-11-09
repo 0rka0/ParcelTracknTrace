@@ -37,12 +37,6 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
         private readonly ITrackingLogic logic;
 
         [ActivatorUtilitiesConstructor]
-        public StaffApiController(IMapper mapper)
-        {
-            this.mapper = mapper;
-            logic = new TrackingLogic(this.mapper, new SqlParcelRepository());
-        }
-
         public StaffApiController(IMapper mapper, ITrackingLogic logic)
         {
             this.mapper = mapper;
