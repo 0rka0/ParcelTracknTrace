@@ -41,14 +41,15 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
 
             if (result.IsValid)
             {
+                logger.LogInformation("Validation of parcel successful.");
                 try
                 {
-                    logger.LogInformation("Trying to create parcel for database");
+                    logger.LogDebug("Trying to create parcel for database");
                     int? dbId = repo.Create(mapper.Map<DALParcel>(parcel));
 
                     if (dbId != null)
                     {
-                        logger.LogInformation("Validation of parcel successful.");
+                        logger.LogInformation("Parcel added to database successfully.");
                         return parcel.TrackingId;
                     }
                 }

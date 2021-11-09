@@ -20,7 +20,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
         public int Create(DALParcel parcel)
         {
             //Insert Parcel and return db ID
-            logger.LogInformation("Trying to add parcel into database.");
+            logger.LogInformation("Adding parcel into database.");
             var ent = context.DbParcel.Add(parcel);
             SaveChanges();
             return ent.Entity.Id;
@@ -28,12 +28,14 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
 
         public void Update(DALParcel parcel)
         {
+            logger.LogInformation("Updating existing parcel in database.");
             context.DbParcel.Update(parcel);
             SaveChanges();
         }
 
         public void Delete(int id)
         {
+            logger.LogInformation("Removing existing parcel from database.");
             var parcel = context.DbParcel.Find(id);
             context.DbParcel.Remove(parcel);
             SaveChanges();
@@ -52,9 +54,14 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
         {
             try
             {
+                logger.LogInformation("Trying to select a single parcel with tracking Id.");
                 return context.DbParcel.Single(p => p.TrackingId == tid);
             }
-            catch { return null; }
+            catch 
+            {
+                logger.LogInformation("Failed to select parcel.");
+                return null; 
+            }
         }
 
         public IEnumerable<DALParcel> GetByReceipient(DALReceipient receipient)
@@ -106,6 +113,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
 
         public void UpdateDelivered(DALParcel parcel)
         {
+            logger.LogInformation("Changing delivered-state of parcel.");
             parcel.Delievered = true;
             context.DbParcel.Update(parcel);
             SaveChanges();

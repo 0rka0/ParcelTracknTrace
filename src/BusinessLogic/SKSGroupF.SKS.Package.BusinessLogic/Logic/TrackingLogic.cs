@@ -30,39 +30,48 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
         {
             BLParcel tmpParcel;
 
+            logger.LogInformation("Validating tracking Id.");
             IValidator<string> validator = new TrackingIdValidator();
             var result = validator.Validate(trackingID);
 
             if (result.IsValid)
             {
+                logger.LogInformation("Validation of tracking Id successful.");
                 try
                 {
+                    logger.LogDebug("Trying to get parcel with tracking Id from database.");
                     tmpParcel = mapper.Map<BLParcel>(repo.GetByTrackingId(trackingID));
                     return tmpParcel;
                 }
                 catch
                 {
+                    logger.LogError("Failed to get parcel.");
                     throw;
                 }
             }
 
+            logger.LogError("Failed to validate tracking Id.");
             throw new ArgumentOutOfRangeException();
         }
 
         public void ReportParcelDelivery(string trackingID)
         {
+            logger.LogInformation("Validating tracking Id.");
             IValidator<string> validator = new TrackingIdValidator();
             var result = validator.Validate(trackingID);
 
             if (!result.IsValid)
                 throw new ArgumentOutOfRangeException();
 
+            logger.LogInformation("Validation of tracking Id successful.");
             try
             {
+                logger.LogDebug("Trying to update delivered-state of a parcel.");
                 repo.UpdateDelivered(repo.GetByTrackingId(trackingID));
             }
             catch
             {
+                logger.LogError("Failed to update parcel in database.");
                 throw;
             }
         }

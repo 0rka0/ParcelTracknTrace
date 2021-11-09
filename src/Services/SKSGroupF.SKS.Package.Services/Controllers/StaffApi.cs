@@ -60,6 +60,7 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "The operation failed due to an error.")]
         public virtual IActionResult ReportParcelDelivery([FromRoute][Required][RegularExpression("^[A-Z0-9]{9}$")]string trackingId)
         {
+            logger.LogInformation("Trying to report parcel delivery.");
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200);
 
@@ -75,8 +76,11 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
             }
             catch
             {
+                logger.LogError("Failed to report parcel delivery.");
                 return StatusCode(404);
             }
+
+            logger.LogInformation("Parcel delivery reported successfully.");
 
             return StatusCode(200);
         }
@@ -96,6 +100,7 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "The operation failed due to an error.")]
         public virtual IActionResult ReportParcelHop([FromRoute][Required][RegularExpression("^[A-Z0-9]{9}$")] string trackingId, [FromRoute][Required]/*[RegularExpression("^[A-Z]{4}\\d{1,4}$")]*/ string code)
         {
+            logger.LogInformation("Trying to report parcel hop.");
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200);
 
@@ -111,8 +116,11 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
             }
             catch
             {
+                logger.LogError("Failed to report parcel hop.");
                 return StatusCode(404);
             }
+
+            logger.LogInformation("Parcel hop reported successfully.");
 
             return StatusCode(200);
         }
