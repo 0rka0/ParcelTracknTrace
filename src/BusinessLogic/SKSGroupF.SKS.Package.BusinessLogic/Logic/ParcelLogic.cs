@@ -68,21 +68,29 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
         {
             parcel.TrackingId = trackingId;
 
+            logger.LogInformation("Validating tracking Id.");
             IValidator<string> trackingIdValidator = new TrackingIdValidator();
+            logger.LogInformation("Validating submitted parcel.");
             IValidator<BLParcel> parcelValidator = new ParcelValidator();
 
-            var tidResult = trackingIdValidator.Validate(trackingId);
+            var tidResult = trackingIdValidator.Validate(parcel.TrackingId);
             var parcelResult = parcelValidator.Validate(parcel);
 
             if ((!tidResult.IsValid) || (!parcelResult.IsValid))
+            {
+                logger.LogError("Failed to validate tracking Id or parcel");
                 throw new ArgumentOutOfRangeException();
+            }
+            logger.LogInformation("Validation successful.");
 
             try
             {
+                logger.LogDebug("Trying to update parcel in database.");
                 repo.Update(mapper.Map<DALParcel>(parcel));
             }
             catch
             {
+                logger.LogError("Failed to update parcel in database.");
                 throw;
             }
         }

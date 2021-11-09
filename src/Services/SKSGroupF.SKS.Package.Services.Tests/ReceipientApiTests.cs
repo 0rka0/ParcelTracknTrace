@@ -6,6 +6,7 @@ using System;
 using AutoMapper;
 using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
 using Moq;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace SKSGroupF.SKS.Package.Services.Test
 {
@@ -28,7 +29,7 @@ namespace SKSGroupF.SKS.Package.Services.Test
             Mock<ITrackingLogic> mockLogic = new();
             mockLogic.Setup(m => m.TrackParcel(It.IsNotIn("PYJRB4HZ6"))).Throws(new ArgumentOutOfRangeException());
 
-            ReceipientApiController controller = new ReceipientApiController(mapper, mockLogic.Object);
+            ReceipientApiController controller = new ReceipientApiController(mapper, mockLogic.Object, new NullLogger<ReceipientApiController>());
             var result = (ObjectResult)controller.TrackParcel("ABCDEFGH");
 
             Assert.AreEqual(404, result.StatusCode);
@@ -42,7 +43,7 @@ namespace SKSGroupF.SKS.Package.Services.Test
             Mock<ITrackingLogic> mockLogic = new();
             mockLogic.Setup(m => m.TrackParcel(It.IsIn("PYJRB4HZ6"))).Returns(mockBlParcel);
 
-            ReceipientApiController controller = new ReceipientApiController(mapper, mockLogic.Object);
+            ReceipientApiController controller = new ReceipientApiController(mapper, mockLogic.Object, new NullLogger<ReceipientApiController>());
             ObjectResult result = (ObjectResult)controller.TrackParcel("PYJRB4HZ6");
 
             Assert.NotNull(result.Value);

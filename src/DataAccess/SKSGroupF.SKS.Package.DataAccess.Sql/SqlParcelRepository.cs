@@ -20,15 +20,16 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
         public int Create(DALParcel parcel)
         {
             //Insert Parcel and return db ID
-            logger.LogInformation("Adding parcel into database.");
+            logger.LogInformation("Inserting parcel into database.");
             var ent = context.DbParcel.Add(parcel);
+            logger.LogInformation("Parcel inserted with ID + " + ent.Entity.Id + ".");
             SaveChanges();
             return ent.Entity.Id;
         }
 
         public void Update(DALParcel parcel)
         {
-            logger.LogInformation("Updating existing parcel in database.");
+            logger.LogInformation("Updating existing parcel in database with tracking Id " + parcel.TrackingId + ".");
             context.DbParcel.Update(parcel);
             SaveChanges();
         }
@@ -54,7 +55,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
         {
             try
             {
-                logger.LogInformation("Trying to select a single parcel with tracking Id.");
+                logger.LogInformation("Trying to select a single parcel with tracking Id " + tid + ".");
                 return context.DbParcel.Single(p => p.TrackingId == tid);
             }
             catch 
@@ -102,6 +103,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
 
         public void UpdateHopState(DALParcel parcel, string code)
         {
+            logger.LogInformation("Changing hop-state of parcel.");
             //?
             var hop = context.DbHopArrival.Single(p => p.Code == code);
             parcel.FutureHops.Remove(hop);

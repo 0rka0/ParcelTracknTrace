@@ -6,6 +6,7 @@ using System;
 using AutoMapper;
 using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
 using Moq;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace SKSGroupF.SKS.Package.Services.Test
 {
@@ -28,7 +29,7 @@ namespace SKSGroupF.SKS.Package.Services.Test
             Mock<ITrackingLogic> mockLogic = new();
             mockLogic.Setup(m => m.ReportParcelDelivery(It.IsNotIn("PYJRB4HZ6"))).Throws(new ArgumentOutOfRangeException());
 
-            StaffApiController controller = new StaffApiController(mapper, mockLogic.Object);
+            StaffApiController controller = new StaffApiController(mapper, mockLogic.Object, new NullLogger<StaffApiController>());
             var result = (StatusCodeResult)controller.ReportParcelDelivery("ABCDEFGH");
 
             Assert.AreEqual(404, result.StatusCode);
@@ -40,7 +41,7 @@ namespace SKSGroupF.SKS.Package.Services.Test
             Mock<ITrackingLogic> mockLogic = new();
             mockLogic.Setup(m => m.ReportParcelDelivery(It.IsIn("PYJRB4HZ6")));
 
-            StaffApiController controller = new StaffApiController(mapper, mockLogic.Object);
+            StaffApiController controller = new StaffApiController(mapper, mockLogic.Object, new NullLogger<StaffApiController>());
             var result = (StatusCodeResult)controller.ReportParcelDelivery("PYJRB4HZ6");
 
             Assert.AreEqual(200, result.StatusCode);
@@ -52,7 +53,7 @@ namespace SKSGroupF.SKS.Package.Services.Test
             Mock<ITrackingLogic> mockLogic = new();
             mockLogic.Setup(m => m.ReportParcelHop(It.IsNotIn("PYJRB4HZ6"), It.IsIn("ABCD\\aaaa"))).Throws(new ArgumentOutOfRangeException());
 
-            StaffApiController controller = new StaffApiController(mapper, mockLogic.Object);
+            StaffApiController controller = new StaffApiController(mapper, mockLogic.Object, new NullLogger<StaffApiController>());
             var result = (StatusCodeResult)controller.ReportParcelHop("ABCDEFGH", "ABCD\\aaaa");
 
             Assert.AreEqual(404, result.StatusCode);
@@ -64,7 +65,7 @@ namespace SKSGroupF.SKS.Package.Services.Test
             Mock<ITrackingLogic> mockLogic = new();
             mockLogic.Setup(m => m.ReportParcelHop(It.IsIn("PYJRB4HZ6"), It.IsNotIn("ABCD\\aaaa"))).Throws(new ArgumentOutOfRangeException());
 
-            StaffApiController controller = new StaffApiController(mapper, mockLogic.Object);
+            StaffApiController controller = new StaffApiController(mapper, mockLogic.Object, new NullLogger<StaffApiController>());
             var result = (StatusCodeResult)controller.ReportParcelHop("PYJRB4HZ6", "ABCD");
 
             Assert.AreEqual(404, result.StatusCode);
@@ -76,7 +77,7 @@ namespace SKSGroupF.SKS.Package.Services.Test
             Mock<ITrackingLogic> mockLogic = new();
             mockLogic.Setup(m => m.ReportParcelHop(It.IsNotIn("PYJRB4HZ6"), It.IsNotIn("ABCD\\aaaa"))).Throws(new ArgumentOutOfRangeException());
 
-            StaffApiController controller = new StaffApiController(mapper, mockLogic.Object);
+            StaffApiController controller = new StaffApiController(mapper, mockLogic.Object, new NullLogger<StaffApiController>());
             var result = (StatusCodeResult)controller.ReportParcelHop("ABCDEFGH", "ABCD");
 
             Assert.AreEqual(404, result.StatusCode);
@@ -88,7 +89,7 @@ namespace SKSGroupF.SKS.Package.Services.Test
             Mock<ITrackingLogic> mockLogic = new();
             mockLogic.Setup(m => m.ReportParcelHop(It.IsIn("PYJRB4HZ6"), It.IsIn("ABCD\\aaaa")));
 
-            StaffApiController controller = new StaffApiController(mapper, mockLogic.Object);
+            StaffApiController controller = new StaffApiController(mapper, mockLogic.Object, new NullLogger<StaffApiController>());
             var result = (StatusCodeResult)controller.ReportParcelHop("PYJRB4HZ6", "ABCD\\aaaa");
 
             Assert.AreEqual(200, result.StatusCode);

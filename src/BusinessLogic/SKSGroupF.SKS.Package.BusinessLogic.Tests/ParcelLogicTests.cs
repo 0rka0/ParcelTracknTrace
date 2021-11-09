@@ -1,5 +1,6 @@
 using AutoMapper;
 using FizzWare.NBuilder;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using NUnit.Framework;
 using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
@@ -32,7 +33,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
             mockRepo.Setup(m => m.Update(It.IsAny<DataAccess.Entities.Models.DALParcel>()));
 
 
-            logic = new ParcelLogic(mapper, mockRepo.Object);
+            logic = new ParcelLogic(mapper, mockRepo.Object, new NullLogger<ParcelLogic>());
 
             validParcel = Builder<BLParcel>.CreateNew()
                 .With(p => p.Receipient = Builder<BLReceipient>.CreateNew()

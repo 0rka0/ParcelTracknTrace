@@ -21,8 +21,10 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
         public int Create(DALHop hop)
         {
             //Insert Warehouse and return db ID
+            logger.LogInformation("Inserting hop into database.");
             var hopEnt = context.DbHop.Add(hop);
-            context.SaveChangesToDb();
+            logger.LogInformation("Hop inserted with ID + " + hopEnt.Entity.Id + ".");
+            SaveChanges();
             return hopEnt.Entity.Id;
         }
 
@@ -30,23 +32,31 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
         {
             var hop = context.DbHop.Find(id);
             context.DbHop.Remove(hop);
-            context.SaveChangesToDb();
+            SaveChanges();
         }
 
         public void Update(DALHop hop)
         {
             context.DbHop.Update(hop);
-            context.SaveChangesToDb();
+            SaveChanges();
         }
 
         public DALHop GetByCode(string code)
         {
+            logger.LogInformation("Trying to select a single hop with code " + code + ".");
             return context.DbHop.Single(h => h.Code == code);
         }
 
         public IEnumerable<DALHop> GetAll()
         {
+            logger.LogInformation("Trying to select all hops from database.");
             return context.DbHop.ToList();
+        }
+
+        int SaveChanges()
+        {
+            logger.LogInformation("Saving changes to database.");
+            return context.SaveChangesToDb();
         }
 
         /*public IEnumerable<DALHop> GetByLevel(int level)

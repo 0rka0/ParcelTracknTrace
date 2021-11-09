@@ -39,7 +39,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
                 logger.LogInformation("Validation of tracking Id successful.");
                 try
                 {
-                    logger.LogDebug("Trying to get parcel with tracking Id from database.");
+                    logger.LogDebug("Trying to get parcel by tracking Id from database.");
                     tmpParcel = mapper.Map<BLParcel>(repo.GetByTrackingId(trackingID));
                     return tmpParcel;
                 }
@@ -61,7 +61,10 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
             var result = validator.Validate(trackingID);
 
             if (!result.IsValid)
+            {
+                logger.LogError("Failed to validate tracking Id.");
                 throw new ArgumentOutOfRangeException();
+            }
 
             logger.LogInformation("Validation of tracking Id successful.");
             try
@@ -78,21 +81,29 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
 
         public void ReportParcelHop(string trackingID, string code)
         {
+            logger.LogInformation("Validating tracking Id.");
             IValidator<string> tidValidator = new TrackingIdValidator();
+            logger.LogInformation("Validating code.");
             IValidator<string> codeValidator = new CodeValidator();
 
             var tidResult = tidValidator.Validate(trackingID);
             var codeResult = codeValidator.Validate(code);
 
             if ((!tidResult.IsValid) || (!codeResult.IsValid))
+            {
+                logger.LogError("Failed to validate tracking Id or Code");
                 throw new ArgumentOutOfRangeException();
+            }
+            logger.LogInformation("Validation successful.");
 
             try
             {
+                logger.LogDebug("Trying to update hop-state of a parcel.");
                 repo.UpdateHopState(repo.GetByTrackingId(trackingID), code);
             }
             catch
             {
+                logger.LogError("Failed to update parcel in database.");
                 throw; 
             }
         }

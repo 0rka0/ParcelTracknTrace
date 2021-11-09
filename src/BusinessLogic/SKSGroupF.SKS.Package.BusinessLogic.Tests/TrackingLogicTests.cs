@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using NUnit.Framework;
 using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
@@ -31,7 +32,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
             mockRepo.Setup(m => m.GetByTrackingId(It.IsAny<string>())).Returns(parcel);
             mockRepo.Setup(m => m.UpdateHopState(It.IsAny<DataAccess.Entities.Models.DALParcel>(), It.IsAny<string>()));
 
-            logic = new TrackingLogic(mapper, mockRepo.Object);
+            logic = new TrackingLogic(mapper, mockRepo.Object, new NullLogger<TrackingLogic>());
         }
 
         [Test]

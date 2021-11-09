@@ -9,6 +9,7 @@ using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
 using Moq;
 using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
 using FizzWare.NBuilder;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace SKSGroupF.SKS.Package.Services.Test
 {
@@ -31,7 +32,7 @@ namespace SKSGroupF.SKS.Package.Services.Test
             Mock<IWarehouseLogic> mockLogic = new();
             mockLogic.Setup(m => m.ExportWarehouses()).Throws(new Exception());
 
-            WarehouseManagementApiController controller = new WarehouseManagementApiController(mapper, mockLogic.Object);
+            WarehouseManagementApiController controller = new WarehouseManagementApiController(mapper, mockLogic.Object, new NullLogger<WarehouseManagementApiController>());
 
             ObjectResult result = (ObjectResult)controller.ExportWarehouses();
 
@@ -44,7 +45,7 @@ namespace SKSGroupF.SKS.Package.Services.Test
             Mock<IWarehouseLogic> mockLogic = new();
             mockLogic.Setup(m => m.ExportWarehouses()).Returns(new List<BLHop> { new BLWarehouse(), new BLWarehouse(), new BLWarehouse() });
 
-            WarehouseManagementApiController controller = new WarehouseManagementApiController(mapper, mockLogic.Object);
+            WarehouseManagementApiController controller = new WarehouseManagementApiController(mapper, mockLogic.Object, new NullLogger<WarehouseManagementApiController>());
 
             ObjectResult result = (ObjectResult)controller.ExportWarehouses();
 
@@ -58,7 +59,7 @@ namespace SKSGroupF.SKS.Package.Services.Test
             Mock<IWarehouseLogic> mockLogic = new();
             mockLogic.Setup(m => m.GetWarehouse(It.IsNotIn("ABCD\\dddd"))).Throws(new ArgumentOutOfRangeException());
 
-            WarehouseManagementApiController controller = new WarehouseManagementApiController(mapper, mockLogic.Object);
+            WarehouseManagementApiController controller = new WarehouseManagementApiController(mapper, mockLogic.Object, new NullLogger<WarehouseManagementApiController>());
 
             var result = (StatusCodeResult)controller.GetWarehouse("ABCD\\ddddd");
 
@@ -73,7 +74,7 @@ namespace SKSGroupF.SKS.Package.Services.Test
             Mock<IWarehouseLogic> mockLogic = new();
             mockLogic.Setup(m => m.GetWarehouse(It.IsIn("ABCD\\dddd"))).Returns(mockBlWarehouse);
 
-            WarehouseManagementApiController controller = new WarehouseManagementApiController(mapper, mockLogic.Object);
+            WarehouseManagementApiController controller = new WarehouseManagementApiController(mapper, mockLogic.Object, new NullLogger<WarehouseManagementApiController>());
 
             var result = (ObjectResult)controller.GetWarehouse("ABCD\\dddd");
 
@@ -87,7 +88,7 @@ namespace SKSGroupF.SKS.Package.Services.Test
             Mock<IWarehouseLogic> mockLogic = new();
             mockLogic.Setup(m => m.ImportWarehouses(It.IsAny<BLWarehouse>())).Throws(new ArgumentOutOfRangeException());
 
-            WarehouseManagementApiController controller = new WarehouseManagementApiController(mapper, mockLogic.Object);
+            WarehouseManagementApiController controller = new WarehouseManagementApiController(mapper, mockLogic.Object, new NullLogger<WarehouseManagementApiController>());
 
             var warehouse = Builder<Warehouse>.CreateNew()
                 .With(p => p.NextHops = null)
@@ -104,7 +105,7 @@ namespace SKSGroupF.SKS.Package.Services.Test
             Mock<IWarehouseLogic> mockLogic = new();
             mockLogic.Setup(m => m.ImportWarehouses(It.IsAny<BLWarehouse>()));
 
-            WarehouseManagementApiController controller = new WarehouseManagementApiController(mapper, mockLogic.Object);
+            WarehouseManagementApiController controller = new WarehouseManagementApiController(mapper, mockLogic.Object, new NullLogger<WarehouseManagementApiController>());
 
             var warehouse = Builder<Warehouse>.CreateNew()
                 .With(p => p.NextHops = null)

@@ -62,6 +62,7 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "The operation failed due to an error.")]
         public virtual IActionResult TransitionParcel([FromBody]Parcel body, [FromRoute][Required][RegularExpression("^[A-Z0-9]{9}$")]string trackingId)
         {
+            logger.LogInformation("Trying to transition a parcel.");
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(NewParcelInfo));
 
@@ -72,16 +73,19 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
 
             try
             {
-                BLParcel blParcel = _mapper.Map<BLParcel>(body);
+                BLParcel blParcel = mapper.Map<BLParcel>(body);
                 logic.TransitionParcel(blParcel, trackingId);
 
                 trackingIdJson = $"{{\n  \"trackingId\" : \"{trackingId}\"\n}}";
             }
             catch
             {
+                logger.LogError("Failed to transition the parcel.");
                 return StatusCode(400, default(Error));
             }
-            
+
+            logger.LogInformation("Parcel transitioned succesfully.");
+
             var returnObject = trackingIdJson != null
                 ? JsonConvert.DeserializeObject<NewParcelInfo>(trackingIdJson)
                 : default(NewParcelInfo);            //TODO: Change the data returned

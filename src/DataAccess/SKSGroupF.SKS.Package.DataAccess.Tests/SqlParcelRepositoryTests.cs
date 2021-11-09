@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SKSGroupF.SKS.Package.DataAccess.Entities.Models;
 using FizzWare.NBuilder;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace SKSGroupF.SKS.Package.DataAccess.Tests
 {
@@ -49,7 +50,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Tests
             DBMock.Setup(p => p.DbHopArrival).Returns(SqlDbContextMock.GetQueryableMockDbSet(hopArrivals));
             DBMock.Setup(p => p.SaveChangesToDb()).Returns(1);
 
-            repo = new SqlParcelRepository(DBMock.Object);
+            repo = new SqlParcelRepository(DBMock.Object, new NullLogger<SqlParcelRepository>());
         }
 
         [Test]

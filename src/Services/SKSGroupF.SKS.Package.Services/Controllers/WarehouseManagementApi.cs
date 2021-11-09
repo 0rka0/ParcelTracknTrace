@@ -61,6 +61,7 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "An error occurred loading.")]
         public virtual IActionResult ExportWarehouses()
         {
+            logger.LogInformation("Trying to export warehouse hierarchy.");
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(Warehouse));
 
@@ -89,8 +90,11 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
             }
             catch
             {
+                logger.LogError("Failed to export warehouse hierarchy.");
                 return StatusCode(400, default(Error));
             }
+
+            logger.LogInformation("Warehouse hierarchy exported successfully.");
 
             return new ObjectResult(returnObject);
         }
@@ -110,6 +114,7 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "An error occurred loading.")]
         public virtual IActionResult GetWarehouse([FromRoute][Required]string code)
         {
+            logger.LogInformation("Trying to export a warehouse.");
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(Warehouse));
 
@@ -130,9 +135,12 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
             }
             catch
             {
+                logger.LogError("Failed to export the warehouse.");
                 return StatusCode(404);
             }
-            
+
+            logger.LogInformation("Warehouse exported succesfully.");
+
             var returnObject = warehouseJson != null
                 ? JsonConvert.DeserializeObject<Warehouse>(warehouseJson)
                 : default(Warehouse);            //TODO: Change the data returned
@@ -152,6 +160,7 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "The operation failed due to an error.")]
         public virtual IActionResult ImportWarehouses([FromBody]Hop body)
         {
+            logger.LogInformation("Trying to import a hop.");
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200);
 
@@ -165,8 +174,11 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
             }
             catch
             {
+                logger.LogError("Failed to import the hop.");
                 return StatusCode(400, default(Error));
             }
+
+            logger.LogInformation("Hop imported succesfully.");
 
             return StatusCode(200);
         }

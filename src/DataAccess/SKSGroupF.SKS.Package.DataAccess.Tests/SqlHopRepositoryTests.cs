@@ -1,4 +1,5 @@
 ﻿using FizzWare.NBuilder;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using NUnit.Framework;
 using SKSGroupF.SKS.Package.DataAccess.Entities.Models;
@@ -28,7 +29,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Tests
             DBMock.Setup(p => p.DbHop).Returns(SqlDbContextMock.GetQueryableMockDbSet(hops));
             DBMock.Setup(p => p.SaveChangesToDb()).Returns(1);
 
-            repo = new SqlHopRepository(DBMock.Object);
+            repo = new SqlHopRepository(DBMock.Object, new NullLogger<SqlHopRepository>());
         }
 
         [Test]

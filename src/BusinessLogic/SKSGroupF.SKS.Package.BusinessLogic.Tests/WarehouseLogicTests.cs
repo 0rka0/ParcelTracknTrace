@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FizzWare.NBuilder;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using NUnit.Framework;
 using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
@@ -36,7 +37,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
             mockRepo.Setup(m => m.GetAll()).Returns(hopList);
             mockRepo.Setup(m => m.GetByCode(It.IsAny<string>())).Returns(hop);
 
-            logic = new WarehouseLogic(mapper, mockRepo.Object);
+            logic = new WarehouseLogic(mapper, mockRepo.Object, new NullLogger<WarehouseLogic>());
         }
 
         [Test]

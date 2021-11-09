@@ -7,6 +7,7 @@ using AutoMapper;
 using Moq;
 using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
 using FizzWare.NBuilder;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace SKSGroupF.SKS.Package.Services.Test
 {
@@ -29,7 +30,7 @@ namespace SKSGroupF.SKS.Package.Services.Test
             Mock<IParcelLogic> mockLogic = new();
             mockLogic.Setup(m => m.SubmitParcel(It.IsAny<BusinessLogic.Entities.Models.BLParcel>())).Throws(new ArgumentOutOfRangeException());
 
-            SenderApiController controller = new SenderApiController(mapper, mockLogic.Object);
+            SenderApiController controller = new SenderApiController(mapper, mockLogic.Object, new NullLogger<SenderApiController>());
 
             var parcel = Builder<Parcel>.CreateNew()
                 .With(p => p.Receipient = Builder<Receipient>.CreateNew().Build())
@@ -48,7 +49,7 @@ namespace SKSGroupF.SKS.Package.Services.Test
             Mock<IParcelLogic> mockLogic = new();
             mockLogic.Setup(m => m.SubmitParcel(It.IsAny<BusinessLogic.Entities.Models.BLParcel>())).Returns("PYJRB4HZ6");
 
-            SenderApiController controller = new SenderApiController(mapper, mockLogic.Object);
+            SenderApiController controller = new SenderApiController(mapper, mockLogic.Object, new NullLogger<SenderApiController>());
 
             var parcel = Builder<Parcel>.CreateNew()
                 .With(p => p.Receipient = Builder<Receipient>.CreateNew().Build())

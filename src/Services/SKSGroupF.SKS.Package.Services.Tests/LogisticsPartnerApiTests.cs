@@ -7,6 +7,7 @@ using AutoMapper;
 using Moq;
 using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
 using FizzWare.NBuilder;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace SKSGroupF.SKS.Package.Services.Test
 {
@@ -29,7 +30,7 @@ namespace SKSGroupF.SKS.Package.Services.Test
             Mock<IParcelLogic> mockLogic = new();
             mockLogic.Setup(m => m.TransitionParcel(It.IsAny<BusinessLogic.Entities.Models.BLParcel>(), It.IsNotIn("PYJRB4HZ6"))).Throws(new ArgumentOutOfRangeException());
 
-            LogisticsPartnerApiController controller = new LogisticsPartnerApiController(mapper, mockLogic.Object);
+            LogisticsPartnerApiController controller = new LogisticsPartnerApiController(mapper, mockLogic.Object, new NullLogger<LogisticsPartnerApiController>());
 
             var parcel = Builder<Parcel>.CreateNew()
                 .With(p => p.Receipient = Builder<Receipient>.CreateNew().Build())
@@ -48,7 +49,7 @@ namespace SKSGroupF.SKS.Package.Services.Test
             Mock<IParcelLogic> mockLogic = new();
             mockLogic.Setup(m => m.TransitionParcel(It.IsAny<BusinessLogic.Entities.Models.BLParcel>(), It.IsIn("PYJRB4HZ6"))).Throws(new ArgumentOutOfRangeException());
 
-            LogisticsPartnerApiController controller = new LogisticsPartnerApiController(mapper, mockLogic.Object);
+            LogisticsPartnerApiController controller = new LogisticsPartnerApiController(mapper, mockLogic.Object, new NullLogger<LogisticsPartnerApiController>());
 
             var parcel = Builder<Parcel>.CreateNew()
                 .With(p => p.Receipient = Builder<Receipient>.CreateNew().Build())
@@ -67,7 +68,7 @@ namespace SKSGroupF.SKS.Package.Services.Test
             Mock<IParcelLogic> mockLogic = new();
             mockLogic.Setup(m => m.TransitionParcel(It.IsAny<BusinessLogic.Entities.Models.BLParcel>(), It.IsNotIn("PYJRB4HZ6"))).Throws(new ArgumentOutOfRangeException());
 
-            LogisticsPartnerApiController controller = new LogisticsPartnerApiController(mapper, mockLogic.Object);
+            LogisticsPartnerApiController controller = new LogisticsPartnerApiController(mapper, mockLogic.Object, new NullLogger<LogisticsPartnerApiController>());
 
             var parcel = Builder<Parcel>.CreateNew()
                 .With(p => p.Receipient = Builder<Receipient>.CreateNew().Build())
@@ -86,7 +87,7 @@ namespace SKSGroupF.SKS.Package.Services.Test
             Mock<IParcelLogic> mockLogic = new();
             mockLogic.Setup(m => m.TransitionParcel(It.IsAny<BusinessLogic.Entities.Models.BLParcel>(), It.IsIn("PYJRB4HZ6")));
 
-            LogisticsPartnerApiController controller = new LogisticsPartnerApiController(mapper, mockLogic.Object);
+            LogisticsPartnerApiController controller = new LogisticsPartnerApiController(mapper, mockLogic.Object, new NullLogger<LogisticsPartnerApiController>());
 
             var parcel = Builder<Parcel>.CreateNew()
                 .With(p => p.Receipient = Builder<Receipient>.CreateNew().Build())
