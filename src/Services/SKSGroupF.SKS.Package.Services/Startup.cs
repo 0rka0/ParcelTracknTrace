@@ -54,6 +54,7 @@ namespace SKSGroupF.SKS.Package.Services
         {
             services.AddAutoMapper(typeof(Startup));
 
+            //Dependency Injection
             services.AddTransient<BusinessLogic.Interfaces.IParcelLogic, BusinessLogic.Logic.ParcelLogic>();
             services.AddTransient<BusinessLogic.Interfaces.ITrackingLogic, BusinessLogic.Logic.TrackingLogic>();
             services.AddTransient<BusinessLogic.Interfaces.IWarehouseLogic, BusinessLogic.Logic.WarehouseLogic>();

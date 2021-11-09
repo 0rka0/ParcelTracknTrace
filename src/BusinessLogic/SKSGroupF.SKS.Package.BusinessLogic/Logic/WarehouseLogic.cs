@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FluentValidation;
+using Microsoft.Extensions.Logging;
 using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
 using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
 using SKSGroupF.SKS.Package.BusinessLogic.Validators;
@@ -14,11 +15,13 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
     {
         private readonly IHopRepository repo;
         private readonly IMapper mapper;
+        private readonly ILogger logger;
 
-        public WarehouseLogic(IMapper mapper, IHopRepository repo)
+        public WarehouseLogic(IMapper mapper, IHopRepository repo, ILogger<WarehouseLogic> logger)
         {
             this.mapper = mapper;
             this.repo = repo;
+            this.logger = logger;
         }
 
         public IEnumerable<BLHop> ExportWarehouses()

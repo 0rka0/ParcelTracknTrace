@@ -1,4 +1,5 @@
-﻿using SKSGroupF.SKS.Package.DataAccess.Entities.Models;
+﻿using Microsoft.Extensions.Logging;
+using SKSGroupF.SKS.Package.DataAccess.Entities.Models;
 using SKSGroupF.SKS.Package.DataAccess.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -9,10 +10,12 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
     public class SqlHopRepository : IHopRepository
     {
         private ISqlDbContext context;
+        private readonly ILogger logger;
 
-        public SqlHopRepository(ISqlDbContext context)
+        public SqlHopRepository(ISqlDbContext context, ILogger<SqlHopRepository> logger)
         {
             this.context = context;
+            this.logger = logger;
         }
 
         public int Create(DALHop hop)

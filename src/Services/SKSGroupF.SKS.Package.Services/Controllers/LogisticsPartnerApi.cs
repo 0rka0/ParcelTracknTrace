@@ -25,6 +25,7 @@ using SKSGroupF.SKS.Package.BusinessLogic.Logic;
 using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
 using Microsoft.Extensions.DependencyInjection;
 using SKSGroupF.SKS.Package.DataAccess.Sql;
+using Microsoft.Extensions.Logging;
 
 namespace SKSGroupF.SKS.Package.Services.Controllers
 { 
@@ -34,14 +35,16 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
     [ApiController]
     public class LogisticsPartnerApiController : ControllerBase
     {
-        private readonly IMapper _mapper;
+        private readonly IMapper mapper;
         private readonly IParcelLogic logic;
+        private readonly ILogger logger;
 
         [ActivatorUtilitiesConstructor]
-        public LogisticsPartnerApiController(IMapper mapper, IParcelLogic logic)
+        public LogisticsPartnerApiController(IMapper mapper, IParcelLogic logic, ILogger<LogisticsPartnerApiController> logger)
         {
-            _mapper = mapper;
+            this.mapper = mapper;
             this.logic = logic;
+            this.logger = logger;
         }
 
         /// <summary>

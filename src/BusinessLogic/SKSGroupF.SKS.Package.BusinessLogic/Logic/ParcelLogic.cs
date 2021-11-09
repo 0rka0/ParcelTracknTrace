@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
+using Microsoft.Extensions.Logging;
 using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
 using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
 using SKSGroupF.SKS.Package.BusinessLogic.Validators;
@@ -17,11 +18,13 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
     {
         private readonly IParcelRepository repo;
         private readonly IMapper mapper;
+        private readonly ILogger logger;
 
-        public ParcelLogic(IMapper mapper, IParcelRepository repo)
+        public ParcelLogic(IMapper mapper, IParcelRepository repo, ILogger<ParcelLogic> logger)
         {
             this.mapper = mapper;
             this.repo = repo;
+            this.logger = logger;
         }
 
         public string SubmitParcel(BLParcel parcel)
@@ -31,6 +34,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
             parcel.VisitedHops = new List<BLHopArrival>();
             parcel.State = BLParcel.StateEnum.InTransportEnum;
 
+            logger.LogInformation("Validating submitted parcel.");
             IValidator<BLParcel> validator = new ParcelValidator();
 
             var result = validator.Validate(parcel);
@@ -39,17 +43,23 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
             {
                 try
                 {
+                    logger.LogInformation("Trying to create parcel for database");
                     int? dbId = repo.Create(mapper.Map<DALParcel>(parcel));
 
                     if (dbId != null)
+                    {
+                        logger.LogInformation("Validation of parcel successful.");
                         return parcel.TrackingId;
+                    }
                 }
                 catch
                 {
+                    logger.LogError("Failed to create parcel for database.");
                     throw;
                 }
             }
 
+            logger.LogError("Failed to validate parcel.");
             throw new ArgumentOutOfRangeException();
         }
 

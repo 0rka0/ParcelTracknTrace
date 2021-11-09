@@ -24,6 +24,7 @@ using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
 using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using SKSGroupF.SKS.Package.DataAccess.Sql;
+using Microsoft.Extensions.Logging;
 
 namespace SKSGroupF.SKS.Package.Services.Controllers
 { 
@@ -35,12 +36,14 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
     {
         private readonly IMapper mapper;
         private readonly IParcelLogic logic;
+        private readonly ILogger logger;
 
         [ActivatorUtilitiesConstructor]
-        public SenderApiController(IMapper mapper, IParcelLogic logic)
+        public SenderApiController(IMapper mapper, IParcelLogic logic, ILogger<SenderApiController> logger)
         {
             this.mapper = mapper;
             this.logic = logic;
+            this.logger = logger;
         }
 
         /// <summary>
@@ -57,6 +60,7 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "The operation failed due to an error.")]
         public virtual IActionResult SubmitParcel([FromBody]Parcel body)
         {
+            logger.LogInformation("Trying to submit a parcel.");
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(NewParcelInfo));
 
@@ -74,9 +78,12 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
             }
             catch
             {
+                logger.LogError("Failed to submit the parcel.");
                 return StatusCode(400, default(Error));
             }
-            
+
+            logger.LogInformation("Parcel submitted succesfully.");
+
             var returnObject = trackingIdJson != null
                 ? JsonConvert.DeserializeObject<NewParcelInfo>(trackingIdJson)
                 : default(NewParcelInfo);          

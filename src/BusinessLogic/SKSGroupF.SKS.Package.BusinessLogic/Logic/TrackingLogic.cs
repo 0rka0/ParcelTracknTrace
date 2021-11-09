@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
+using Microsoft.Extensions.Logging;
 using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
 using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
 using SKSGroupF.SKS.Package.BusinessLogic.Validators;
@@ -16,11 +17,13 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
     {
         private readonly IParcelRepository repo;
         private readonly IMapper mapper;
+        private readonly ILogger logger;
 
-        public TrackingLogic(IMapper mapper, IParcelRepository repo)
+        public TrackingLogic(IMapper mapper, IParcelRepository repo, ILogger<TrackingLogic> logger)
         {
             this.mapper = mapper;
             this.repo = repo;
+            this.logger = logger;
         }
 
         public BLParcel TrackParcel(string trackingID)

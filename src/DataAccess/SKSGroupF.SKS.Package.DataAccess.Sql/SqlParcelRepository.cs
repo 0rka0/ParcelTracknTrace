@@ -1,4 +1,5 @@
-﻿using SKSGroupF.SKS.Package.DataAccess.Entities.Models;
+﻿using Microsoft.Extensions.Logging;
+using SKSGroupF.SKS.Package.DataAccess.Entities.Models;
 using SKSGroupF.SKS.Package.DataAccess.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,31 +9,34 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
     public class SqlParcelRepository : IParcelRepository
     {
         private ISqlDbContext context;
+        private readonly ILogger logger;
 
-        public SqlParcelRepository(ISqlDbContext context)
+        public SqlParcelRepository(ISqlDbContext context, ILogger<SqlParcelRepository> logger)
         {
             this.context = context;
+            this.logger = logger;
         }
 
         public int Create(DALParcel parcel)
         {
             //Insert Parcel and return db ID
+            logger.LogInformation("Trying to add parcel into database.");
             var ent = context.DbParcel.Add(parcel);
-            context.SaveChangesToDb();
+            SaveChanges();
             return ent.Entity.Id;
         }
 
         public void Update(DALParcel parcel)
         {
             context.DbParcel.Update(parcel);
-            context.SaveChangesToDb();
+            SaveChanges();
         }
 
         public void Delete(int id)
         {
             var parcel = context.DbParcel.Find(id);
             context.DbParcel.Remove(parcel);
-            context.SaveChangesToDb();
+            SaveChanges();
         }
 
         public IEnumerable<DALParcel> GetAll()
@@ -96,7 +100,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
             parcel.FutureHops.Remove(hop);
             parcel.VisitedHops.Add(hop);
             context.DbParcel.Update(parcel);
-            
+            SaveChanges();
             //Selects FutureHop by Code and marks it as VisitedHop
         }
 
@@ -104,8 +108,14 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
         {
             parcel.Delievered = true;
             context.DbParcel.Update(parcel);
-
+            SaveChanges();
             //Sets parcel as delievered ??
+        }
+
+        int SaveChanges()
+        {
+            logger.LogInformation("Saving changes to database.");
+            return context.SaveChangesToDb();
         }
     }
 }

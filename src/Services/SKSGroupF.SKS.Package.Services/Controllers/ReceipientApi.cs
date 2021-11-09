@@ -24,6 +24,7 @@ using SKSGroupF.SKS.Package.BusinessLogic.Logic;
 using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using SKSGroupF.SKS.Package.DataAccess.Sql;
+using Microsoft.Extensions.Logging;
 
 namespace SKSGroupF.SKS.Package.Services.Controllers
 { 
@@ -35,12 +36,14 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
     {
         private readonly IMapper mapper;
         private readonly ITrackingLogic logic;
+        private readonly ILogger logger;
 
         [ActivatorUtilitiesConstructor]
-        public ReceipientApiController(IMapper mapper, ITrackingLogic logic)
+        public ReceipientApiController(IMapper mapper, ITrackingLogic logic, ILogger<ReceipientApiController> logger)
         {
             this.mapper = mapper;
             this.logic = logic;
+            this.logger = logger;
         }
 
         /// <summary>
