@@ -1,8 +1,11 @@
 using FizzWare.NBuilder;
 using Microsoft.Extensions.Logging.Abstractions;
 using NUnit.Framework;
+using RichardSzalay.MockHttp;
 using SKSGroupF.SKS.Package.ServiceAgents.Entities;
 using SKSGroupF.SKS.Package.ServiceAgents.Interfaces;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace SKSGroupF.SKS.Package.ServiceAgents.Tests
 {
@@ -10,6 +13,11 @@ namespace SKSGroupF.SKS.Package.ServiceAgents.Tests
     {
         SAReceipient receipient;
         OSMGeoEncodingAgent agent;
+        MockHttpMessageHandler mockHttp;
+        HttpClient client;
+
+        double lat = 48.2399809;
+        double lon = 16.3768477;
 
         [SetUp]
         public void Setup()
@@ -21,7 +29,24 @@ namespace SKSGroupF.SKS.Package.ServiceAgents.Tests
                 .With(p => p.Street = "Hochstadtplatz 3")
                 .Build();
 
-            agent = new OSMGeoEncodingAgent(new NullLogger<OSMGeoEncodingAgent>(), new System.Net.Http.HttpClient());
+            mockHttp = new MockHttpMessageHandler();
+            mockHttp.When("http://test/*").Respond("application/json", "[{\"lat\": \"48.2399809\",\"lon\": \"16.3768477\"}]");
+            client = new HttpClient(mockHttp);
+            client.BaseAddress = new System.Uri("http://test/abc");
+
+            agent = new OSMGeoEncodingAgent(new NullLogger<OSMGeoEncodingAgent>(), client);
+        }
+
+        [Test]
+        public void EncodeAddressAsync_ReceivesReceipient_ReturnsGeoCoordinatesWithCorrectLatAndLon()
+        {
+            double latExcpected = lat;
+            double lonExpected = lon;
+
+            var actual = agent.EncodeAddress(receipient);
+
+            Assert.AreEqual(latExcpected, actual.lat);
+            Assert.AreEqual(lonExpected, actual.lon);
         }
 
         [Test]

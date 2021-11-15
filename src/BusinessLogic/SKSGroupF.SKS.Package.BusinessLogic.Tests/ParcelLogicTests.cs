@@ -33,7 +33,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
             mockRepo.Setup(m => m.Update(It.IsAny<DataAccess.Entities.Models.DALParcel>()));
 
 
-            logic = new ParcelLogic(mapper, mockRepo.Object, new NullLogger<ParcelLogic>());
+            logic = new ParcelLogic(mapper, mockRepo.Object, null, new NullLogger<ParcelLogic>());
 
             validParcel = Builder<BLParcel>.CreateNew()
                 .With(p => p.Receipient = Builder<BLReceipient>.CreateNew()
