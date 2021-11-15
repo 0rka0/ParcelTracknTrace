@@ -76,9 +76,9 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
 
                 trackingIdJson = $"{{\n  \"trackingId\" : \"{trackingId}\"\n}}";
             }
-            catch
+            catch (Exception e)
             {
-                logger.LogError("Failed to submit the parcel.");
+                logger.LogError("Failed to submit the parcel." + e.Message);
                 return StatusCode(400, default(Error));
             }
 

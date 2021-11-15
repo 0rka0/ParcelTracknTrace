@@ -24,6 +24,7 @@
     <ProjectReference Include="..\..\BusinessLogic\SKSGroupF.SKS.Package.BusinessLogic\SKSGroupF.SKS.Package.BusinessLogic.csproj" />
     <ProjectReference Include="..\..\DataAccess\SKSGroupF.SKS.Package.DataAccess.Entities\SKSGroupF.SKS.Package.DataAccess.Entities.csproj" />
     <ProjectReference Include="..\..\DataAccess\SKSGroupF.SKS.Package.DataAccess.Sql\SKSGroupF.SKS.Package.DataAccess.Sql.csproj" />
+    <ProjectReference Include="..\..\ServiceAgents\SKSGroupF.SKS.Package.ServiceAgents\SKSGroupF.SKS.Package.ServiceAgents.csproj" />
     <ProjectReference Include="..\SKSGroupF.SKS.Package.Services.DTOs\SKSGroupF.SKS.Package.Services.DTOs.csproj" />
     <ProjectReference Include="..\SKSGroupF.SKS.Package.Services.Interfaces\SKSGroupF.SKS.Package.Services.Interfaces.csproj" />
   </ItemGroup>

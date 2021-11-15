@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
@@ -11,19 +8,23 @@ using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
 using SKSGroupF.SKS.Package.BusinessLogic.Validators;
 using SKSGroupF.SKS.Package.DataAccess.Entities.Models;
 using SKSGroupF.SKS.Package.DataAccess.Interfaces;
+using SKSGroupF.SKS.Package.ServiceAgents.Entities;
+using SKSGroupF.SKS.Package.ServiceAgents.Interfaces;
 
 namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
 {
     public class ParcelLogic : IParcelLogic
     {
         private readonly IParcelRepository repo;
+        private readonly IGeoEncodingAgent agent;
         private readonly IMapper mapper;
         private readonly ILogger logger;
 
-        public ParcelLogic(IMapper mapper, IParcelRepository repo, ILogger<ParcelLogic> logger)
+        public ParcelLogic(IMapper mapper, IParcelRepository repo, IGeoEncodingAgent agent, ILogger<ParcelLogic> logger)
         {
             this.mapper = mapper;
             this.repo = repo;
+            this.agent = agent;
             this.logger = logger;
         }
 
@@ -33,6 +34,9 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
             parcel.FutureHops = new List<BLHopArrival>();
             parcel.VisitedHops = new List<BLHopArrival>();
             parcel.State = BLParcel.StateEnum.InTransportEnum;
+
+            //var coor1 = mapper.Map<BLGeoCoordinate>(agent.EncodeAddress(mapper.Map<SAReceipient>(parcel.Receipient)));
+            //var coor2 = mapper.Map<BLGeoCoordinate>(agent.EncodeAddress(mapper.Map<SAReceipient>(parcel.Sender)));
 
             logger.LogInformation("Validating submitted parcel.");
             IValidator<BLParcel> validator = new ParcelValidator();

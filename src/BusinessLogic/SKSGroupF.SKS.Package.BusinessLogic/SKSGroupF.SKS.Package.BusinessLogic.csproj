@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\DataAccess\SKSGroupF.SKS.Package.DataAccess.Interfaces\SKSGroupF.SKS.Package.DataAccess.Interfaces.csproj" />
+    <ProjectReference Include="..\..\ServiceAgents\SKSGroupF.SKS.Package.ServiceAgents\SKSGroupF.SKS.Package.ServiceAgents.csproj" />
     <ProjectReference Include="..\SKSGroupF.SKS.Package.BusinessLogic.Entities\SKSGroupF.SKS.Package.BusinessLogic.Entities.csproj" />
     <ProjectReference Include="..\SKSGroupF.SKS.Package.BusinessLogic.Interfaces\SKSGroupF.SKS.Package.BusinessLogic.Interfaces.csproj" />
   </ItemGroup>
