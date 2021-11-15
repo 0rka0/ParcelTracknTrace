@@ -35,13 +35,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKSGroupF.SKS.Package.DataA
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServiceAgents", "ServiceAgents", "{E7638345-AD51-4E85-B022-599F410F3FC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKSGroupF.SKS.Package.ServiceAgents", "src\ServiceAgents\SKSGroupF.SKS.Package.ServiceAgents\SKSGroupF.SKS.Package.ServiceAgents.csproj", "{C858E52D-A600-4342-9877-4B6EB6DAAD30}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKSGroupF.SKS.Package.ServiceAgents", "src\ServiceAgents\SKSGroupF.SKS.Package.ServiceAgents\SKSGroupF.SKS.Package.ServiceAgents.csproj", "{C858E52D-A600-4342-9877-4B6EB6DAAD30}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKSGroupF.SKS.Package.ServiceAgents.Interfaces", "src\ServiceAgents\SKSGroupF.SKS.Package.ServiceAgents.Interfaces\SKSGroupF.SKS.Package.ServiceAgents.Interfaces.csproj", "{D2DC3B66-3F2B-41A8-A5C7-8C385F3EB00A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKSGroupF.SKS.Package.ServiceAgents.Interfaces", "src\ServiceAgents\SKSGroupF.SKS.Package.ServiceAgents.Interfaces\SKSGroupF.SKS.Package.ServiceAgents.Interfaces.csproj", "{D2DC3B66-3F2B-41A8-A5C7-8C385F3EB00A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKSGroupF.SKS.Package.ServiceAgents.Tests", "src\ServiceAgents\SKSGroupF.SKS.Package.ServiceAgents.Tests\SKSGroupF.SKS.Package.ServiceAgents.Tests.csproj", "{C3FCF20B-2F9A-47A5-A5D8-0329C71B3A20}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKSGroupF.SKS.Package.ServiceAgents.Tests", "src\ServiceAgents\SKSGroupF.SKS.Package.ServiceAgents.Tests\SKSGroupF.SKS.Package.ServiceAgents.Tests.csproj", "{C3FCF20B-2F9A-47A5-A5D8-0329C71B3A20}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKSGroupF.SKS.Package.ServiceAgents.Entities", "src\ServiceAgents\SKSGroupF.SKS.Package.ServiceAgents.Entities\SKSGroupF.SKS.Package.ServiceAgents.Entities.csproj", "{90186B8A-140B-4C8F-9DB1-7D5C2AF0E0B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKSGroupF.SKS.Package.ServiceAgents.Entities", "src\ServiceAgents\SKSGroupF.SKS.Package.ServiceAgents.Entities\SKSGroupF.SKS.Package.ServiceAgents.Entities.csproj", "{90186B8A-140B-4C8F-9DB1-7D5C2AF0E0B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

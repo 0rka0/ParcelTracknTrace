@@ -4,6 +4,7 @@ using AutoMapper;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
+using SKSGroupF.SKS.Package.BusinessLogic.Exceptions;
 using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
 using SKSGroupF.SKS.Package.BusinessLogic.Validators;
 using SKSGroupF.SKS.Package.DataAccess.Entities.Models;
@@ -57,10 +58,11 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
                         return parcel.TrackingId;
                     }
                 }
-                catch
+                catch (BL)
                 {
-                    logger.LogError("Failed to create parcel for database.");
-                    throw;
+                    string errorMessage = "Failed to create parcel for database.";
+                    logger.LogError(errorMessage, ex);
+                    throw new BLLogicException(nameof(ParcelLogic), errorMessage, ex);
                 }
             }
 
