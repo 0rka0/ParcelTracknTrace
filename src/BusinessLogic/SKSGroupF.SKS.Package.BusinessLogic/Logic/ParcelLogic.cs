@@ -35,8 +35,8 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
             parcel.VisitedHops = new List<BLHopArrival>();
             parcel.State = BLParcel.StateEnum.InTransportEnum;
 
-            //var coor1 = mapper.Map<BLGeoCoordinate>(agent.EncodeAddress(mapper.Map<SAReceipient>(parcel.Receipient)));
-            //var coor2 = mapper.Map<BLGeoCoordinate>(agent.EncodeAddress(mapper.Map<SAReceipient>(parcel.Sender)));
+            var coor1 = mapper.Map<BLGeoCoordinate>(agent.EncodeAddress(mapper.Map<SAReceipient>(parcel.Receipient)));
+            var coor2 = mapper.Map<BLGeoCoordinate>(agent.EncodeAddress(mapper.Map<SAReceipient>(parcel.Sender)));
 
             logger.LogInformation("Validating submitted parcel.");
             IValidator<BLParcel> validator = new ParcelValidator();

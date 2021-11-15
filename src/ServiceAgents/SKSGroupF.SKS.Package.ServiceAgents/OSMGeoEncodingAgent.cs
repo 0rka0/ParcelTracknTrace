@@ -13,18 +13,19 @@ namespace SKSGroupF.SKS.Package.ServiceAgents
 {
     public class OSMGeoEncodingAgent : IGeoEncodingAgent
     {
-        static readonly HttpClient client = new HttpClient();
+        private readonly HttpClient client;
         private readonly ILogger logger;
 
-        public OSMGeoEncodingAgent(ILogger<OSMGeoEncodingAgent> logger)
+        public OSMGeoEncodingAgent(ILogger<OSMGeoEncodingAgent> logger, HttpClient client)
         {
             this.logger = logger;
+            this.client = client;
             client.DefaultRequestHeaders.Add("User-Agent", "SKSGroupF");
         }
 
         public SAGeoCoordinate EncodeAddress(SAReceipient receipient)
         {
-            string url = ParseUrl(receipient);
+            string url = ParseUrlRessource(receipient);
 
             Task<string> task = Task.Run<string>(async () => await GetDataFromAPI(url));
             string responseString = task.Result;
@@ -42,9 +43,9 @@ namespace SKSGroupF.SKS.Package.ServiceAgents
             return responseBody;
         }
 
-        string ParseUrl(SAReceipient rec)
+        public string ParseUrlRessource(SAReceipient rec)
         {
-            string url = $"https://nominatim.openstreetmap.org/search?format=json&street={rec.Street}&postalcode={rec.PostalCode}&city={rec.City}&country={rec.Country}";
+            string url = $"search?format=json&street={rec.Street}&postalcode={rec.PostalCode}&city={rec.City}&country={rec.Country}";
             return url;
         }
     }

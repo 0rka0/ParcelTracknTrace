@@ -8,9 +8,20 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
-    <PackageReference Include="NUnit" Version="3.13.1" />
-    <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
-    <PackageReference Include="coverlet.collector" Version="3.0.2" />
+    <PackageReference Include="NBuilder" Version="6.1.0" />
+    <PackageReference Include="NUnit" Version="3.13.2" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.0.0" />
+    <PackageReference Include="coverlet.collector" Version="3.1.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="ReportGenerator" Version="4.8.13" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SKSGroupF.SKS.Package.ServiceAgents.Entities\SKSGroupF.SKS.Package.ServiceAgents.Entities.csproj" />
+    <ProjectReference Include="..\SKSGroupF.SKS.Package.ServiceAgents.Interfaces\SKSGroupF.SKS.Package.ServiceAgents.Interfaces.csproj" />
+    <ProjectReference Include="..\SKSGroupF.SKS.Package.ServiceAgents\SKSGroupF.SKS.Package.ServiceAgents.csproj" />
   </ItemGroup>
 
 </Project>
