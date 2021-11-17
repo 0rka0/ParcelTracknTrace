@@ -25,6 +25,8 @@ using SKSGroupF.SKS.Package.BusinessLogic.Logic;
 using Microsoft.Extensions.DependencyInjection;
 using SKSGroupF.SKS.Package.DataAccess.Sql;
 using Microsoft.Extensions.Logging;
+using SKSGroupF.SKS.Package.BusinessLogic.Interfaces.Exceptions;
+using SKSGroupF.SKS.Package.Services.Interfaces.Exceptions;
 
 namespace SKSGroupF.SKS.Package.Services.Controllers
 { 
@@ -72,13 +74,28 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
 
             try
             {
-                logic.ReportParcelDelivery(trackingId);
+                try
+                {
+                    logic.ReportParcelDelivery(trackingId);
+                }
+                catch (BLLogicException ex)
+                {
+                    string errorMsg = "Failed to call business layer when trying to report parcel delivery.";
+                    logger.LogError(errorMsg);
+                    throw new SVCBLCallException(nameof(StaffApiController), errorMsg, ex);
+                }
             }
-            catch
+            catch(SVCBLCallException ex)
             {
                 logger.LogError("Failed to report parcel delivery.");
+                return StatusCode(404, ex.Message);
+            }
+            catch (Exception)
+            {
+                logger.LogError("Failed to report parcel delivery with an unknown error.");
                 return StatusCode(404);
             }
+            
 
             logger.LogInformation("Parcel delivery reported successfully.");
 
@@ -112,11 +129,24 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
 
             try
             {
-                logic.ReportParcelHop(trackingId, code);
+                try
+                {
+                    logic.ReportParcelHop(trackingId, code);
+                }
+                catch (BLLogicException ex)
+                {
+                    string errorMsg = "Failed to call business layer when trying to report parcel hop.";
+                    logger.LogError(errorMsg);
+                    throw new SVCBLCallException(nameof(StaffApiController), errorMsg, ex);
+                }
             }
-            catch
+            catch (SVCBLCallException ex)
             {
-                logger.LogError("Failed to report parcel hop.");
+                return StatusCode(404, ex.Message);
+            }
+            catch (Exception)
+            {
+                logger.LogError("Failed to report parcel hop with an unknown error.");
                 return StatusCode(404);
             }
 

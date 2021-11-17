@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SKSGroupF.SKS.Package.BusinessLogic.Interfaces.Exceptions
 {
-    class BLLogicException : BLExceptionBase
+    public class BLLogicException : BLExceptionBase
     {
         public BLLogicException(string logicModule) : base(logicModule)
         {

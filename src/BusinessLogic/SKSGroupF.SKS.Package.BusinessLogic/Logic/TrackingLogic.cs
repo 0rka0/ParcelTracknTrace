@@ -8,8 +8,10 @@ using FluentValidation;
 using Microsoft.Extensions.Logging;
 using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
 using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
+using SKSGroupF.SKS.Package.BusinessLogic.Interfaces.Exceptions;
 using SKSGroupF.SKS.Package.BusinessLogic.Validators;
 using SKSGroupF.SKS.Package.DataAccess.Interfaces;
+using SKSGroupF.SKS.Package.DataAccess.Interfaces.Exceptions;
 
 namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
 {
@@ -30,12 +32,19 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
         {
             BLParcel tmpParcel;
 
-            logger.LogInformation("Validating tracking Id.");
+            logger.LogDebug("Trying to validate tracking Id.");
             IValidator<string> validator = new TrackingIdValidator();
             var result = validator.Validate(trackingID);
 
-            if (result.IsValid)
+            try
             {
+                if (!result.IsValid)
+                {
+                    string errorMsg = "Failed to validate tracking Id.";
+                    logger.LogError(errorMsg);
+                    throw new BLValidationException(nameof(TrackingLogic), errorMsg);
+                }
+
                 logger.LogInformation("Validation of tracking Id successful.");
                 try
                 {
@@ -43,68 +52,101 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
                     tmpParcel = mapper.Map<BLParcel>(repo.GetByTrackingId(trackingID));
                     return tmpParcel;
                 }
-                catch
+                catch (DALDataNotFoundException ex)
                 {
-                    logger.LogError("Failed to get parcel.");
-                    throw;
+                    string errorMsg = "Failed to get the parcel by tracking id.";
+                    logger.LogError(errorMsg);
+                    throw new BLDataNotFoundException(nameof(TrackingLogic), errorMsg, ex);
                 }
-            }
+                catch (Exception ex)
+                {
+                    string errorMsg = "Failed to get parcel.";
+                    logger.LogError(errorMsg);
+                    throw new BLDataException(nameof(TrackingLogic), errorMsg, ex);
+                }
 
-            logger.LogError("Failed to validate tracking Id.");
-            throw new ArgumentOutOfRangeException();
+            }
+            catch (Exception ex)
+            {
+                string errorMsg = "Failed to track the parcel.";
+                logger.LogError(errorMsg);
+                throw new BLLogicException(nameof(TrackingLogic), errorMsg, ex);
+            }
         }
 
         public void ReportParcelDelivery(string trackingID)
         {
-            logger.LogInformation("Validating tracking Id.");
+            logger.LogDebug("Trying to validate tracking Id.");
             IValidator<string> validator = new TrackingIdValidator();
             var result = validator.Validate(trackingID);
-
-            if (!result.IsValid)
-            {
-                logger.LogError("Failed to validate tracking Id.");
-                throw new ArgumentOutOfRangeException();
-            }
-
-            logger.LogInformation("Validation of tracking Id successful.");
             try
             {
-                logger.LogDebug("Trying to update delivered-state of a parcel.");
-                repo.UpdateDelivered(repo.GetByTrackingId(trackingID));
+
+                if (!result.IsValid)
+                {
+                    string errorMsg = "Failed to validate tracking Id.";
+                    logger.LogError(errorMsg);
+                    throw new BLValidationException(nameof(TrackingLogic), errorMsg);
+                }
+
+                logger.LogInformation("Validation of tracking Id successful.");
+                try
+                {
+                    logger.LogDebug("Trying to update delivered-state of a parcel.");
+                    repo.UpdateDelivered(repo.GetByTrackingId(trackingID));
+                }
+                catch
+                {
+                    string errorMsg = "Failed to update parcel in database.";
+                    logger.LogError(errorMsg);
+                    throw new BLDataException(nameof(TrackingLogic), errorMsg);
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                logger.LogError("Failed to update parcel in database.");
-                throw;
+                string errorMsg = "Failed to report parcel delivery.";
+                logger.LogError(errorMsg);
+                throw new BLLogicException(nameof(TrackingLogic), errorMsg, ex);
             }
         }
 
         public void ReportParcelHop(string trackingID, string code)
         {
-            logger.LogInformation("Validating tracking Id.");
+            logger.LogDebug("Trying to validate tracking Id.");
             IValidator<string> tidValidator = new TrackingIdValidator();
-            logger.LogInformation("Validating code.");
+            logger.LogDebug("Trying to validate code.");
             IValidator<string> codeValidator = new CodeValidator();
 
             var tidResult = tidValidator.Validate(trackingID);
             var codeResult = codeValidator.Validate(code);
-
-            if ((!tidResult.IsValid) || (!codeResult.IsValid))
-            {
-                logger.LogError("Failed to validate tracking Id or Code");
-                throw new ArgumentOutOfRangeException();
-            }
-            logger.LogInformation("Validation successful.");
-
             try
             {
-                logger.LogDebug("Trying to update hop-state of a parcel.");
-                repo.UpdateHopState(repo.GetByTrackingId(trackingID), code);
+
+                if ((!tidResult.IsValid) || (!codeResult.IsValid))
+                {
+                    string errorMsg = "Failed to validate tracking Id or Code";
+                    logger.LogError(errorMsg);
+                    throw new BLValidationException(nameof(TrackingLogic), errorMsg);
+                }
+                logger.LogInformation("Validation successful.");
+
+                try
+                {
+                    logger.LogDebug("Trying to update hop-state of a parcel.");
+                    repo.UpdateHopState(repo.GetByTrackingId(trackingID), code);
+                }
+                catch
+                {
+                    string errorMsg = "Failed to update parcel in database.";
+                    logger.LogError(errorMsg);
+                    throw new BLDataException(nameof(TrackingLogic), errorMsg);
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                logger.LogError("Failed to update parcel in database.");
-                throw; 
+                string errorMsg = "Failed to report parcel hop.";
+                logger.LogError(errorMsg);
+                throw new BLLogicException(nameof(TrackingLogic), errorMsg, ex);
             }
         }
     }

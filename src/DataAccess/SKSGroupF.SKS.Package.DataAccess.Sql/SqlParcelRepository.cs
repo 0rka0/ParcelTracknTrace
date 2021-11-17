@@ -44,7 +44,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
             catch (Exception ex)
             {
                 string errorMsg = "There has been an error with the database";
-                logger.LogError(errorMsg);
+                logger.LogError(errorMsg, ex);
                 throw new DALDataException(nameof(SqlParcelRepository), nameof(Create), errorMsg, ex);
             }           
         }
@@ -80,7 +80,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
             catch (Exception ex)
             {
                 string errorMsg = "No parcels found in Database.";
-                logger.LogError(errorMsg);
+                logger.LogError(errorMsg, ex);
                 throw new DALDataNotFoundException(nameof(SqlParcelRepository), nameof(GetAll), errorMsg, ex);
             }
         }
@@ -95,7 +95,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
             catch (Exception ex)
             {
                 string errorMsg = "Parcel with specified tracking Id could not be found in Database.";
-                logger.LogError(errorMsg);
+                logger.LogError(errorMsg, ex);
                 throw new DALDataNotFoundException(nameof(SqlHopRepository), nameof(GetByTrackingId), errorMsg, ex);
             }
         }

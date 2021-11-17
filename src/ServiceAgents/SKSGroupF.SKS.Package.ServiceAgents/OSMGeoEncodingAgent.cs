@@ -40,13 +40,13 @@ namespace SKSGroupF.SKS.Package.ServiceAgents
             catch(System.AggregateException ex)
             {
                 string errorMsg = "Failed to run the async Task";
-                logger.LogError(errorMsg);
+                logger.LogError(errorMsg, ex);
                 throw new SATaskException(nameof(OSMGeoEncodingAgent), errorMsg, ex);
             }
-            catch(SAApiCallException)
+            catch(SAApiCallException ex)
             {
                 string errorMsg = "Failed call the API";
-                logger.LogError(errorMsg);
+                logger.LogError(errorMsg, ex);
                 throw;
             }
             catch(SADataNotFoundException)
@@ -70,19 +70,19 @@ namespace SKSGroupF.SKS.Package.ServiceAgents
             catch (System.Net.Sockets.SocketException ex)
             {
                 string errorMsg = "Failed to access API because there was an error with the Socket";
-                logger.LogError(errorMsg);
+                logger.LogError(errorMsg, ex);
                 throw new SAApiCallException(nameof(OSMGeoEncodingAgent), errorMsg, ex);
             }
             catch(System.Net.Http.HttpRequestException ex)
             {
                 string errorMsg = "Failed to access API because there was an error with the HTTP Request";
-                logger.LogError(errorMsg);
+                logger.LogError(errorMsg, ex);
                 throw new SAApiCallException(nameof(OSMGeoEncodingAgent), errorMsg, ex);
             }
             catch(Exception ex)
             {
                 string errorMsg = "Unknown error occured when trying to access API";
-                logger.LogError(errorMsg);
+                logger.LogError(errorMsg, ex);
                 throw new SAApiCallException(nameof(OSMGeoEncodingAgent), errorMsg, ex);
             }
         }
@@ -98,7 +98,7 @@ namespace SKSGroupF.SKS.Package.ServiceAgents
             catch (Exception ex)
             {
                 string errorMsg = "Failed to parse URL because part of the Data was not found";
-                logger.LogError(errorMsg);
+                logger.LogError(errorMsg, ex);
                 throw new SADataNotFoundException(nameof(OSMGeoEncodingAgent), errorMsg, ex);
             }
         }

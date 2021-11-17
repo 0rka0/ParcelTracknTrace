@@ -4,6 +4,7 @@ using Moq;
 using NUnit.Framework;
 using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
 using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
+using SKSGroupF.SKS.Package.BusinessLogic.Interfaces.Exceptions;
 using SKSGroupF.SKS.Package.BusinessLogic.Logic;
 using SKSGroupF.SKS.Package.DataAccess.Entities.Models;
 using SKSGroupF.SKS.Package.DataAccess.Interfaces;
@@ -38,7 +39,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
         [Test]
         public void TrackParcel_ReceivesInvalidTrackingId_ThrowsException()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => logic.TrackParcel("ABCDEFGH"));
+            Assert.Throws<BLLogicException>(() => logic.TrackParcel("ABCDEFGH"));
         }
 
         [Test]
@@ -54,7 +55,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
         [Test]
         public void ReportParcelDelivery_ReceivesInvalidTrackingId_ThrowsException()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => logic.ReportParcelDelivery("ABCDEFGH"));
+            Assert.Throws<BLLogicException>(() => logic.ReportParcelDelivery("ABCDEFGH"));
         }
 
         [Test]
@@ -68,13 +69,13 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
         [Test]
         public void ReportParcelHop_ReceivesInvalidTrackingId_ThrowsException()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => logic.ReportParcelHop("ABCDEFGH", "ABCD\\dddd"));
+            Assert.Throws<BLLogicException>(() => logic.ReportParcelHop("ABCDEFGH", "ABCD\\dddd"));
         }
 
         [Test]
         public void ReportParcelHop_ReceivesInvalidCode_ThrowsException()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => logic.ReportParcelHop("PYJRB4HZ6", "ABCD\\ddddd"));
+            Assert.Throws<BLLogicException>(() => logic.ReportParcelHop("PYJRB4HZ6", "ABCD\\ddddd"));
         }
 
         [Test]

@@ -5,6 +5,7 @@ using Moq;
 using NUnit.Framework;
 using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
 using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
+using SKSGroupF.SKS.Package.BusinessLogic.Interfaces.Exceptions;
 using SKSGroupF.SKS.Package.BusinessLogic.Logic;
 using SKSGroupF.SKS.Package.DataAccess.Interfaces;
 using System;
@@ -66,7 +67,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
         [Test]
         public void SubmitParcel_ReceivesInvalidParcel_ThrowsException()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => logic.SubmitParcel(invalidParcel));
+            Assert.Throws<BLLogicException>(() => logic.SubmitParcel(invalidParcel));
         }
 
         [Test]
@@ -83,7 +84,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
         {
             string trackingID = "PYJRB4HZ6";
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => logic.TransitionParcel(invalidParcel, trackingID));
+            Assert.Throws<BLLogicException>(() => logic.TransitionParcel(invalidParcel, trackingID));
         }
 
         [Test]
@@ -91,7 +92,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
         {
             string trackingID = "ABCDEFGH";
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => logic.TransitionParcel(validParcel, trackingID));
+            Assert.Throws<BLLogicException>(() => logic.TransitionParcel(validParcel, trackingID));
         }
 
         [Test]

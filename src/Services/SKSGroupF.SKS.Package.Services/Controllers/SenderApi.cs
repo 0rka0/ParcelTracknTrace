@@ -25,6 +25,8 @@ using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using SKSGroupF.SKS.Package.DataAccess.Sql;
 using Microsoft.Extensions.Logging;
+using SKSGroupF.SKS.Package.BusinessLogic.Interfaces.Exceptions;
+using SKSGroupF.SKS.Package.Services.Interfaces.Exceptions;
 
 namespace SKSGroupF.SKS.Package.Services.Controllers
 { 
@@ -71,18 +73,39 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
 
             try
             {
-                BLParcel blParcel = mapper.Map<BLParcel>(body);
-                string trackingId = logic.SubmitParcel(blParcel);
-
-                trackingIdJson = $"{{\n  \"trackingId\" : \"{trackingId}\"\n}}";
+                try
+                {
+                    BLParcel blParcel = mapper.Map<BLParcel>(body);
+                    string trackingId = logic.SubmitParcel(blParcel);
+                    trackingIdJson = $"{{\n  \"trackingId\" : \"{trackingId}\"\n}}";
+                }
+                catch (BLLogicException ex)
+                {
+                    string errorMsg = "Failed to call business layer when trying to submit a parcel.";
+                    logger.LogError(errorMsg);
+                    throw new SVCBLCallException(nameof(SenderApiController), errorMsg, ex);
+                }          
+                catch (Exception ex)
+                {
+                    string errorMsg = "Failed to convert data when trying to subimt a parcel.";
+                    logger.LogError(errorMsg);
+                    throw new SVCConversionException(nameof(SenderApiController), errorMsg, ex);
+                }
             }
-            catch (Exception e)
+            catch (SVCBLCallException ex)
             {
-                logger.LogError("Failed to submit the parcel." + e.Message);
+                return StatusCode(400, ex.Message);
+            }
+            catch (SVCConversionException ex)
+            {
+                return StatusCode(400, ex.Message);
+            }
+            catch (Exception)
+            {
+                logger.LogError("Failed to submit a parcel with an unknown error.");
                 return StatusCode(400, default(Error));
             }
-
-            logger.LogInformation("Parcel submitted succesfully.");
+                logger.LogInformation("Parcel submitted succesfully.");
 
             var returnObject = trackingIdJson != null
                 ? JsonConvert.DeserializeObject<NewParcelInfo>(trackingIdJson)

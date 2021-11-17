@@ -5,6 +5,7 @@ using Moq;
 using NUnit.Framework;
 using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
 using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
+using SKSGroupF.SKS.Package.BusinessLogic.Interfaces.Exceptions;
 using SKSGroupF.SKS.Package.BusinessLogic.Logic;
 using SKSGroupF.SKS.Package.DataAccess.Entities.Models;
 using SKSGroupF.SKS.Package.DataAccess.Interfaces;
@@ -52,7 +53,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
         [Test]
         public void GetWarehouse_ReceivesInvalidCode_ThrowsException()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => logic.GetWarehouse("ABCD\\ddddd"));
+            Assert.Throws<BLLogicException>(() => logic.GetWarehouse("ABCD\\ddddd"));
         }
 
         [Test]
@@ -68,7 +69,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
         [Test]
         public void ImportWarehouses_ReceivesInvalidWarehouse_ThrowsException()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => logic.ImportWarehouses(new BLWarehouse()));
+            Assert.Throws<BLLogicException>(() => logic.ImportWarehouses(new BLWarehouse()));
         }
 
         [Test]

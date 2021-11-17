@@ -26,6 +26,8 @@ using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
 using Microsoft.Extensions.DependencyInjection;
 using SKSGroupF.SKS.Package.DataAccess.Sql;
 using Microsoft.Extensions.Logging;
+using SKSGroupF.SKS.Package.BusinessLogic.Interfaces.Exceptions;
+using SKSGroupF.SKS.Package.Services.Interfaces.Exceptions;
 
 namespace SKSGroupF.SKS.Package.Services.Controllers
 { 
@@ -75,20 +77,43 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
 
             try
             {
-                var tmp = logic.ExportWarehouses();
-
-                List<Hop> warehouseList = new List<Hop>();
-                foreach (var i in tmp)
+                try
                 {
-                    warehouseList.Add(mapper.Map<Hop>(i));
-                }
+                    var tmp = logic.ExportWarehouses();
 
-                var warehouseListJson = JsonConvert.SerializeObject(warehouseList);
-                returnObject = warehouseListJson != null
-                    ? JsonConvert.DeserializeObject<List<Hop>>(warehouseListJson)
-                    : default(List<Hop>);
+                    List<Hop> warehouseList = new List<Hop>();
+                    foreach (var i in tmp)
+                    {
+                        warehouseList.Add(mapper.Map<Hop>(i));
+                    }
+
+                    var warehouseListJson = JsonConvert.SerializeObject(warehouseList);
+                    returnObject = warehouseListJson != null
+                        ? JsonConvert.DeserializeObject<List<Hop>>(warehouseListJson)
+                        : default(List<Hop>);
+                }
+                catch (BLLogicException ex)
+                {
+                    string errorMsg = "Failed to call business layer when trying to export warehouses.";
+                    logger.LogError(errorMsg);
+                    throw new SVCBLCallException(nameof(WarehouseManagementApiController), errorMsg, ex);
+                }
+                catch (Exception ex)
+                {
+                    string errorMsg = "Failed to convert data when trying to export warehouses.";
+                    logger.LogError(errorMsg);
+                    throw new SVCConversionException(nameof(WarehouseManagementApiController), errorMsg, ex);
+                }
             }
-            catch
+            catch (SVCBLCallException ex)
+            {
+                return StatusCode(400, ex.Message);
+            }
+            catch (SVCConversionException ex)
+            {
+                return StatusCode(400, ex.Message);
+            }
+            catch (Exception)
             {
                 logger.LogError("Failed to export warehouse hierarchy.");
                 return StatusCode(400, default(Error));
@@ -128,12 +153,35 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
 
             try
             {
-                var blWarehouse = logic.GetWarehouse(code);
-                Hop warehouse = mapper.Map<Hop>(blWarehouse);
+                try
+                {
+                    var blWarehouse = logic.GetWarehouse(code);
+                    Hop warehouse = mapper.Map<Hop>(blWarehouse);
 
-                warehouseJson = JsonConvert.SerializeObject(warehouse);
+                    warehouseJson = JsonConvert.SerializeObject(warehouse);
+                }
+                catch (BLLogicException ex)
+                {
+                    string errorMsg = "Failed to call business layer when trying to get a single warehouse.";
+                    logger.LogError(errorMsg);
+                    throw new SVCBLCallException(nameof(WarehouseManagementApiController), errorMsg, ex);
+                }
+                catch (Exception ex)
+                {
+                    string errorMsg = "Failed to convert data when trying to get a single warehouse.";
+                    logger.LogError(errorMsg);
+                    throw new SVCConversionException(nameof(WarehouseManagementApiController), errorMsg, ex);
+                }
             }
-            catch
+            catch (SVCBLCallException ex)
+            {
+                return StatusCode(404, ex.Message);
+            }
+            catch (SVCConversionException ex)
+            {
+                return StatusCode(404, ex.Message);
+            }
+            catch (Exception)
             {
                 logger.LogError("Failed to export the warehouse.");
                 return StatusCode(404);
@@ -169,10 +217,33 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
 
             try
             {
-                var blWarehouse = mapper.Map<BLHop>(body);
-                logic.ImportWarehouses(blWarehouse);
+                try
+                {
+                    var blWarehouse = mapper.Map<BLHop>(body);
+                    logic.ImportWarehouses(blWarehouse);
+                }
+                catch (BLLogicException ex)
+                {
+                    string errorMsg = "Failed to call business layer when trying to import warehouse hierarchy.";
+                    logger.LogError(errorMsg);
+                    throw new SVCBLCallException(nameof(WarehouseManagementApiController), errorMsg, ex);
+                }
+                catch (Exception ex)
+                {
+                    string errorMsg = "Failed to convert data when trying to import warehouse hierarchy.";
+                    logger.LogError(errorMsg);
+                    throw new SVCConversionException(nameof(WarehouseManagementApiController), errorMsg, ex);
+                }
             }
-            catch
+            catch (SVCBLCallException ex)
+            {
+                return StatusCode(400, ex.Message);
+            }
+            catch (SVCConversionException ex)
+            {
+                return StatusCode(400, ex.Message);
+            }
+            catch (Exception)
             {
                 logger.LogError("Failed to import the hop.");
                 return StatusCode(400, default(Error));

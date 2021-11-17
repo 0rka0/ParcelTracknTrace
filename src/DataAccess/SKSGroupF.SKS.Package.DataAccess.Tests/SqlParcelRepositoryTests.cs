@@ -147,73 +147,73 @@ namespace SKSGroupF.SKS.Package.DataAccess.Tests
             Assert.Throws<DALDataNotFoundException>(() => repo.GetByTrackingId("abc"));
         }
 
-        [Test]
-        public void GetByReceipient_SelectsParcelWithValidRec_SelectsCorrectParcels()
-        {
-            var expected = parcels.Where(p => p.Receipient == parcels[1].Receipient);
-            var parcelList = repo.GetByReceipient(parcels[1].Receipient);
+        //[Test]
+        //public void GetByReceipient_SelectsParcelWithValidRec_SelectsCorrectParcels()
+        //{
+        //    var expected = parcels.Where(p => p.Receipient == parcels[1].Receipient);
+        //    var parcelList = repo.GetByReceipient(parcels[1].Receipient);
 
-            Assert.AreEqual(expected, parcelList);
-        }
+        //    Assert.AreEqual(expected, parcelList);
+        //}
 
-        [Test]
-        public void GetByReceipient_SelectsParcelWithNonexistingRec_ReturnsNull()
-        {
-            var parcelList = repo.GetByReceipient(new DALReceipient());
+        //[Test]
+        //public void GetByReceipient_SelectsParcelWithNonexistingRec_ReturnsNull()
+        //{
+        //    var parcelList = repo.GetByReceipient(new DALReceipient());
 
-            Assert.IsEmpty(parcelList);
-        }
+        //    Assert.IsEmpty(parcelList);
+        //}
 
-        [Test]
-        public void GetBySender_SelectsParcelWithValidRec_SelectsCorrectParcels()
-        {
-            var expected = parcels.Where(p => p.Sender == parcels[1].Sender);
-            var parcelList = repo.GetBySender(parcels[1].Sender);
+        //[Test]
+        //public void GetBySender_SelectsParcelWithValidRec_SelectsCorrectParcels()
+        //{
+        //    var expected = parcels.Where(p => p.Sender == parcels[1].Sender);
+        //    var parcelList = repo.GetBySender(parcels[1].Sender);
 
-            Assert.AreEqual(expected, parcelList);
-        }
+        //    Assert.AreEqual(expected, parcelList);
+        //}
 
-        [Test]
-        public void GetBySender_SelectsParcelWithNonexistingRec_ReturnsNull()
-        {
-            var parcelList = repo.GetBySender(new DALReceipient());
+        //[Test]
+        //public void GetBySender_SelectsParcelWithNonexistingRec_ReturnsNull()
+        //{
+        //    var parcelList = repo.GetBySender(new DALReceipient());
 
-            Assert.IsEmpty(parcelList);
-        }
+        //    Assert.IsEmpty(parcelList);
+        //}
 
-        [Test]
-        public void GetByState_SelectsParcelWithValidState_SelectsCorrectParcels()
-        {
-            var expected = parcels.Where(p => p.State == parcels[1].State);
-            var parcelList = repo.GetByState(parcels[1].State.Value);
+        //[Test]
+        //public void GetByState_SelectsParcelWithValidState_SelectsCorrectParcels()
+        //{
+        //    var expected = parcels.Where(p => p.State == parcels[1].State);
+        //    var parcelList = repo.GetByState(parcels[1].State.Value);
 
-            Assert.AreEqual(expected, parcelList);
-        }
+        //    Assert.AreEqual(expected, parcelList);
+        //}
 
-        [Test]
-        public void GetByState_SelectsParcelWithNonexistingState_ReturnsNull()
-        {
-            var parcelList = repo.GetByState(DALParcel.StateEnum.InTruckDeliveryEnum);
+        //[Test]
+        //public void GetByState_SelectsParcelWithNonexistingState_ReturnsNull()
+        //{
+        //    var parcelList = repo.GetByState(DALParcel.StateEnum.InTruckDeliveryEnum);
 
-            Assert.IsEmpty(parcelList);
-        }
+        //    Assert.IsEmpty(parcelList);
+        //}
 
-        [Test]
-        public void GetByWeight_SelectsParcelWithValidWeight_SelectsCorrectParcels()
-        {
-            var expected = parcels.Where(p => p.Weight == parcels[1].Weight);
-            var parcelList = repo.GetByWeight(3.0f, 3.0f);
+        //[Test]
+        //public void GetByWeight_SelectsParcelWithValidWeight_SelectsCorrectParcels()
+        //{
+        //    var expected = parcels.Where(p => p.Weight == parcels[1].Weight);
+        //    var parcelList = repo.GetByWeight(3.0f, 3.0f);
 
-            Assert.AreEqual(expected, parcelList);
-        }
+        //    Assert.AreEqual(expected, parcelList);
+        //}
 
-        [Test]
-        public void GetByWeight_SelectsParcelWithNonexistingWeight_ReturnsNull()
-        {
-            var parcelList = repo.GetByWeight(0.0f, 1.0f);
+        //[Test]
+        //public void GetByWeight_SelectsParcelWithNonexistingWeight_ReturnsNull()
+        //{
+        //    var parcelList = repo.GetByWeight(0.0f, 1.0f);
 
-            Assert.IsEmpty(parcelList);
-        }
+        //    Assert.IsEmpty(parcelList);
+        //}
 
         [Test]
         public void UpdateHopState_GetsParcelAndCode_TransfersFutureHopToVisitedHop()

@@ -46,7 +46,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
             {
                 string errorMsg = "There has been an error with the database";
                 logger.LogError(errorMsg);
-                throw new DALDataException(nameof(SqlHopRepository), nameof(Create), errorMsg, ex);
+                throw new DALSqlContextException(nameof(SqlHopRepository), nameof(Create), errorMsg, ex);
             }
         }
 
@@ -90,7 +90,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
             catch (Exception ex)
             {
                 string errorMsg = "There has been an error when accessing the database";
-                logger.LogError(errorMsg);
+                logger.LogError(errorMsg, ex);
                 throw new DALDataException(nameof(SqlHopRepository), nameof(Create), errorMsg, ex);
             }
         }
@@ -105,7 +105,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
             catch (Exception ex)
             {
                 string errorMsg = "Hop with specified code could not be found in Database.";
-                logger.LogError(errorMsg);
+                logger.LogError(errorMsg, ex);
                 throw new DALDataNotFoundException(nameof(SqlHopRepository), nameof(GetByCode), errorMsg, ex);
             }
         }
@@ -120,7 +120,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
             catch (Exception ex)
             {
                 string errorMsg = "No hops found in Database.";
-                logger.LogError(errorMsg);
+                logger.LogError(errorMsg, ex);
                 throw new DALDataNotFoundException(nameof(SqlHopRepository), nameof(GetAll), errorMsg, ex);
             }
         }
