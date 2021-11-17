@@ -38,7 +38,7 @@ namespace SKSGroupF.SKS.Package.ServiceAgents.Tests
         }
 
         [Test]
-        public void EncodeAddressAsync_ReceivesReceipient_ReturnsGeoCoordinatesWithCorrectLatAndLon()
+        public void EncodeAddress_ReceivesReceipient_ReturnsGeoCoordinatesWithCorrectLatAndLon()
         {
             double latExcpected = lat;
             double lonExpected = lon;
