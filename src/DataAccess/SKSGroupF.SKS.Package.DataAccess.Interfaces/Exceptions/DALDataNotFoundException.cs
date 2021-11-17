@@ -6,27 +6,18 @@ using System.Threading.Tasks;
 
 namespace SKSGroupF.SKS.Package.DataAccess.Interfaces.Exceptions
 {
-    public class DALDataNotFoundException : ApplicationException
+    public class DALDataNotFoundException : DALExceptionBase
     {
-        public string Repository { get; }
-        public string Operation { get; }
-        public DALDataNotFoundException(string repository, string operation)
+        public DALDataNotFoundException(string repository, string operation) : base(repository, operation)
         {
-            this.Repository = repository;
-            this.Operation = operation;
         }
 
-        public DALDataNotFoundException(string repository, string operation, string message, Exception innerException) : base (message, innerException)
+        public DALDataNotFoundException(string repository, string operation, string message, Exception innerException) : base(repository, operation, message, innerException)
         {
-            this.Repository = repository;
-            this.Operation = operation;
         }
 
-        public DALDataNotFoundException(string repository, string operation, string message) : base(message)
+        public DALDataNotFoundException(string repository, string operation, string message) : base(repository, operation, message)
         {
-            this.Repository = repository;
-            this.Operation = operation;
         }
-
     }
 }

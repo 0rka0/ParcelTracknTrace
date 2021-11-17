@@ -4,13 +4,13 @@ using AutoMapper;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
-using SKSGroupF.SKS.Package.BusinessLogic.Exceptions;
 using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
 using SKSGroupF.SKS.Package.BusinessLogic.Validators;
 using SKSGroupF.SKS.Package.DataAccess.Entities.Models;
 using SKSGroupF.SKS.Package.DataAccess.Interfaces;
 using SKSGroupF.SKS.Package.ServiceAgents.Entities;
 using SKSGroupF.SKS.Package.ServiceAgents.Interfaces;
+using SKSGroupF.SKS.Package.BusinessLogic.Interfaces.Exceptions;
 
 namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
 {
@@ -58,11 +58,11 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
                         return parcel.TrackingId;
                     }
                 }
-                catch (BL)
+                catch (Exception)
                 {
                     string errorMessage = "Failed to create parcel for database.";
-                    logger.LogError(errorMessage, ex);
-                    throw new BLLogicException(nameof(ParcelLogic), errorMessage, ex);
+                    logger.LogError(errorMessage);
+                    //throw new BLLogicException(nameof(ParcelLogic), errorMessage, ex);
                 }
             }
 

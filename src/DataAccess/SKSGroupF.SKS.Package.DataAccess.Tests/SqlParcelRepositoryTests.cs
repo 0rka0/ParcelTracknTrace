@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using SKSGroupF.SKS.Package.DataAccess.Entities.Models;
 using FizzWare.NBuilder;
 using Microsoft.Extensions.Logging.Abstractions;
+using SKSGroupF.SKS.Package.DataAccess.Interfaces.Exceptions;
 
 namespace SKSGroupF.SKS.Package.DataAccess.Tests
 {
@@ -143,9 +144,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Tests
         [Test]
         public void GetByTrackingId_SelectsParcelWithNonexistingTid_ReturnsNull()
         {
-            var parcel = repo.GetByTrackingId("abc");
-
-            Assert.IsNull(parcel);
+            Assert.Throws<DALDataNotFoundException>(() => repo.GetByTrackingId("abc"));
         }
 
         [Test]

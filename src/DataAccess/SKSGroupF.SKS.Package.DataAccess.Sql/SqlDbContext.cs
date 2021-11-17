@@ -11,8 +11,8 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
     {
         public SqlDbContext(DbContextOptions<SqlDbContext> options) : base(options)
         {
-            //this.Database.EnsureCreated();
             //this.Database.EnsureDeleted();
+            //this.Database.EnsureCreated();
         }
 
         public virtual DbSet<DALParcel> DbParcel { get; set; }
@@ -31,6 +31,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
             builder.Entity<DALReceipient>().HasKey(p => p.Id);
 
             builder.Entity<DALHop>().HasKey(p => p.Id);
+            builder.Entity<DALHop>().HasIndex(q => q.Code).IsUnique();
 
             builder.Entity<DALHopArrival>().HasKey(p => p.Id);
 

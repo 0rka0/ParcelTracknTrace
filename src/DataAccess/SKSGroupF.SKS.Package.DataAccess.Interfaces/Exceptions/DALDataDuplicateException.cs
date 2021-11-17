@@ -4,28 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SKSGroupF.SKS.Package.BusinessLogic.Exceptions
+namespace SKSGroupF.SKS.Package.DataAccess.Interfaces.Exceptions
 {
-    public class DALDataDuplicateException : ApplicationException
+    public class DALDataDuplicateException : DALExceptionBase
     {
-        public string Repository { get; }
-        public string Operation { get; }
-        public DALDataDuplicateException(string repository, string operation)
+        public DALDataDuplicateException(string repository, string operation) : base(repository, operation)
         {
-            this.Repository = repository;
-            this.Operation = operation;
         }
 
-        public DALDataDuplicateException(string repository, string operation, string message, Exception innerException) : base (message, innerException)
+        public DALDataDuplicateException(string repository, string operation, string message, Exception innerException) : base(repository, operation, message, innerException)
         {
-            this.Repository = repository;
-            this.Operation = operation;
         }
 
-        public DALDataDuplicateException(string repository, string operation, string message) : base(message)
+        public DALDataDuplicateException(string repository, string operation, string message) : base(repository, operation, message)
         {
-            this.Repository = repository;
-            this.Operation = operation;
         }
     }
 }

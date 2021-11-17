@@ -6,27 +6,18 @@ using System.Threading.Tasks;
 
 namespace SKSGroupF.SKS.Package.BusinessLogic.Interfaces.Exceptions
 {
-    public class BLDataNotFoundException : ApplicationException
+    public class BLDataNotFoundException : BLExceptionBase
     {
-        public string Repository { get; }
-        public string Operation { get; }
-        public BLDataNotFoundException(string repository, string operation)
+        public BLDataNotFoundException(string logicModule) : base(logicModule)
         {
-            this.Repository = repository;
-            this.Operation = operation;
         }
 
-        public BLDataNotFoundException(string repository, string operation, string message, Exception innerException) : base (message, innerException)
+        public BLDataNotFoundException(string logicModule, string message, Exception innerException) : base(logicModule, message, innerException)
         {
-            this.Repository = repository;
-            this.Operation = operation;
         }
 
-        public BLDataNotFoundException(string repository, string operation, string message) : base(message)
+        public BLDataNotFoundException(string logicModule, string message) : base(logicModule, message)
         {
-            this.Repository = repository;
-            this.Operation = operation;
         }
-
     }
 }

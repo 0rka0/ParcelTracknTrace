@@ -4,28 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SKSGroupF.SKS.Package.BusinessLogic.Exceptions
+namespace SKSGroupF.SKS.Package.BusinessLogic.Interfaces.Exceptions
 {
-    public class BLDataDuplicateException : ApplicationException
+    public class BLDataDuplicateException : BLExceptionBase
     {
-        public string Repository { get; }
-        public string Operation { get; }
-        public BLDataDuplicateException(string repository, string operation)
+        public BLDataDuplicateException(string logicModule) : base(logicModule)
         {
-            this.Repository = repository;
-            this.Operation = operation;
         }
 
-        public BLDataDuplicateException(string repository, string operation, string message, Exception innerException) : base (message, innerException)
+        public BLDataDuplicateException(string logicModule, string message, Exception innerException) : base (logicModule, message, innerException)
         {
-            this.Repository = repository;
-            this.Operation = operation;
         }
 
-        public BLDataDuplicateException(string repository, string operation, string message) : base(message)
+        public BLDataDuplicateException(string logicModule, string message) : base(logicModule, message)
         {
-            this.Repository = repository;
-            this.Operation = operation;
         }
     }
 }

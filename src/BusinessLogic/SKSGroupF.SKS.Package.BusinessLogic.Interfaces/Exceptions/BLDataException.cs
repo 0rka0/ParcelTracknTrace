@@ -6,26 +6,18 @@ using System.Threading.Tasks;
 
 namespace SKSGroupF.SKS.Package.BusinessLogic.Interfaces.Exceptions
 {
-    public class BLDataException : ApplicationException
+    public class BLDataException : BLExceptionBase
     {
-        public string Repository { get; }
-        public string Operation { get; }
-        public BLDataException(string repository, string operation)
+        public BLDataException(string logicModule) : base(logicModule)
         {
-            this.Repository = repository;
-            this.Operation = operation;
         }
 
-        public BLDataException(string repository, string operation, string message, Exception innerException) : base (message, innerException)
+        public BLDataException(string logicModule, string message, Exception innerException) : base(logicModule, message, innerException)
         {
-            this.Repository = repository;
-            this.Operation = operation;
         }
 
-        public BLDataException(string repository, string operation, string message) : base(message)
+        public BLDataException(string logicModule, string message) : base(logicModule, message)
         {
-            this.Repository = repository;
-            this.Operation = operation;
         }
     }
 }
