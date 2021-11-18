@@ -11,11 +11,11 @@ namespace SKSGroupF.SKS.Package.DataAccess.Interfaces.Exceptions
         public string Repository { get; }
         public string Operation { get; }
 
-        public DALExceptionBase(string repository, string operation)
-        {
-            this.Repository = repository;
-            this.Operation = operation;
-        }
+        //public DALExceptionBase(string repository, string operation)
+        //{
+        //    this.Repository = repository;
+        //    this.Operation = operation;
+        //}
 
         public DALExceptionBase(string repository, string operation, string message, Exception innerException) : base(message, innerException)
         {

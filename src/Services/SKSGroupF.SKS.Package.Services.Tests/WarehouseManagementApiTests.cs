@@ -58,7 +58,7 @@ namespace SKSGroupF.SKS.Package.Services.Test
         public void GetWarehouse_BLGetsInvalidData_ReturnsErrorStatusCode()
         {
             Mock<IWarehouseLogic> mockLogic = new();
-            mockLogic.Setup(m => m.GetWarehouse(It.IsNotIn("ABCD\\dddd"))).Throws(new BLLogicException(nameof(WarehouseManagementApiTests)));
+            mockLogic.Setup(m => m.GetWarehouse(It.IsNotIn("ABCD\\dddd"))).Throws(new BLLogicException(nameof(WarehouseManagementApiTests), "test"));
 
             WarehouseManagementApiController controller = new WarehouseManagementApiController(mapper, mockLogic.Object, new NullLogger<WarehouseManagementApiController>());
 

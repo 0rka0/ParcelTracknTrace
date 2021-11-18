@@ -8,9 +8,9 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Interfaces.Exceptions
 {
     public class BLLogicException : BLExceptionBase
     {
-        public BLLogicException(string logicModule) : base(logicModule)
-        {
-        }
+        //public BLLogicException(string logicModule) : base(logicModule)
+        //{
+        //}
 
         public BLLogicException(string logicModule, string message, Exception innerException) : base(logicModule, message, innerException)
         {

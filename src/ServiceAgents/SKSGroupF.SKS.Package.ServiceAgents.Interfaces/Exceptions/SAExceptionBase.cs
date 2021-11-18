@@ -10,10 +10,10 @@ namespace SKSGroupF.SKS.Package.ServiceAgents.Interfaces.Exceptions
     {
         public string Agent { get; }
 
-        public SAExceptionBase(string agent)
-        {
-            this.Agent = agent;
-        }
+        //public SAExceptionBase(string agent)
+        //{
+        //    this.Agent = agent;
+        //}
 
         public SAExceptionBase(string agent, string message, Exception innerException) : base(message, innerException)
         {

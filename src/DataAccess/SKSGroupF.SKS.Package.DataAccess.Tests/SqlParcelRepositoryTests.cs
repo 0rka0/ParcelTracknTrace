@@ -126,11 +126,29 @@ namespace SKSGroupF.SKS.Package.DataAccess.Tests
         }
 
         [Test]
+        public void Delete_CannotDeleteSpecifiedParcel_ThrowsDataNotFoundException()
+        {
+            Assert.Throws<DALDataNotFoundException>(() => repo.Delete(20));
+        }
+
+        [Test]
         public void GetAll_SelectsAllParcelsFromDb_SelectsParcelsCorrectly()
         {
             var parcelList= repo.GetAll();
 
             Assert.AreEqual(parcels.Count, parcelList.ToList().Count);
+        }
+
+        [Test]
+        public void GetAll_CannotFindAnyParcels_ThrowsDataNotFoundException()
+        {
+            var DBMock = new Mock<ISqlDbContext>();
+            DBMock.Setup(p => p.DbParcel).Throws(new Exception());
+            DBMock.Setup(p => p.DbHopArrival).Throws(new Exception());
+
+            repo = new SqlParcelRepository(DBMock.Object, new NullLogger<SqlParcelRepository>());
+
+            Assert.Throws<DALDataNotFoundException>(() => repo.GetAll());
         }
 
         [Test]

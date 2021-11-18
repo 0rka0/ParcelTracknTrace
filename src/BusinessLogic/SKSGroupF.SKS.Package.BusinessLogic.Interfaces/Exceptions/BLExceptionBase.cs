@@ -10,10 +10,10 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Interfaces.Exceptions
     {
         public string logicModule { get; }
 
-        public BLExceptionBase(string logicModule) : base()
-        {
-            this.logicModule = logicModule;
-        }
+        //public BLExceptionBase(string logicModule) : base()
+        //{
+        //    this.logicModule = logicModule;
+        //}
 
         public BLExceptionBase(string logicModule, string message, Exception innerException) : base(message, innerException)
         {

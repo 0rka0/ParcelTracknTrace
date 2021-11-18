@@ -8,6 +8,7 @@ using SKSGroupF.SKS.Package.BusinessLogic.Interfaces.Exceptions;
 using SKSGroupF.SKS.Package.BusinessLogic.Logic;
 using SKSGroupF.SKS.Package.DataAccess.Entities.Models;
 using SKSGroupF.SKS.Package.DataAccess.Interfaces;
+using SKSGroupF.SKS.Package.DataAccess.Interfaces.Exceptions;
 using System;
 
 namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
@@ -53,7 +54,27 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
         }
 
         [Test]
-        public void ReportParcelDelivery_ReceivesInvalidTrackingId_ThrowsException()
+        public void TrackParcel_ReceivesTrackingId_ThrowsUnknownException()
+        {
+            Mock<IParcelRepository> mockRepo = new();
+            mockRepo.Setup(m => m.GetByTrackingId(It.IsAny<string>())).Throws(new Exception());
+            logic = new TrackingLogic(mapper, mockRepo.Object, new NullLogger<TrackingLogic>());
+
+            Assert.Throws<BLLogicException>(() => logic.TrackParcel("PYJRB4HZ6"));
+        }
+
+        [Test]
+        public void TrackParcel_ReceivesTrackingId_ThrowsDataNotFoundException()
+        {
+            Mock<IParcelRepository> mockRepo = new();
+            mockRepo.Setup(m => m.GetByTrackingId(It.IsAny<string>())).Throws(new DALDataNotFoundException(nameof(TrackingLogicTests), nameof(TrackParcel_ReceivesTrackingId_ThrowsDataNotFoundException), "test"));
+            logic = new TrackingLogic(mapper, mockRepo.Object, new NullLogger<TrackingLogic>());
+
+            Assert.Throws<BLLogicException>(() => logic.TrackParcel("PYJRB4HZ6"));
+        }
+
+        [Test]
+        public void ReportParcelDelivery_ReceivesInvalidTrackingId_ThrowsLogicException()
         {
             Assert.Throws<BLLogicException>(() => logic.ReportParcelDelivery("ABCDEFGH"));
         }
@@ -67,13 +88,13 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
         }
 
         [Test]
-        public void ReportParcelHop_ReceivesInvalidTrackingId_ThrowsException()
+        public void ReportParcelHop_ReceivesInvalidTrackingId_ThrowsLogicException()
         {
             Assert.Throws<BLLogicException>(() => logic.ReportParcelHop("ABCDEFGH", "ABCD\\dddd"));
         }
 
         [Test]
-        public void ReportParcelHop_ReceivesInvalidCode_ThrowsException()
+        public void ReportParcelHop_ReceivesInvalidCode_ThrowsLogicException()
         {
             Assert.Throws<BLLogicException>(() => logic.ReportParcelHop("PYJRB4HZ6", "ABCD\\ddddd"));
         }

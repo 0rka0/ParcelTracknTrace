@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace SKSGroupF.SKS.Package.DataAccess.Interfaces.Exceptions
 {
-    class DALConnectionException : DALExceptionBase
+    public class DALConnectionException : DALExceptionBase
     {
-        public DALConnectionException(string repository, string operation) : base(repository, operation)
-        {
-        }
+        //public DALConnectionException(string repository, string operation) : base(repository, operation)
+        //{
+        //}
 
         public DALConnectionException(string repository, string operation, string message, Exception innerException) : base(repository, operation, message, innerException)
         {

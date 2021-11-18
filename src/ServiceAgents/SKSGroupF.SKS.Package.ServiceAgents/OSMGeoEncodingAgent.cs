@@ -89,18 +89,16 @@ namespace SKSGroupF.SKS.Package.ServiceAgents
 
         public string ParseUrlRessource(SAReceipient rec)
         {
-            try
-            {
-                logger.LogInformation("Parsing the URL.");
-                string url = $"search?format=json&street={rec.Street}&postalcode={rec.PostalCode}&city={rec.City}&country={rec.Country}";
-                return url;
-            }
-            catch (Exception ex)
+            if (String.IsNullOrWhiteSpace(rec.Street) || String.IsNullOrWhiteSpace(rec.PostalCode) || String.IsNullOrWhiteSpace(rec.City) || String.IsNullOrWhiteSpace(rec.Country))
             {
                 string errorMsg = "Failed to parse URL because part of the Data was not found";
-                logger.LogError(errorMsg, ex);
-                throw new SADataNotFoundException(nameof(OSMGeoEncodingAgent), errorMsg, ex);
+                logger.LogError(errorMsg);
+                throw new SADataNotFoundException(nameof(OSMGeoEncodingAgent), errorMsg);
             }
+
+            logger.LogInformation("Parsing the URL.");
+            string url = $"search?format=json&street={rec.Street}&postalcode={rec.PostalCode}&city={rec.City}&country={rec.Country}";
+            return url;
         }
     }
 }

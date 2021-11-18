@@ -8,16 +8,16 @@ namespace SKSGroupF.SKS.Package.ServiceAgents.Interfaces.Exceptions
 {
     public class SATaskException : SAExceptionBase
     {
-        public SATaskException(string agent) : base(agent)
-        {
-        }
+        //public SATaskException(string agent) : base(agent)
+        //{
+        //}
 
         public SATaskException(string agent, string message, Exception innerException) : base(agent, message, innerException)
         {
         }
 
-        public SATaskException(string agent, string message) : base(agent, message)
-        {
-        }
+        //public SATaskException(string agent, string message) : base(agent, message)
+        //{
+        //}
     }
 }

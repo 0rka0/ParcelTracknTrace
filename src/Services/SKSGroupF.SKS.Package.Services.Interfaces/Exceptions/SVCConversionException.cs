@@ -8,16 +8,16 @@ namespace SKSGroupF.SKS.Package.Services.Interfaces.Exceptions
 {
     public class SVCConversionException : SVCExceptionBase
     {
-        public SVCConversionException(string controller) : base(controller)
-        {
-        }
+        //public SVCConversionException(string controller) : base(controller)
+        //{
+        //}
 
         public SVCConversionException(string controller, string message, Exception innerException) : base(controller, message, innerException)
         {
         }
 
-        public SVCConversionException(string controller, string message) : base(controller, message)
-        {
-        }
+        //public SVCConversionException(string controller, string message) : base(controller, message)
+        //{
+        //}
     }
 }

@@ -80,6 +80,16 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
         }
 
         [Test]
+        public void SubmitParcel_ReceivesParcel_ThrowsUnknownException()
+        {
+            Mock<IParcelRepository> mockRepo = new();
+            mockRepo.Setup(m => m.Create(It.IsAny<DataAccess.Entities.Models.DALParcel>())).Throws(new Exception());
+            logic = new ParcelLogic(mapper, mockRepo.Object, null, new NullLogger<ParcelLogic>());
+
+            Assert.Throws<BLLogicException>(() => logic.SubmitParcel(validParcel));
+        }
+
+        [Test]
         public void TransitionParcel_ReceivesInvalidParcel_ThrowsException()
         {
             string trackingID = "PYJRB4HZ6";

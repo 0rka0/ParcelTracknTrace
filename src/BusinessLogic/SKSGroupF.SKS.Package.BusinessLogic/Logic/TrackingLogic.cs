@@ -95,11 +95,11 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
                     logger.LogDebug("Trying to update delivered-state of a parcel.");
                     repo.UpdateDelivered(repo.GetByTrackingId(trackingID));
                 }
-                catch
+                catch (Exception ex)
                 {
                     string errorMsg = "Failed to update parcel in database.";
                     logger.LogError(errorMsg);
-                    throw new BLDataException(nameof(TrackingLogic), errorMsg);
+                    throw new BLDataException(nameof(TrackingLogic), errorMsg, ex);
                 }
             }
             catch (Exception ex)
@@ -135,11 +135,11 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
                     logger.LogDebug("Trying to update hop-state of a parcel.");
                     repo.UpdateHopState(repo.GetByTrackingId(trackingID), code);
                 }
-                catch
+                catch (Exception ex)
                 {
                     string errorMsg = "Failed to update parcel in database.";
                     logger.LogError(errorMsg);
-                    throw new BLDataException(nameof(TrackingLogic), errorMsg);
+                    throw new BLDataException(nameof(TrackingLogic), errorMsg, ex);
                 }
             }
             catch (Exception ex)

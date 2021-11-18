@@ -125,11 +125,11 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
                     logger.LogDebug("Trying to create hop for database");
                     repo.Create(mapper.Map<DALHop>(warehouse));
                 }
-                catch
+                catch (Exception ex)
                 {
                     string errorMsg = "Failed to create hop for database.";
                     logger.LogError(errorMsg);
-                    throw new BLDataException(nameof(WarehouseLogic), errorMsg);
+                    throw new BLDataException(nameof(WarehouseLogic), errorMsg, ex);
                 }
             }
             catch (Exception ex)

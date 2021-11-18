@@ -52,25 +52,16 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
 
         public void Delete(int id)
         {
-            try
+            logger.LogInformation("Removing existing hop from database.");
+            var hop = context.DbHop.Find(id);
+            if (hop == null)
             {
-                logger.LogInformation("Removing existing hop from database.");
-                var hop = context.DbHop.Find(id);
-                if (hop == null)
-                {
-                    string errorMsg = "Hop with specified Id could not be found in database.";
-                    logger.LogError(errorMsg);
-                    throw new DALDataNotFoundException(nameof(SqlHopRepository), nameof(Delete), errorMsg);
-                }
-                context.DbHop.Remove(hop);
-                SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                string errorMsg = "There has been an error with the database";
+                string errorMsg = "Hop with specified Id could not be found in database.";
                 logger.LogError(errorMsg);
-                throw new DALDataException(nameof(SqlHopRepository), nameof(Create), errorMsg, ex);
+                throw new DALDataNotFoundException(nameof(SqlHopRepository), nameof(Delete), errorMsg);
             }
+            context.DbHop.Remove(hop);
+            SaveChanges();
         }
 
         public void Update(DALHop hop)

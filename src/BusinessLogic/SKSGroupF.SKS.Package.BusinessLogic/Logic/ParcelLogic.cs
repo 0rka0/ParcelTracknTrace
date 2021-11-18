@@ -61,8 +61,8 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
                     catch (Exception ex)
                     {
                         string errorMsg = "Failed to create parcel for database.";
-                        logger.LogError(errorMsg, ex);
-                        throw new BLDataException(nameof(ParcelLogic), errorMsg);
+                        logger.LogError(errorMsg);
+                        throw new BLDataException(nameof(ParcelLogic), errorMsg, ex);
                     }
                 }
                 else
@@ -110,11 +110,11 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
                     logger.LogDebug("Trying to update parcel in database.");
                     repo.Update(mapper.Map<DALParcel>(parcel));
                 }
-                catch
+                catch (Exception ex)
                 {
                     string errorMsg = "Failed to update parcel in database.";
                     logger.LogError(errorMsg);
-                    throw new BLDataException(nameof(ParcelLogic), errorMsg);
+                    throw new BLDataException(nameof(ParcelLogic), errorMsg, ex);
                 }
             }
             catch (Exception ex)
