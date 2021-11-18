@@ -12,9 +12,9 @@ namespace SKSGroupF.SKS.Package.ServiceAgents.Interfaces.Exceptions
         //{
         //}
 
-        public SADataNotFoundException(string agent, string message, Exception innerException) : base(agent, message, innerException)
-        {
-        }
+        //public SADataNotFoundException(string agent, string message, Exception innerException) : base(agent, message, innerException)
+        //{
+        //}
 
         public SADataNotFoundException(string agent, string message) : base(agent, message)
         {
