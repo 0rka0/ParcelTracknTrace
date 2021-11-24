@@ -10,6 +10,7 @@ using Moq;
 using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
 using FizzWare.NBuilder;
 using Microsoft.Extensions.Logging.Abstractions;
+using SKSGroupF.SKS.Package.BusinessLogic.Interfaces.Exceptions;
 
 namespace SKSGroupF.SKS.Package.Services.Test
 {
@@ -57,11 +58,11 @@ namespace SKSGroupF.SKS.Package.Services.Test
         public void GetWarehouse_BLGetsInvalidData_ReturnsErrorStatusCode()
         {
             Mock<IWarehouseLogic> mockLogic = new();
-            mockLogic.Setup(m => m.GetWarehouse(It.IsNotIn("ABCD\\dddd"))).Throws(new ArgumentOutOfRangeException());
+            mockLogic.Setup(m => m.GetWarehouse(It.IsNotIn("ABCD\\dddd"))).Throws(new BLLogicException(nameof(WarehouseManagementApiTests), "test"));
 
             WarehouseManagementApiController controller = new WarehouseManagementApiController(mapper, mockLogic.Object, new NullLogger<WarehouseManagementApiController>());
 
-            var result = (StatusCodeResult)controller.GetWarehouse("ABCD\\ddddd");
+            var result = (ObjectResult)controller.GetWarehouse("ABCD\\ddddd");
 
             Assert.AreEqual(404, result.StatusCode);
         }

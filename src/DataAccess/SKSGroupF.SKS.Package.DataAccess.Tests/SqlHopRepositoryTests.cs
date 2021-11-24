@@ -4,6 +4,7 @@ using Moq;
 using NUnit.Framework;
 using SKSGroupF.SKS.Package.DataAccess.Entities.Models;
 using SKSGroupF.SKS.Package.DataAccess.Interfaces;
+using SKSGroupF.SKS.Package.DataAccess.Interfaces.Exceptions;
 using SKSGroupF.SKS.Package.DataAccess.Sql;
 using System;
 using System.Collections.Generic;
@@ -101,11 +102,28 @@ namespace SKSGroupF.SKS.Package.DataAccess.Tests
         }
 
         [Test]
+        public void Delete_CannotDeleteSpecifiedHop_ThrowsDataNotFoundException()
+        {
+            Assert.Throws<DALDataNotFoundException>(() => repo.Delete(20));
+        }
+
+        [Test]
         public void GetAll_SelectsAllHopsFromDb_SelectsHopsCorrectly()
         {
             var hopList = repo.GetAll();
 
             Assert.AreEqual(hops.Count, hopList.ToList().Count);
+        }
+
+        [Test]
+        public void GetAll_CannotFindAnyHops_ThrowsDataNotFoundException()
+        {
+            var DBMock = new Mock<ISqlDbContext>();
+            DBMock.Setup(p => p.DbHop).Throws(new Exception());
+
+            repo = new SqlHopRepository(DBMock.Object, new NullLogger<SqlHopRepository>());
+
+            Assert.Throws<DALDataNotFoundException>(() => repo.GetAll());
         }
 
         [Test]

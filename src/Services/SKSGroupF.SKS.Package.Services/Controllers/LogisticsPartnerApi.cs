@@ -26,6 +26,8 @@ using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
 using Microsoft.Extensions.DependencyInjection;
 using SKSGroupF.SKS.Package.DataAccess.Sql;
 using Microsoft.Extensions.Logging;
+using SKSGroupF.SKS.Package.Services.Interfaces.Exceptions;
+using SKSGroupF.SKS.Package.BusinessLogic.Interfaces.Exceptions;
 
 namespace SKSGroupF.SKS.Package.Services.Controllers
 { 
@@ -73,14 +75,39 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
 
             try
             {
-                BLParcel blParcel = mapper.Map<BLParcel>(body);
-                logic.TransitionParcel(blParcel, trackingId);
+                try
+                {
+                    BLParcel blParcel = mapper.Map<BLParcel>(body);
+                    logic.TransitionParcel(blParcel, trackingId);
 
-                trackingIdJson = $"{{\n  \"trackingId\" : \"{trackingId}\"\n}}";
+                    trackingIdJson = $"{{\n  \"trackingId\" : \"{trackingId}\"\n}}";
+                }
+                catch (BLLogicException ex)
+                {
+                    string errorMsg = "Failed to call business layer when trying to transition a parcel.";
+                    logger.LogError(errorMsg);
+                    throw new SVCBLCallException(nameof(LogisticsPartnerApiController), errorMsg, ex);
+                }
+
+                catch (Exception ex)
+                {
+                    string errorMsg = "Failed to convert data when trying to transition a parcel.";
+                    logger.LogError(errorMsg);
+                    throw new SVCConversionException(nameof(LogisticsPartnerApiController), errorMsg, ex);
+                }
+
             }
-            catch
+            catch (SVCBLCallException ex)
             {
-                logger.LogError("Failed to transition the parcel.");
+                return StatusCode(400, ex.Message);
+            }
+            catch (SVCConversionException ex)
+            {
+                return StatusCode(400, ex.Message);
+            }
+            catch (Exception)
+            {
+                logger.LogError("Failed to transition parcel with an unknown error.");
                 return StatusCode(400, default(Error));
             }
 

@@ -2,17 +2,33 @@
 using Microsoft.Extensions.Configuration;
 using SKSGroupF.SKS.Package.DataAccess.Entities.Models;
 using SKSGroupF.SKS.Package.DataAccess.Interfaces;
+using System;
 using System.Diagnostics.CodeAnalysis;
+using SKSGroupF.SKS.Package.DataAccess.Interfaces.Exceptions;
+using Microsoft.Extensions.Logging;
 
 namespace SKSGroupF.SKS.Package.DataAccess.Sql
 {
     [ExcludeFromCodeCoverage]
     public class SqlDbContext : DbContext, ISqlDbContext
     {
-        public SqlDbContext(DbContextOptions<SqlDbContext> options) : base(options)
+        private readonly ILogger logger;
+
+        public SqlDbContext(DbContextOptions<SqlDbContext> options, ILogger<SqlDbContext> logger) : base(options)
         {
-            //this.Database.EnsureCreated();
+            this.logger = logger;
             //this.Database.EnsureDeleted();
+
+            try
+            {
+                this.Database.EnsureCreated();
+            }
+            catch (Exception ex)
+            {
+                string errorMsg = "Failed to connect to database.";
+                logger.LogError(errorMsg);
+                throw new DALConnectionException(nameof(SqlDbContext), nameof(SqlDbContext), errorMsg, ex);
+            }
         }
 
         public virtual DbSet<DALParcel> DbParcel { get; set; }
@@ -26,17 +42,27 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<DALParcel>().HasKey(p => p.Id);
+            try
+            {
+                builder.Entity<DALParcel>().HasKey(p => p.Id);
 
-            builder.Entity<DALReceipient>().HasKey(p => p.Id);
+                builder.Entity<DALReceipient>().HasKey(p => p.Id);
 
-            builder.Entity<DALHop>().HasKey(p => p.Id);
+                builder.Entity<DALHop>().HasKey(p => p.Id);
+                builder.Entity<DALHop>().HasIndex(q => q.Code).IsUnique();
 
-            builder.Entity<DALHopArrival>().HasKey(p => p.Id);
+                builder.Entity<DALHopArrival>().HasKey(p => p.Id);
 
-            builder.Entity<DALGeoCoordinate>().HasKey(p => p.Id);
+                builder.Entity<DALGeoCoordinate>().HasKey(p => p.Id);
 
-            builder.Entity<DALWarehouseNextHops>().HasKey(p => p.Id);
+                builder.Entity<DALWarehouseNextHops>().HasKey(p => p.Id);
+            }
+            catch (Exception ex)
+            {
+                string errorMsg = "Error occured when trying to create DB model.";
+                logger.LogError(errorMsg);
+                throw new DALSqlContextException(nameof(SqlDbContext), nameof(OnModelCreating), errorMsg, ex);
+            }
         }
 
         public int SaveChangesToDb()

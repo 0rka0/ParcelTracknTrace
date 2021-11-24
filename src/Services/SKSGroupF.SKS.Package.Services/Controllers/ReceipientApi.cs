@@ -25,6 +25,9 @@ using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using SKSGroupF.SKS.Package.DataAccess.Sql;
 using Microsoft.Extensions.Logging;
+using SKSGroupF.SKS.Package.Services.Interfaces.Exceptions;
+using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
+using SKSGroupF.SKS.Package.BusinessLogic.Interfaces.Exceptions;
 
 namespace SKSGroupF.SKS.Package.Services.Controllers
 { 
@@ -75,19 +78,43 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
 
             try
             {
-                var blParcel = logic.TrackParcel(trackingId);
 
-                Parcel parcel = mapper.Map<Parcel>(blParcel);
-                TrackingInformation trackingInfo = mapper.Map<TrackingInformation>(blParcel);
-
-                trackingInformationJson = JsonConvert.SerializeObject(trackingInfo);
-                //trackingInformationJson = "{\n  \"visitedHops\" : [ {\n    \"dateTime\" : \"2000-01-23T04:56:07.000+00:00\",\n    \"code\" : \"code\",\n    \"description\" : \"description\"\n  }, {\n    \"dateTime\" : \"2000-01-23T04:56:07.000+00:00\",\n    \"code\" : \"code\",\n    \"description\" : \"description\"\n  } ],\n  \"futureHops\" : [ null, null ],\n  \"state\" : \"Pickup\"\n}";
+                try
+                {
+                    var blParcel = logic.TrackParcel(trackingId);
+                    Parcel parcel = mapper.Map<Parcel>(blParcel);
+                    TrackingInformation trackingInfo = mapper.Map<TrackingInformation>(blParcel);
+                    trackingInformationJson = JsonConvert.SerializeObject(trackingInfo);
+                    //trackingInformationJson = "{\n  \"visitedHops\" : [ {\n    \"dateTime\" : \"2000-01-23T04:56:07.000+00:00\",\n    \"code\" : \"code\",\n    \"description\" : \"description\"\n  }, {\n    \"dateTime\" : \"2000-01-23T04:56:07.000+00:00\",\n    \"code\" : \"code\",\n    \"description\" : \"description\"\n  } ],\n  \"futureHops\" : [ null, null ],\n  \"state\" : \"Pickup\"\n}";
+                }
+                catch (BLLogicException ex)
+                {
+                    string errorMsg = "Failed to call business layer when trying to track a parcel.";
+                    logger.LogError(errorMsg);
+                    throw new SVCBLCallException(nameof(ReceipientApiController), errorMsg, ex);
+                }
+           
+                catch (Exception ex)
+                {
+                    string errorMsg = "Failed to convert data when trying to track a parcel.";
+                    logger.LogError(errorMsg);
+                    throw new SVCConversionException(nameof(ReceipientApiController), errorMsg, ex);
+                }              
             }
-            catch
+            catch (SVCBLCallException ex)
             {
-                logger.LogError("Failed to track the parcel.");
+                return StatusCode(404, ex.Message);
+            }
+            catch (SVCConversionException ex)
+            {
+                return StatusCode(404, ex.Message);
+            }     
+            catch (Exception)
+            {
+                logger.LogError("Failed to track a parcel with an unknown error.");
                 return StatusCode(404, default(Error));
             }
+            
 
             logger.LogInformation("Parcel tracked succesfully.");
 
