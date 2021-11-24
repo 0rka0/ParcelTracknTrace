@@ -9,6 +9,8 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Entities.Models
     [DataContract]
     public class BLHop
     {
+        [DataMember(Name = "id")]
+        public int Id { get; set; }
         /// <summary>
         /// Gets or Sets HopType
         /// </summary>
@@ -25,6 +27,8 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Entities.Models
         [RegularExpression("^[A-Z]{4}\\d{1,4}$")]
         [DataMember(Name = "code")]
         public string Code { get; set; }
+
+        public BLHop Parent { get; set; }
 
         /// <summary>
         /// Description of the hop.

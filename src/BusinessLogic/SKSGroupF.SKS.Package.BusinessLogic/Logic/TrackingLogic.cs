@@ -10,6 +10,7 @@ using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
 using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
 using SKSGroupF.SKS.Package.BusinessLogic.Interfaces.Exceptions;
 using SKSGroupF.SKS.Package.BusinessLogic.Validators;
+using SKSGroupF.SKS.Package.DataAccess.Entities.Models;
 using SKSGroupF.SKS.Package.DataAccess.Interfaces;
 using SKSGroupF.SKS.Package.DataAccess.Interfaces.Exceptions;
 
@@ -17,14 +18,16 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
 {
     public class TrackingLogic : ITrackingLogic
     {
-        private readonly IParcelRepository repo;
+        private readonly IParcelRepository parcelRepo;
+        private readonly IHopRepository hopRepo;
         private readonly IMapper mapper;
         private readonly ILogger logger;
 
-        public TrackingLogic(IMapper mapper, IParcelRepository repo, ILogger<TrackingLogic> logger)
+        public TrackingLogic(IMapper mapper, IParcelRepository parcelRepo, IHopRepository hopRepo, ILogger<TrackingLogic> logger)
         {
             this.mapper = mapper;
-            this.repo = repo;
+            this.parcelRepo = parcelRepo;
+            this.hopRepo = hopRepo;
             this.logger = logger;
         }
 
@@ -49,7 +52,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
                 try
                 {
                     logger.LogDebug("Trying to get parcel by tracking Id from database.");
-                    tmpParcel = mapper.Map<BLParcel>(repo.GetByTrackingId(trackingID));
+                    tmpParcel = mapper.Map<BLParcel>(parcelRepo.GetByTrackingId(trackingID));
                     return tmpParcel;
                 }
                 catch (DALDataNotFoundException ex)
@@ -93,7 +96,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
                 try
                 {
                     logger.LogDebug("Trying to update delivered-state of a parcel.");
-                    repo.UpdateDelivered(repo.GetByTrackingId(trackingID));
+                    parcelRepo.UpdateDelivered(parcelRepo.GetByTrackingId(trackingID));
                 }
                 catch (Exception ex)
                 {
@@ -133,7 +136,29 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
                 try
                 {
                     logger.LogDebug("Trying to update hop-state of a parcel.");
-                    repo.UpdateHopState(repo.GetByTrackingId(trackingID), code);
+
+                    var tmpParcel = parcelRepo.GetByTrackingId(trackingID);
+                    var hopArrival = mapper.Map<BLHopArrival>(parcelRepo.GetHopArrivalByCode(code, tmpParcel));
+                    BLParcel parcel = mapper.Map<BLParcel>(tmpParcel);
+
+                    parcel.FutureHops.Remove(hopArrival);
+                    hopArrival.Visited = true;
+                    parcel.VisitedHops.Add(hopArrival);
+
+                    var hop = mapper.Map<BLHop>(hopRepo.GetByCode(code));
+
+                    if (string.Compare(hop.HopType, "Warehouse") == 0)
+                        parcel.State = BLParcel.StateEnum.InTransportEnum;
+                    if (string.Compare(hop.HopType, "Truck") == 0)
+                        parcel.State = BLParcel.StateEnum.InTruckDeliveryEnum;
+                    if (string.Compare(hop.HopType, "TransferWarehouse") == 0)
+                    {
+                        //(POST https://<partnerUrl>/parcel/<trackingId>) 
+                        parcel.State = BLParcel.StateEnum.TransferredEnum;
+                    }
+
+                    parcelRepo.Update(mapper.Map<DALParcel>(parcel));
+                    //parcelRepo.UpdateHopState(parcelRepo.GetByTrackingId(trackingID), code);
                 }
                 catch (Exception ex)
                 {

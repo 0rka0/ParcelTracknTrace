@@ -12,6 +12,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Interfaces
         int Create(DALHop hop);
         void Update(DALHop hop);
         void Delete(int id);
+        void Clear();
 
         IEnumerable<DALHop> GetAll();
         /*IEnumerable<DALHop> GetAllWarehouses();

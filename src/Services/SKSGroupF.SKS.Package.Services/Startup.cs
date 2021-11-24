@@ -22,6 +22,7 @@ using SKSGroupF.SKS.Package.Services.Filters;
 using System.Diagnostics.CodeAnalysis;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 
 namespace SKSGroupF.SKS.Package.Services
 {
@@ -94,7 +95,6 @@ namespace SKSGroupF.SKS.Package.Services
                     opts.SerializerSettings.Converters.Add(new StringEnumConverter(new CamelCaseNamingStrategy()));
                 })
                 .AddXmlSerializerFormatters();
-
 
             services
                 .AddSwaggerGen(c =>

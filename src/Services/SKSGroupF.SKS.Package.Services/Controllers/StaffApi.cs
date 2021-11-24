@@ -27,6 +27,7 @@ using SKSGroupF.SKS.Package.DataAccess.Sql;
 using Microsoft.Extensions.Logging;
 using SKSGroupF.SKS.Package.BusinessLogic.Interfaces.Exceptions;
 using SKSGroupF.SKS.Package.Services.Interfaces.Exceptions;
+using FluentValidation.AspNetCore;
 
 namespace SKSGroupF.SKS.Package.Services.Controllers
 { 
@@ -115,7 +116,7 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
         [ValidateModelState]
         [SwaggerOperation("ReportParcelHop")]
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "The operation failed due to an error.")]
-        public virtual IActionResult ReportParcelHop([FromRoute][Required][RegularExpression("^[A-Z0-9]{9}$")] string trackingId, [FromRoute][Required]/*[RegularExpression("^[A-Z]{4}\\d{1,4}$")]*/ string code)
+        public virtual IActionResult ReportParcelHop([FromRoute][Required][CustomizeValidator(Skip = true)][RegularExpression("^[A-Z0-9]{9}$")] string trackingId, [FromRoute][Required][CustomizeValidator(Skip = true)][RegularExpression("^[A-Z]{4}\\d{1,4}$")] string code)
         {
             logger.LogInformation("Trying to report parcel hop.");
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...

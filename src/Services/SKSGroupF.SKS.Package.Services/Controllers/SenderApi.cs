@@ -87,7 +87,7 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
                 }          
                 catch (Exception ex)
                 {
-                    string errorMsg = "Failed to convert data when trying to subimt a parcel.";
+                    string errorMsg = "Failed to convert data when trying to submit a parcel.";
                     logger.LogError(errorMsg);
                     throw new SVCConversionException(nameof(SenderApiController), errorMsg, ex);
                 }

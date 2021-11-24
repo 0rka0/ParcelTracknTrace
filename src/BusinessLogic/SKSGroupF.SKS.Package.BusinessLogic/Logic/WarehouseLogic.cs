@@ -15,14 +15,16 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
 {
     public class WarehouseLogic : IWarehouseLogic
     {
-        private readonly IHopRepository repo;
+        private readonly IParcelRepository parcelRepo;
+        private readonly IHopRepository hopRepo;
         private readonly IMapper mapper;
         private readonly ILogger logger;
 
-        public WarehouseLogic(IMapper mapper, IHopRepository repo, ILogger<WarehouseLogic> logger)
+        public WarehouseLogic(IMapper mapper, IParcelRepository parcelRepo, IHopRepository hopRepo, ILogger<WarehouseLogic> logger)
         {
             this.mapper = mapper;
-            this.repo = repo;
+            this.parcelRepo = parcelRepo;
+            this.hopRepo = hopRepo;
             this.logger = logger;
         }
 
@@ -33,7 +35,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
                 try
                 {
                     logger.LogDebug("Trying to get all hops from database");
-                    var tmpHopList = repo.GetAll();
+                    var tmpHopList = hopRepo.GetAll();
 
                     List<BLHop> hopList = new List<BLHop>();
                     foreach (var i in tmpHopList)
@@ -79,7 +81,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
                 try
                 {
                     logger.LogDebug("Trying to get hop by code from database.");
-                    tmpHop = mapper.Map<BLHop>(repo.GetByCode(code));
+                    tmpHop = mapper.Map<BLHop>(hopRepo.GetByCode(code));
                     return tmpHop;
                 }
                 catch (DALDataNotFoundException ex)
@@ -120,10 +122,14 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
                 }
                 logger.LogInformation("Validation of hop successful.");
 
+                parcelRepo.Clear();
+                hopRepo.Clear();
+                warehouse = AddParentToHops(warehouse, null);
+
                 try
                 {
                     logger.LogDebug("Trying to create hop for database");
-                    repo.Create(mapper.Map<DALHop>(warehouse));
+                    hopRepo.Create(mapper.Map<DALHop>(warehouse));
                 }
                 catch (Exception ex)
                 {
@@ -138,6 +144,21 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
                 logger.LogError(errorMsg);
                 throw new BLLogicException(nameof(WarehouseLogic), errorMsg, ex);
             }
+        }
+
+        private BLHop AddParentToHops(BLHop hop, BLHop parent)
+        {
+            hop.Parent = parent;
+
+            if(String.Compare(hop.HopType, "Warehouse") == 0)
+            {
+                for (int i = 0; i < ((BLWarehouse)hop).NextHops.Count; i++)
+                {
+                    ((BLWarehouse)hop).NextHops[i].Hop = AddParentToHops(((BLWarehouse)hop).NextHops[i].Hop, hop);
+                }
+            }
+
+            return hop;
         }
     }
 }

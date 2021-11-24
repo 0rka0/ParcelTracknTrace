@@ -9,6 +9,8 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Entities.Models
     [DataContract]
     public class BLGeoCoordinate
     {
+        [DataMember(Name = "id")]
+        public int Id { get; set; }
         /// <summary>
         /// Latitude of the coordinate.
         /// </summary>

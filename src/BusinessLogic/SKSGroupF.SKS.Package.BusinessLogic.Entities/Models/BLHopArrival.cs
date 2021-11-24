@@ -9,6 +9,8 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Entities.Models
     [DataContract]
     public class BLHopArrival
     {
+        [DataMember(Name = "id")]
+        public int Id { get; set; }
         /// <summary>
         /// Unique CODE of the hop.
         /// </summary>
@@ -26,6 +28,11 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Entities.Models
 
         [DataMember(Name = "description")]
         public string Description { get; set; }
+
+        public BLParcel DALParcelId { get; set; }
+        public BLParcel DALParcelId1 { get; set; }
+
+        public bool Visited { get; set; } = false;
 
         /// <summary>
         /// The date/time the parcel arrived at the hop.

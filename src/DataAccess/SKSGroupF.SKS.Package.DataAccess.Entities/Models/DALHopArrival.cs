@@ -30,15 +30,19 @@ namespace SKSGroupF.SKS.Package.DataAccess.Entities.Models
         /// </summary>
         /// <value>Description of the hop.</value>
         [Required]
-
         [DataMember(Name = "description")]
         public string Description { get; set; }
+
+        public DALParcel FhopsId { get; set; }
+        public DALParcel VhopsId { get; set; }
+
+        public bool Visited { get; set; } = false;
 
         /// <summary>
         /// The date/time the parcel arrived at the hop.
         /// </summary>
         /// <value>The date/time the parcel arrived at the hop.</value>
-        [Required]
+        //[Required]
 
         [DataMember(Name = "dateTime")]
         public DateTime? DateTime { get; set; }

@@ -33,8 +33,10 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
             mockRepo.Setup(m => m.Create(It.IsAny<DataAccess.Entities.Models.DALParcel>())).Returns(1);
             mockRepo.Setup(m => m.Update(It.IsAny<DataAccess.Entities.Models.DALParcel>()));
 
+            Mock<IHopRepository> mockRepo2 = new();
 
-            logic = new ParcelLogic(mapper, mockRepo.Object, null, new NullLogger<ParcelLogic>());
+
+            logic = new ParcelLogic(mapper, mockRepo.Object, mockRepo2.Object, null, new NullLogger<ParcelLogic>());
 
             validParcel = Builder<BLParcel>.CreateNew()
                 .With(p => p.Receipient = Builder<BLReceipient>.CreateNew()
@@ -84,7 +86,8 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
         {
             Mock<IParcelRepository> mockRepo = new();
             mockRepo.Setup(m => m.Create(It.IsAny<DataAccess.Entities.Models.DALParcel>())).Throws(new Exception());
-            logic = new ParcelLogic(mapper, mockRepo.Object, null, new NullLogger<ParcelLogic>());
+            Mock<IHopRepository> mockRepo2 = new();
+            logic = new ParcelLogic(mapper, mockRepo.Object, mockRepo2.Object, null, new NullLogger<ParcelLogic>());
 
             Assert.Throws<BLLogicException>(() => logic.SubmitParcel(validParcel));
         }

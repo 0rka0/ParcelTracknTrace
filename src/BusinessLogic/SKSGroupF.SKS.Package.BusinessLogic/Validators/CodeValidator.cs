@@ -6,7 +6,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Validators
     {
         public CodeValidator()
         {
-            RuleFor(p => p).Matches(@"^[A-Z]{4}\\d{1,4}$");
+            RuleFor(p => p).Matches("^[A-Z]{4}\\d{1,4}$");
         }
     }
 }

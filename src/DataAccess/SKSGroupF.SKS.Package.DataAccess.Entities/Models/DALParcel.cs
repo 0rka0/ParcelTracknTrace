@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
@@ -29,7 +30,6 @@ namespace SKSGroupF.SKS.Package.DataAccess.Entities.Models
         /// Gets or Sets Receipient
         /// </summary>
         [Required]
-
         [DataMember(Name = "receipient")]
         public DALReceipient Receipient { get; set; }
 
@@ -37,7 +37,6 @@ namespace SKSGroupF.SKS.Package.DataAccess.Entities.Models
         /// Gets or Sets Sender
         /// </summary>
         [Required]
-
         [DataMember(Name = "sender")]
         public DALReceipient Sender { get; set; }
 
@@ -89,7 +88,6 @@ namespace SKSGroupF.SKS.Package.DataAccess.Entities.Models
         /// </summary>
         /// <value>Hops visited in the past.</value>
         [Required]
-
         [DataMember(Name = "visitedHops")]
         public List<DALHopArrival> VisitedHops { get; set; }
 
@@ -98,13 +96,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Entities.Models
         /// </summary>
         /// <value>Hops coming up in the future - their times are estimations.</value>
         [Required]
-
         [DataMember(Name = "futureHops")]
         public List<DALHopArrival> FutureHops { get; set; }
-
-        [Required]
-
-        [DataMember(Name = "futureHops")]
-        public bool Delievered { get; set; } = false;
     }
 }

@@ -10,6 +10,8 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Entities.Models
     [DataContract]
     public class BLParcel
     {
+        [DataMember(Name = "id")]
+        public int Id { get; set; }
         /// <summary>
         /// Gets or Sets Weight
         /// </summary>

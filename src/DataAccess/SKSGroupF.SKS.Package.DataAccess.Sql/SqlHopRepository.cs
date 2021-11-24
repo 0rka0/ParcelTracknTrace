@@ -64,6 +64,21 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
             SaveChanges();
         }
 
+        public void Clear()
+        {
+            logger.LogInformation("Clearing all hops from database.");
+
+            foreach (var geo in context.DbGeoCoordinate)
+                context.DbGeoCoordinate.Remove(geo);
+
+            foreach (var wnh in context.DbWarehouseNextHops)
+                context.DbWarehouseNextHops.Remove(wnh);
+
+            foreach (var hop in context.DbHop)
+                context.DbHop.Remove(hop);
+            SaveChanges();
+        }
+
         public void Update(DALHop hop)
         {
             try

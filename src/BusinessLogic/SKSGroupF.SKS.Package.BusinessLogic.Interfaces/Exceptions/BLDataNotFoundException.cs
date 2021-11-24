@@ -16,8 +16,8 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Interfaces.Exceptions
         {
         }
 
-        //public BLDataNotFoundException(string logicModule, string message) : base(logicModule, message)
-        //{
-        //}
+        public BLDataNotFoundException(string logicModule, string message) : base(logicModule, message)
+        {
+        }
     }
 }

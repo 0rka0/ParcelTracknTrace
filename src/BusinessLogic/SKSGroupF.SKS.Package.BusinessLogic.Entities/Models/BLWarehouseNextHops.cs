@@ -9,6 +9,8 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Entities.Models
     [DataContract]
     public class BLWarehouseNextHops
     {
+        [DataMember(Name = "id")]
+        public int Id { get; set; }
         /// <summary>
         /// Gets or Sets TraveltimeMins
         /// </summary>

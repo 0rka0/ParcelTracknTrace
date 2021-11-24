@@ -21,6 +21,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
 
             try
             {
+                //this.Database.EnsureDeleted();
                 this.Database.EnsureCreated();
             }
             catch (Exception ex)
@@ -39,6 +40,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
         public virtual DbSet<DALTransferWarehouse> DbTransferWarehouse { get; set; }
         public virtual DbSet<DALWarehouseNextHops> DbWarehouseNextHops { get; set; }
         public virtual DbSet<DALHopArrival> DbHopArrival { get; set; }
+        public virtual DbSet<DALGeoCoordinate> DbGeoCoordinate { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -56,6 +58,9 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
                 builder.Entity<DALGeoCoordinate>().HasKey(p => p.Id);
 
                 builder.Entity<DALWarehouseNextHops>().HasKey(p => p.Id);
+
+                builder.Entity<DALParcel>().HasMany(m => m.FutureHops).WithOne(n => n.FhopsId);
+                builder.Entity<DALParcel>().HasMany(m => m.VisitedHops).WithOne(n => n.VhopsId);
             }
             catch (Exception ex)
             {

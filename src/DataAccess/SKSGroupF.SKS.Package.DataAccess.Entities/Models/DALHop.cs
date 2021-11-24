@@ -34,6 +34,8 @@ namespace SKSGroupF.SKS.Package.DataAccess.Entities.Models
         [DataMember(Name = "code")]
         public string Code { get; set; }
 
+        public DALHop Parent { get; set; }
+
         /// <summary>
         /// Description of the hop.
         /// </summary>

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using SKSGroupF.SKS.Package.DataAccess.Entities.Models;
 using SKSGroupF.SKS.Package.DataAccess.Interfaces;
 using SKSGroupF.SKS.Package.DataAccess.Interfaces.Exceptions;
@@ -21,13 +22,14 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
 
         public int Create(DALParcel parcel)
         {
+            string errorMsg;
             try
             {
+                GetByTrackingId(parcel.TrackingId);
+            }
+            catch (DALDataNotFoundException) //Parcel will only be created if GetByTrackingId does not find a parcel with this tracking Id in the database
+            {
                 try
-                {
-                    GetByTrackingId(parcel.TrackingId);
-                }
-                catch (DALDataNotFoundException) //Parcel will only be created if GetByTrackingId does not find a parcel with this tracking Id in the database
                 {
                     //Insert Parcel and return db ID
                     logger.LogInformation("Inserting parcel into database.");
@@ -36,17 +38,17 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
                     SaveChanges();
                     return ent.Entity.Id;
                 }
-
-                string errorMsg = "Parcel with specified tracking Id does already exsist in database.";
-                logger.LogError(errorMsg);
-                throw new DALDataDuplicateException(nameof(SqlParcelRepository), nameof(Create), errorMsg);
+                catch (Exception ex)
+                {
+                    errorMsg = "There has been an error with the database";
+                    logger.LogError(errorMsg, ex);
+                    throw new DALDataException(nameof(SqlParcelRepository), nameof(Create), errorMsg, ex);
+                }
             }
-            catch (Exception ex)
-            {
-                string errorMsg = "There has been an error with the database";
-                logger.LogError(errorMsg, ex);
-                throw new DALDataException(nameof(SqlParcelRepository), nameof(Create), errorMsg, ex);
-            }           
+
+            errorMsg = "Parcel with specified tracking Id does already exsist in database.";
+            logger.LogError(errorMsg);
+            throw new DALDataDuplicateException(nameof(SqlParcelRepository), nameof(Create), errorMsg);         
         }
 
         public void Update(DALParcel parcel)
@@ -70,6 +72,21 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
             SaveChanges();
         }
 
+        public void Clear()
+        {
+            logger.LogInformation("Clearing all parcels from database.");
+
+            foreach (var rec in context.DbReceipient)
+                context.DbReceipient.Remove(rec);
+
+            foreach (var hopArrival in context.DbHopArrival)
+                context.DbHopArrival.Remove(hopArrival);
+
+            foreach (var parcel in context.DbParcel)
+                context.DbParcel.Remove(parcel);
+            SaveChanges();
+        }
+
         public IEnumerable<DALParcel> GetAll()
         {
             try
@@ -90,13 +107,45 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
             try
             {
                 logger.LogInformation("Trying to select a single parcel with tracking Id " + tid + ".");
-                return context.DbParcel.Single(p => p.TrackingId == tid);
+                var parcels = context.DbParcel.Include(a => a.Receipient).Include(a => a.Sender).ToList();
+                return parcels.Single(p => p.TrackingId == tid);
             }
             catch (Exception ex)
             {
                 string errorMsg = "Parcel with specified tracking Id could not be found in Database.";
                 logger.LogError(errorMsg, ex);
                 throw new DALDataNotFoundException(nameof(SqlHopRepository), nameof(GetByTrackingId), errorMsg, ex);
+            }
+        }
+
+        public DALHopArrival GetHopArrivalByCode(string code, DALParcel id)
+        {
+            try
+            {
+                logger.LogInformation("Trying to select a single hopArrival with code " + code + ".");
+                var tmp = context.DbHopArrival.Include(a => a.FhopsId).Include(a => a.VhopsId);
+                return tmp.Single(p => p.Code == code && !p.Visited && p.FhopsId == id);
+            }
+            catch (Exception ex)
+            {
+                string errorMsg = "HopArrival with specified code could not be found in Database.";
+                logger.LogError(errorMsg, ex);
+                throw new DALDataNotFoundException(nameof(SqlHopRepository), nameof(GetHopArrivalByCode), errorMsg, ex);
+            }
+        }
+
+        public DALHopArrival GetHopArrivalByParcel(DALParcel parcel, bool visited)
+        {
+            try
+            {
+                logger.LogInformation("Trying to select a single hopArrival by parcel - visited: + " + visited + ".");
+                return context.DbHopArrival.Single(p => p.Visited);
+            }
+            catch (Exception ex)
+            {
+                string errorMsg = "HopArrival with specified code could not be found in Database.";
+                logger.LogError(errorMsg, ex);
+                throw new DALDataNotFoundException(nameof(SqlHopRepository), nameof(GetHopArrivalByCode), errorMsg, ex);
             }
         }
 
@@ -136,7 +185,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
             catch { return null; }
         }*/
 
-        public void UpdateHopState(DALParcel parcel, string code)
+        /*public void UpdateHopState(DALParcel parcel, string code)
         {
             try
             {
@@ -155,17 +204,15 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
                 throw new DALDataException(nameof(SqlHopRepository), nameof(GetAll), errorMsg, ex);
             }
             //Selects FutureHop by Code and marks it as VisitedHop
-        }
+        }*/
 
         public void UpdateDelivered(DALParcel parcel)
         {
             try
             {
                 logger.LogInformation("Changing delivered-state of parcel.");
-                parcel.Delievered = true;
-                context.DbParcel.Update(parcel);
-                SaveChanges();
-                //Sets parcel as delievered ??
+                parcel.State = DALParcel.StateEnum.DeliveredEnum;
+                Update(parcel);
             }
             catch (Exception ex)
             {
