@@ -33,7 +33,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
 
         public BLParcel TrackParcel(string trackingID)
         {
-            BLParcel tmpParcel;
+            BLParcel parcel;
 
             logger.LogDebug("Trying to validate tracking Id.");
             IValidator<string> validator = new TrackingIdValidator();
@@ -52,8 +52,14 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
                 try
                 {
                     logger.LogDebug("Trying to get parcel by tracking Id from database.");
-                    tmpParcel = mapper.Map<BLParcel>(parcelRepo.GetByTrackingId(trackingID));
-                    return tmpParcel;
+                    var tmpParcel = parcelRepo.GetByTrackingId(trackingID);
+                    parcel = mapper.Map<BLParcel>(tmpParcel);
+                    foreach (var ha in parcelRepo.GetHopArrivalsByParcel(tmpParcel, false))
+                        parcel.FutureHops.Add(mapper.Map<BLHopArrival>(ha));
+                    foreach (var ha in parcelRepo.GetHopArrivalsByParcel(tmpParcel, true))
+                        parcel.VisitedHops.Add(mapper.Map<BLHopArrival>(ha));
+
+                    return parcel;
                 }
                 catch (DALDataNotFoundException ex)
                 {
@@ -137,28 +143,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
                 {
                     logger.LogDebug("Trying to update hop-state of a parcel.");
 
-                    var tmpParcel = parcelRepo.GetByTrackingId(trackingID);
-                    var hopArrival = mapper.Map<BLHopArrival>(parcelRepo.GetHopArrivalByCode(code, tmpParcel));
-                    BLParcel parcel = mapper.Map<BLParcel>(tmpParcel);
-
-                    parcel.FutureHops.Remove(hopArrival);
-                    hopArrival.Visited = true;
-                    parcel.VisitedHops.Add(hopArrival);
-
-                    var hop = mapper.Map<BLHop>(hopRepo.GetByCode(code));
-
-                    if (string.Compare(hop.HopType, "Warehouse") == 0)
-                        parcel.State = BLParcel.StateEnum.InTransportEnum;
-                    if (string.Compare(hop.HopType, "Truck") == 0)
-                        parcel.State = BLParcel.StateEnum.InTruckDeliveryEnum;
-                    if (string.Compare(hop.HopType, "TransferWarehouse") == 0)
-                    {
-                        //(POST https://<partnerUrl>/parcel/<trackingId>) 
-                        parcel.State = BLParcel.StateEnum.TransferredEnum;
-                    }
-
-                    parcelRepo.Update(mapper.Map<DALParcel>(parcel));
-                    //parcelRepo.UpdateHopState(parcelRepo.GetByTrackingId(trackingID), code);
+                    parcelRepo.UpdateHopState(trackingID, code, hopRepo.GetByCode(code));
                 }
                 catch (Exception ex)
                 {

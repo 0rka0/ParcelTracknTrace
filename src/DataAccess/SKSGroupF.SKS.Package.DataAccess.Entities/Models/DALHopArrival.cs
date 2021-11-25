@@ -33,9 +33,6 @@ namespace SKSGroupF.SKS.Package.DataAccess.Entities.Models
         [DataMember(Name = "description")]
         public string Description { get; set; }
 
-        public DALParcel FhopsId { get; set; }
-        public DALParcel VhopsId { get; set; }
-
         public bool Visited { get; set; } = false;
 
         /// <summary>

@@ -6,6 +6,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using SKSGroupF.SKS.Package.DataAccess.Interfaces.Exceptions;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 
 namespace SKSGroupF.SKS.Package.DataAccess.Sql
 {
@@ -42,6 +43,11 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
         public virtual DbSet<DALHopArrival> DbHopArrival { get; set; }
         public virtual DbSet<DALGeoCoordinate> DbGeoCoordinate { get; set; }
 
+        public int SaveChangesToDb()
+        {
+            return SaveChanges();
+        }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             try
@@ -59,8 +65,8 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
 
                 builder.Entity<DALWarehouseNextHops>().HasKey(p => p.Id);
 
-                builder.Entity<DALParcel>().HasMany(m => m.FutureHops).WithOne(n => n.FhopsId);
-                builder.Entity<DALParcel>().HasMany(m => m.VisitedHops).WithOne(n => n.VhopsId);
+                //builder.Entity<DALParcel>().HasMany(m => m.FutureHops).WithOne(n => n.FhopsId);
+                //builder.Entity<DALParcel>().HasMany(m => m.VisitedHops).WithOne(n => n.VhopsId);
             }
             catch (Exception ex)
             {
@@ -68,11 +74,6 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
                 logger.LogError(errorMsg);
                 throw new DALSqlContextException(nameof(SqlDbContext), nameof(OnModelCreating), errorMsg, ex);
             }
-        }
-
-        public int SaveChangesToDb()
-        {
-            return SaveChanges();
         }
     }
 }

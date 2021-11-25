@@ -12,6 +12,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Interfaces
 
         DALParcel GetByTrackingId(string tid);
         DALHopArrival GetHopArrivalByCode(string code, DALParcel id);
+        List<DALHopArrival> GetHopArrivalsByParcel(DALParcel parcel, bool visited);
 
         IEnumerable<DALParcel> GetAll();
        // IEnumerable<DALParcel> GetByWeight(float min, float max);
@@ -19,7 +20,9 @@ namespace SKSGroupF.SKS.Package.DataAccess.Interfaces
        // IEnumerable<DALParcel> GetByReceipient(DALReceipient receipient);
        // IEnumerable<DALParcel> GetByState(DALParcel.StateEnum state);
 
-        //void UpdateHopState(DALParcel parcel, string code);
+        void UpdateHopState(string trackingId, string code, DALHop hop);
         void UpdateDelivered(DALParcel parcel);
+
+        int SaveChanges();
     }
 }

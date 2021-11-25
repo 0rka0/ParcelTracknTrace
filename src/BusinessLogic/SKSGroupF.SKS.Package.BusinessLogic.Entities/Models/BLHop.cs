@@ -9,8 +9,6 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Entities.Models
     [DataContract]
     public class BLHop
     {
-        [DataMember(Name = "id")]
-        public int Id { get; set; }
         /// <summary>
         /// Gets or Sets HopType
         /// </summary>

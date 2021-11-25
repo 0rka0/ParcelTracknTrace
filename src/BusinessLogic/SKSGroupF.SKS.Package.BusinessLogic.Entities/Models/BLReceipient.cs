@@ -8,8 +8,6 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Entities.Models
     [DataContract]
     public class BLReceipient
     {
-        [DataMember(Name = "id")]
-        public int Id { get; set; }
         /// <summary>
         /// Name of person or company.
         /// </summary>

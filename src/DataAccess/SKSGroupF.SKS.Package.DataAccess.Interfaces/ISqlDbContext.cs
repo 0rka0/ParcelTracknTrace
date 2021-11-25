@@ -13,8 +13,8 @@ namespace SKSGroupF.SKS.Package.DataAccess.Interfaces
         public DbSet<DALTruck> DbTruck { get; set; }
         public DbSet<DALTransferWarehouse> DbTransferWarehouse { get; set; }
         public DbSet<DALHopArrival> DbHopArrival { get; set; }
-        public DbSet<DALWarehouseNextHops> DbWarehouseNextHops { get; set; }
         public DbSet<DALGeoCoordinate> DbGeoCoordinate { get; set; }
+        public DbSet<DALWarehouseNextHops> DbWarehouseNextHops { get; set; }
 
         int SaveChangesToDb();
     }

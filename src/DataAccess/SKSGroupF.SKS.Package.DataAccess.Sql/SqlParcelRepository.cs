@@ -107,8 +107,8 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
             try
             {
                 logger.LogInformation("Trying to select a single parcel with tracking Id " + tid + ".");
-                var parcels = context.DbParcel.Include(a => a.Receipient).Include(a => a.Sender).ToList();
-                return parcels.Single(p => p.TrackingId == tid);
+                var tmp = context.DbParcel.Include(a => a.Receipient).Include(a => a.Sender).Single(p => p.TrackingId == tid);
+                return tmp;
             }
             catch (Exception ex)
             {
@@ -123,8 +123,8 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
             try
             {
                 logger.LogInformation("Trying to select a single hopArrival with code " + code + ".");
-                var tmp = context.DbHopArrival.Include(a => a.FhopsId).Include(a => a.VhopsId);
-                return tmp.Single(p => p.Code == code && !p.Visited && p.FhopsId == id);
+                var tmp = context.DbParcel.Include(a => a.FutureHops).Include(a => a.VisitedHops);
+                return tmp.Single(p => p == id).FutureHops.Single(q => q.Code == code);
             }
             catch (Exception ex)
             {
@@ -134,12 +134,15 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
             }
         }
 
-        public DALHopArrival GetHopArrivalByParcel(DALParcel parcel, bool visited)
+        public List<DALHopArrival> GetHopArrivalsByParcel(DALParcel parcel, bool visited)
         {
             try
             {
                 logger.LogInformation("Trying to select a single hopArrival by parcel - visited: + " + visited + ".");
-                return context.DbHopArrival.Single(p => p.Visited);
+                var tmp = context.DbParcel.Include(a => a.FutureHops).Include(a => a.VisitedHops).Single(p => p == parcel);
+                if (visited)
+                    return tmp.VisitedHops;
+                return tmp.FutureHops;
             }
             catch (Exception ex)
             {
@@ -185,16 +188,29 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
             catch { return null; }
         }*/
 
-        /*public void UpdateHopState(DALParcel parcel, string code)
+        public void UpdateHopState(string trackingId, string code, DALHop hop)
         {
             try
             {
-                logger.LogInformation("Changing hop-state of parcel.");
-                //?
-                var hop = context.DbHopArrival.Single(p => p.Code == code);
-                parcel.FutureHops.Remove(hop);
-                parcel.VisitedHops.Add(hop);
-                context.DbParcel.Update(parcel);
+                var parcel = GetByTrackingId(trackingId);
+                var hopArrival = GetHopArrivalByCode(code, parcel);
+
+                parcel.FutureHops.Remove(hopArrival);
+                hopArrival.Visited = true;
+                if (parcel.VisitedHops == null)
+                    parcel.VisitedHops = new List<DALHopArrival>();
+                parcel.VisitedHops.Add(hopArrival);
+
+                if (string.Compare(hop.HopType, "Warehouse") == 0)
+                    parcel.State = DALParcel.StateEnum.InTransportEnum;
+                if (string.Compare(hop.HopType, "Truck") == 0)
+                    parcel.State = DALParcel.StateEnum.InTruckDeliveryEnum;
+                if (string.Compare(hop.HopType, "TransferWarehouse") == 0)
+                {
+                    //(POST https://<partnerUrl>/parcel/<trackingId>) 
+                    parcel.State = DALParcel.StateEnum.TransferredEnum;
+                }
+
                 SaveChanges();
             }
             catch (Exception ex)
@@ -204,7 +220,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
                 throw new DALDataException(nameof(SqlHopRepository), nameof(GetAll), errorMsg, ex);
             }
             //Selects FutureHop by Code and marks it as VisitedHop
-        }*/
+        }
 
         public void UpdateDelivered(DALParcel parcel)
         {
@@ -222,7 +238,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
             }
         }
 
-        int SaveChanges()
+        public int SaveChanges()
         {
             logger.LogInformation("Saving changes to database.");
             return context.SaveChangesToDb();
