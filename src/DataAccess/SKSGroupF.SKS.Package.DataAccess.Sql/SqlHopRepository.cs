@@ -68,15 +68,24 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
         {
             logger.LogInformation("Clearing all hops from database.");
 
-            foreach (var geo in context.DbGeoCoordinate)
-                context.DbGeoCoordinate.Remove(geo);
+            try
+            {
+                foreach (var geo in context.DbGeoCoordinate)
+                    context.DbGeoCoordinate.Remove(geo);
 
-            foreach (var wnh in context.DbWarehouseNextHops)
-                context.DbWarehouseNextHops.Remove(wnh);
+                foreach (var wnh in context.DbWarehouseNextHops)
+                    context.DbWarehouseNextHops.Remove(wnh);
 
-            foreach (var hop in context.DbHop)
-                context.DbHop.Remove(hop);
-            SaveChanges();
+                foreach (var hop in context.DbHop)
+                    context.DbHop.Remove(hop);
+                SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                string errorMsg = "An error occurred when removing hop from database.";
+                logger.LogError(errorMsg);
+                throw new DALSqlContextException(nameof(SqlHopRepository), nameof(Clear), errorMsg, ex);
+            }
         }
 
         public void Update(DALHop hop)

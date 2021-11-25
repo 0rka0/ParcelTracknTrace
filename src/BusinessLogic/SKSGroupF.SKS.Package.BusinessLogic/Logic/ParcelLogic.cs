@@ -155,95 +155,150 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
 
         private BLParcel PredictRoute(BLParcel parcel)
         {
+            logger.LogDebug("Trying to predict route between sender and recipient.");
+            
             parcel.FutureHops = new List<BLHopArrival>();
             parcel.VisitedHops = new List<BLHopArrival>();
-            var coorRec = mapper.Map<BLGeoCoordinate>(agent.EncodeAddress(mapper.Map<SAReceipient>(parcel.Receipient)));
-            var coorSender = mapper.Map<BLGeoCoordinate>(agent.EncodeAddress(mapper.Map<SAReceipient>(parcel.Sender)));
 
-            var trucks = GetAllTrucks();
-            var reader = new GeoJsonReader();
-
-            var truckRec = GetTruckByCoor(reader, trucks, new Point((double)coorRec.Lon, (double)coorRec.Lat));
-            var truckSender = GetTruckByCoor(reader, trucks, new Point((double)coorSender.Lon, (double)coorSender.Lat));
-
-            if (truckRec == null || truckSender == null)
+            try
             {
-                string errorMsg = "Could not find truck for either sender or receipient.";
-                logger.LogError(errorMsg);
-                throw new BLDataNotFoundException(nameof(ParcelLogic), errorMsg);
+                var coorRec = mapper.Map<BLGeoCoordinate>(agent.EncodeAddress(mapper.Map<SAReceipient>(parcel.Receipient)));
+                var coorSender = mapper.Map<BLGeoCoordinate>(agent.EncodeAddress(mapper.Map<SAReceipient>(parcel.Sender)));
+
+                var trucks = GetAllTrucks();
+                var reader = new GeoJsonReader();
+
+                var truckRec = GetTruckByCoor(reader, trucks, new Point((double)coorRec.Lon, (double)coorRec.Lat));
+                var truckSender = GetTruckByCoor(reader, trucks, new Point((double)coorSender.Lon, (double)coorSender.Lat));
+
+                if (truckRec == null || truckSender == null)
+                {
+                    string errorMsg = "Could not find truck for either sender or receipient.";
+                    logger.LogError(errorMsg);
+                    throw new BLDataNotFoundException(nameof(ParcelLogic), errorMsg);
+                }
+
+                parcel.FutureHops = GetRouteFromTrucks(truckRec, truckSender);
+
+                return parcel;
             }
-
-            parcel.FutureHops = GetRouteFromTrucks(truckRec, truckSender);
-
-            return parcel;
+            catch (Exception ex)
+            {
+                string errorMsg = "An error occurred when trying to predict route between sender and recipient.";
+                logger.LogError(errorMsg);
+                throw new BLLogicException(nameof(ParcelLogic), errorMsg, ex);
+            }
         }
 
         private List<BLTruck> GetAllTrucks()
         {
-            var tmpHopList = hopRepo.GetAll();
-
-            List<BLTruck> truckList = new List<BLTruck>();
-            foreach (var i in tmpHopList)
+            try
             {
-                if (String.Compare(i.HopType, "Truck") == 0)
-                    truckList.Add((BLTruck)mapper.Map<BLHop>(i));
+                logger.LogDebug("Trying to get all trucks from repository.");
+
+                var tmpHopList = hopRepo.GetAll();
+                List<BLTruck> truckList = new List<BLTruck>();
+                foreach (var i in tmpHopList)
+                {
+                    if (String.Compare(i.HopType, "Truck") == 0)
+                        truckList.Add((BLTruck)mapper.Map<BLHop>(i));
+                }
+                return truckList;
+
+            }
+            catch (Exception ex)
+            {
+                string errorMsg = "An error occurred when getting all trucks from repository.";
+                logger.LogError(errorMsg);
+                throw new BLLogicException(nameof(ParcelLogic), errorMsg, ex);
             }
 
-            return truckList;
         }
 
         private Geometry GetGeometry(GeoJsonReader reader, BLTruck truck)
         {
-            Feature g = reader.Read<Feature>(truck.RegionGeoJson);
-            if (!Orientation.IsCCW(g.Geometry.Coordinates))
-                g.Geometry = g.Geometry.Reverse();
-            return g.Geometry;
+            try
+            {
+                logger.LogDebug("Trying to create a geometry.");
+
+                Feature g = reader.Read<Feature>(truck.RegionGeoJson);
+                if (!Orientation.IsCCW(g.Geometry.Coordinates))
+                    g.Geometry = g.Geometry.Reverse();
+                return g.Geometry;
+            }
+            catch (Exception ex)
+            {
+                string errorMsg = "An error occurred when creating a geometry.";
+                logger.LogError(errorMsg);
+                throw new BLLogicException(nameof(ParcelLogic), errorMsg, ex);
+            }
         }
 
         private BLTruck GetTruckByCoor(GeoJsonReader reader, List<BLTruck> trucks, Point point)
         {
-            foreach (var truck in trucks)
+            try
             {
-                Geometry region = GetGeometry(reader, truck);
-                if (region.Contains(point))
-                    return truck;
+                logger.LogDebug("Trying to get a truck by his coordinates.");
+                foreach (var truck in trucks)
+                {
+                    Geometry region = GetGeometry(reader, truck);
+                    if (region.Contains(point))
+                        return truck;
+                }
+                return null;
             }
-            return null;
+            catch (Exception ex)
+            {
+                string errorMsg = "An error occurred when getting a truck by its coordinates.";
+                logger.LogError(errorMsg);
+                throw new BLLogicException(nameof(ParcelLogic), errorMsg, ex);
+            }
         }
 
         private List<BLHopArrival> GetRouteFromTrucks(BLHop hopRec, BLHop hopSender)
         {
+            logger.LogDebug("Trying to get route from trucks.");
+
             List<BLHop> recList = new List<BLHop>();
             List<BLHop> senderList = new List<BLHop>();
             recList.Add(hopRec);
             senderList.Add(hopSender);
-            while (true)
+            try
             {
-                hopRec = hopRec.Parent;
-                hopSender = hopSender.Parent;
-
-                if(hopRec.Code == hopSender.Code)
+                while (true)
                 {
-                    senderList.Add(hopRec);
-                    break;
+                    hopRec = hopRec.Parent;
+                    hopSender = hopSender.Parent;
+
+                    if (hopRec.Code == hopSender.Code)
+                    {
+                        senderList.Add(hopRec);
+                        break;
+                    }
+
+                    recList.Add(hopRec);
+                    senderList.Add(hopSender);
                 }
 
-                recList.Add(hopRec);
-                senderList.Add(hopSender);
+                recList.Reverse();
+                foreach (var hop in recList)
+                    senderList.Add(hop);
+
+                List<BLHopArrival> res = new List<BLHopArrival>();
+                foreach (var hop in senderList)
+                {
+                    var tmp = mapper.Map<BLHopArrival>(hop);
+                    res.Add(tmp);
+                }
+
+                return res;
             }
-
-            recList.Reverse();
-            foreach (var hop in recList)
-                senderList.Add(hop);
-
-            List<BLHopArrival> res = new List<BLHopArrival>();
-            foreach (var hop in senderList)
+            catch (Exception ex)
             {
-                var tmp = mapper.Map<BLHopArrival>(hop);
-                res.Add(tmp);
+                string errorMsg = "An error occurred when trying to get route from trucks.";
+                logger.LogError(errorMsg);
+                throw new BLLogicException(nameof(ParcelLogic), errorMsg, ex);
             }
-
-            return res;
         }
     }
 }

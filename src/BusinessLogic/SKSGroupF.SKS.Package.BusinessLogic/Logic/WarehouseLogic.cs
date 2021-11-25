@@ -148,17 +148,27 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
 
         private BLHop AddParentToHops(BLHop hop, BLHop parent)
         {
-            hop.Parent = parent;
-
-            if(String.Compare(hop.HopType, "Warehouse") == 0)
+            logger.LogDebug("Trying to add parent to hop.");
+            try
             {
-                for (int i = 0; i < ((BLWarehouse)hop).NextHops.Count; i++)
-                {
-                    ((BLWarehouse)hop).NextHops[i].Hop = AddParentToHops(((BLWarehouse)hop).NextHops[i].Hop, hop);
-                }
-            }
+                hop.Parent = parent;
 
-            return hop;
+                if (String.Compare(hop.HopType, "Warehouse") == 0)
+                {
+                    for (int i = 0; i < ((BLWarehouse)hop).NextHops.Count; i++)
+                    {
+                        ((BLWarehouse)hop).NextHops[i].Hop = AddParentToHops(((BLWarehouse)hop).NextHops[i].Hop, hop);
+                    }
+                }
+
+                return hop;
+            }
+            catch (Exception ex)
+            {
+                string errorMsg = "Error occurred when adding parent to hop.";
+                logger.LogError(errorMsg);
+                throw new BLLogicException(nameof(WarehouseLogic), errorMsg, ex);
+            }
         }
     }
 }

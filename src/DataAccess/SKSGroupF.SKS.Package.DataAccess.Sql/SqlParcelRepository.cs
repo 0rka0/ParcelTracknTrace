@@ -54,8 +54,17 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
         public void Update(DALParcel parcel)
         {
             logger.LogInformation("Updating existing parcel in database with tracking Id " + parcel.TrackingId + ".");
-            context.DbParcel.Update(parcel);
-            SaveChanges();
+            try
+            {
+                context.DbParcel.Update(parcel);
+                SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                string errorMsg = "Update failed. Parcel could not be found in database.";
+                logger.LogError(errorMsg);
+                throw new DALDataNotFoundException(nameof(SqlParcelRepository), nameof(Update), errorMsg);
+            }
         }
 
         public void Delete(int id)
@@ -76,15 +85,24 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
         {
             logger.LogInformation("Clearing all parcels from database.");
 
-            foreach (var rec in context.DbReceipient)
-                context.DbReceipient.Remove(rec);
+            try
+            {
+                foreach (var rec in context.DbReceipient)
+                    context.DbReceipient.Remove(rec);
 
-            foreach (var hopArrival in context.DbHopArrival)
-                context.DbHopArrival.Remove(hopArrival);
+                foreach (var hopArrival in context.DbHopArrival)
+                    context.DbHopArrival.Remove(hopArrival);
 
-            foreach (var parcel in context.DbParcel)
-                context.DbParcel.Remove(parcel);
-            SaveChanges();
+                foreach (var parcel in context.DbParcel)
+                    context.DbParcel.Remove(parcel);
+                SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                string errorMsg = "An error occurred when removing parcel from database.";
+                logger.LogError(errorMsg);
+                throw new DALSqlContextException(nameof(SqlParcelRepository), nameof(Clear), errorMsg, ex);
+            }
         }
 
         public IEnumerable<DALParcel> GetAll()
@@ -192,6 +210,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
         {
             try
             {
+                logger.LogDebug("Trying to update hop state.");
                 var parcel = GetByTrackingId(trackingId);
                 var hopArrival = GetHopArrivalByCode(code, parcel);
 
@@ -201,13 +220,21 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
                     parcel.VisitedHops = new List<DALHopArrival>();
                 parcel.VisitedHops.Add(hopArrival);
 
+
                 if (string.Compare(hop.HopType, "Warehouse") == 0)
+                {
+                    logger.LogInformation("Changing to 'In Transport' parcel state.");
                     parcel.State = DALParcel.StateEnum.InTransportEnum;
+                }
                 if (string.Compare(hop.HopType, "Truck") == 0)
+                {
+                    logger.LogInformation("Changing to 'In Delivery' parcel state.");
                     parcel.State = DALParcel.StateEnum.InTruckDeliveryEnum;
+                }
                 if (string.Compare(hop.HopType, "TransferWarehouse") == 0)
                 {
                     //(POST https://<partnerUrl>/parcel/<trackingId>) 
+                    logger.LogInformation("Changing to 'Tansferred' parcel state.");
                     parcel.State = DALParcel.StateEnum.TransferredEnum;
                 }
 

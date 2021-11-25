@@ -88,6 +88,8 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
             logger.LogDebug("Trying to validate tracking Id.");
             IValidator<string> validator = new TrackingIdValidator();
             var result = validator.Validate(trackingID);
+            logger.LogDebug("Trying to report parcel delivery.");
+
             try
             {
 
@@ -128,6 +130,8 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
 
             var tidResult = tidValidator.Validate(trackingID);
             var codeResult = codeValidator.Validate(code);
+
+            logger.LogDebug("Trying to report parcel hop.");
             try
             {
 
