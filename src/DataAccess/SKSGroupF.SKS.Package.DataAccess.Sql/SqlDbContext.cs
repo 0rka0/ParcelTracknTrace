@@ -22,7 +22,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
 
             try
             {
-                this.Database.EnsureDeleted();
+                //this.Database.EnsureDeleted();
                 this.Database.EnsureCreated();
             }
             catch (Exception ex)
