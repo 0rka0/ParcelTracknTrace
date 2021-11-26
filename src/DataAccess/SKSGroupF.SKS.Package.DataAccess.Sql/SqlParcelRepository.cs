@@ -170,7 +170,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
             }
             catch (Exception ex)
             {
-                string errorMsg = "HopArrival with specified code could not be found in Database.";
+                string errorMsg = "HopArrival from specified parcel could not be selected from database.";
                 logger.LogError(errorMsg, ex);
                 throw new DALDataNotFoundException(nameof(SqlHopRepository), nameof(GetHopArrivalByCode), errorMsg, ex);
             }

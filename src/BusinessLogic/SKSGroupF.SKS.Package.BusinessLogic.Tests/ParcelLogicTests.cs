@@ -10,6 +10,7 @@ using SKSGroupF.SKS.Package.BusinessLogic.Interfaces.Exceptions;
 using SKSGroupF.SKS.Package.BusinessLogic.Logic;
 using SKSGroupF.SKS.Package.DataAccess.Entities.Models;
 using SKSGroupF.SKS.Package.DataAccess.Interfaces;
+using SKSGroupF.SKS.Package.DataAccess.Interfaces.Exceptions;
 using SKSGroupF.SKS.Package.ServiceAgents;
 using SKSGroupF.SKS.Package.ServiceAgents.Entities;
 using SKSGroupF.SKS.Package.ServiceAgents.Interfaces;
@@ -26,6 +27,9 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
         private BLParcel validParcel;
         private BLParcel invalidParcel;
         private IMapper mapper;
+        Mock<IParcelRepository> mockRepo;
+        Mock<IHopRepository> mockRepo2;
+        Mock<IGeoEncodingAgent> mockAgent;
 
         [SetUp]
         public void Setup()
@@ -73,12 +77,12 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
                 .With(p => p.lon = 16.438514)
                 .Build();
 
-            Mock<IGeoEncodingAgent> mockAgent = new();
+            mockAgent = new();
             mockAgent.SetupSequence(m => m.EncodeAddress(It.IsAny<ServiceAgents.Entities.SAReceipient>()))
                 .Returns(coor1)
                 .Returns(coor2);
 
-            Mock <IParcelRepository> mockRepo = new();
+            mockRepo = new();
             mockRepo.Setup(m => m.Create(It.IsAny<DataAccess.Entities.Models.DALParcel>())).Returns(1);
             mockRepo.Setup(m => m.Update(It.IsAny<DataAccess.Entities.Models.DALParcel>()));
 
@@ -106,7 +110,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
                             .With(p => p.Parent = wh)
                             .With(p => p.RegionGeoJson = "{\"type\":\"Feature\",\"geometry\":{\"type\":\"MultiPolygon\",\"coordinates\":[[[[16.3934453,48.2122206],[16.388619,48.2131431],[16.3849009,48.2113546],[16.384367,48.2090062],[16.3809793,48.2043722],[16.3766524,48.200314],[16.375214,48.1999514],[16.3751097,48.1977764],[16.3809243,48.187927],[16.3855063,48.1829183],[16.395452,48.1755276],[16.3970699,48.1753753],[16.3977419,48.1785119],[16.4034484,48.1822368],[16.4041501,48.1834519],[16.4028279,48.1847918],[16.4046185,48.185693],[16.4056884,48.1847573],[16.4128424,48.1831524],[16.4150548,48.1854531],[16.4169455,48.1847916],[16.4177599,48.1858898],[16.4219215,48.1851697],[16.4219682,48.1865064],[16.4284336,48.1851579],[16.4311119,48.18634],[16.4226973,48.1890619],[16.4132591,48.1944878],[16.4063631,48.2010604],[16.3986277,48.2032036],[16.3971945,48.2047953],[16.3958341,48.2094202],[16.3934453,48.2122206]]]]}}")
                             .Build());
-            Mock<IHopRepository> mockRepo2 = new();
+            mockRepo2 = new();
             mockRepo2.Setup(m => m.GetAll()).Returns(hopList);
 
             logic = new ParcelLogic(mapper, mockRepo.Object, mockRepo2.Object, mockAgent.Object, new NullLogger<ParcelLogic>());
@@ -132,7 +136,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
             Mock<IParcelRepository> mockRepo = new();
             mockRepo.Setup(m => m.Create(It.IsAny<DataAccess.Entities.Models.DALParcel>())).Throws(new Exception());
             Mock<IHopRepository> mockRepo2 = new();
-            logic = new ParcelLogic(mapper, mockRepo.Object, mockRepo2.Object, null, new NullLogger<ParcelLogic>());
+            logic = new ParcelLogic(mapper, mockRepo.Object, mockRepo2.Object, mockAgent.Object, new NullLogger<ParcelLogic>());
 
             Assert.Throws<BLLogicException>(() => logic.SubmitParcel(validParcel));
         }
@@ -163,5 +167,16 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
             Assert.IsTrue(true);
         }
 
+        [Test]
+        public void TransitionParcel_ReceivesDuplicateTrackingId_ThrowsBLDataDuplicateException()
+        {
+            mockRepo = new();
+            mockRepo.Setup(m => m.Create(It.IsAny<DataAccess.Entities.Models.DALParcel>())).Throws(new DALDataDuplicateException(nameof(ParcelLogicTests), nameof(TransitionParcel_ReceivesDuplicateTrackingId_ThrowsBLDataDuplicateException), "test"));
+            logic = new ParcelLogic(mapper, mockRepo.Object, mockRepo2.Object, mockAgent.Object, new NullLogger<ParcelLogic>());
+
+            string trackingID = "PYJRB4HZ6";
+
+            Assert.Throws<BLLogicException>(() => logic.TransitionParcel(validParcel, trackingID));
+        }
     }
 }

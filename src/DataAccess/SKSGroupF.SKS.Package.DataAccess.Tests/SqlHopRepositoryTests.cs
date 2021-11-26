@@ -24,10 +24,14 @@ namespace SKSGroupF.SKS.Package.DataAccess.Tests
         public void Setup()
         {
             hops = Builder<DALHop>.CreateListOfSize(10).Build().ToList();
+            var geoCoors = Builder<DALGeoCoordinate>.CreateListOfSize(1).Build().ToList();
+            var wnhs = Builder<DALWarehouseNextHops>.CreateListOfSize(1).Build().ToList();
             validHop = Builder<DALHop>.CreateNew().With(p => p.Code = "ABCD\\dddd").Build();
 
             var DBMock = new Mock<ISqlDbContext>();
             DBMock.Setup(p => p.DbHop).Returns(SqlDbContextMock.GetQueryableMockDbSet(hops));
+            DBMock.Setup(p => p.DbGeoCoordinate).Returns(SqlDbContextMock.GetQueryableMockDbSet(geoCoors));
+            DBMock.Setup(p => p.DbWarehouseNextHops).Returns(SqlDbContextMock.GetQueryableMockDbSet(wnhs));
             DBMock.Setup(p => p.SaveChangesToDb()).Returns(1);
 
             repo = new SqlHopRepository(DBMock.Object, new NullLogger<SqlHopRepository>());
@@ -46,6 +50,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Tests
 
             Assert.AreEqual(counter, hops.Count);
         }
+
         [Test]
         public void Create_InsertsHopIntoDB_InsertsHopCorrectly()
         {
@@ -61,6 +66,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Tests
 
             Assert.AreEqual(expected, hops.Last().Code);
         }
+
         [Test]
         public void Update_UpdatesHopInDb_AppliesChangesCorrectly()
         {
@@ -79,6 +85,13 @@ namespace SKSGroupF.SKS.Package.DataAccess.Tests
 
             Assert.AreEqual(expected, hops.Last().Code);
         }
+
+        [Test]
+        public void Update_CannotFindHopInDatabase_ThrowsDataException()
+        {
+            Assert.Throws<DALDataException>(() => repo.Update(new DALHop()));
+        }
+
         [Test]
         public void Delete_DeletesHopWithId_DecreasesDbCountByOne()
         {

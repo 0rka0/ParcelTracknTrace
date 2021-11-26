@@ -145,35 +145,5 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
             logger.LogInformation("Saving changes to database.");
             return context.SaveChangesToDb();
         }
-
-        /*public IEnumerable<DALHop> GetByLevel(int level)
-        {
-            return context.DbWarehouse.Where(wh => wh.Level == level).ToList();
-        }
-
-        public IEnumerable<DALHop> GetByLogisticsPartner(string partner)
-        {
-            return context.DbTransferWarehouse.Where(twh => twh.LogisticsPartner == partner).ToList();
-        }
-
-        public IEnumerable<DALHop> GetByNumberPlate(string number)
-        {
-            return context.DbTruck.Where(t => t.NumberPlate == number).ToList();
-        }*/
-
-        /*public IEnumerable<DALHop> GetAllTransferWarehouse()
-        {
-            return context.DbHop.Where(t => t.HopType == "TransferWarehouse").ToList();
-        }
-
-        public IEnumerable<DALHop> GetAllTrucks()
-        {
-            return context.DbTruck.ToList();
-        }
-
-        public IEnumerable<DALHop> GetAllWarehouses()
-        {
-            return context.DbWarehouse.ToList();
-        }*/
     }
 }

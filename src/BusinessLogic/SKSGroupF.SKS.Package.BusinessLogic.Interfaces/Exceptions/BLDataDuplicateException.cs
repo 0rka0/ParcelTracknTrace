@@ -16,8 +16,8 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Interfaces.Exceptions
         {
         }
 
-        public BLDataDuplicateException(string logicModule, string message) : base(logicModule, message)
+        /*public BLDataDuplicateException(string logicModule, string message) : base(logicModule, message)
         {
-        }
+        }*/
     }
 }

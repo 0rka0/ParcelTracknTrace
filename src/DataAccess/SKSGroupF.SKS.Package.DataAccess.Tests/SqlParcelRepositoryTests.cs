@@ -200,5 +200,60 @@ namespace SKSGroupF.SKS.Package.DataAccess.Tests
 
             Assert.True(true);
         }
+
+        [Test]
+        public void GetHopArrivalByCode_SelectsHopArrivalWithInvalidCode_ThrowsDataNotFoundException()
+        {
+            Assert.Throws<DALDataNotFoundException>(() => repo.GetHopArrivalByCode("aa", validParcel));
+        }
+
+        [Test]
+        public void GetHopArrivalsByParcel_SelectsVisitedHopsFromParcel_ReturnsListOfHopArrivals()
+        {
+            parcels[1].VisitedHops.Add(new DALHopArrival());
+            var hops = repo.GetHopArrivalsByParcel(parcels[1], true);
+
+            Assert.IsNotEmpty(hops);
+        }
+
+        [Test]
+        public void GetHopArrivalsByParcel_SelectsVisitedHopsFromParcelWithNoHops_ReturnsEmptyList()
+        {
+            var hops = repo.GetHopArrivalsByParcel(parcels[1], true);
+
+            Assert.IsEmpty(hops);
+        }
+
+        [Test]
+        public void GetHopArrivalsByParcel_GetsParcelThatIsNotInDatabase_ThrowsDataNotFoundException()
+        {
+            Assert.Throws<DALDataNotFoundException>(() => repo.GetHopArrivalsByParcel(validParcel, true));
+        }
+
+        [Test]
+        public void GetHopArrivalsByParcel_SelectsFutureHopsFromParcel_ReturnsListOfHopArrivals()
+        {
+            var hops = repo.GetHopArrivalsByParcel(parcels[1], false);
+
+            Assert.IsNotEmpty(hops);
+        }
+
+        [Test]
+        public void UpdateDelivered_GetsParcelFromDatabase_SetsItStateToDelivered()
+        {
+            repo.UpdateDelivered(parcels[1]);
+
+            Assert.AreEqual(DALParcel.StateEnum.DeliveredEnum, parcels[1].State);
+        }
+
+        [Test]
+        public void UpdateDelivered_ErrorWhenUpdatingParcelInDatabase_ThrowsDataException()
+        {
+            var DBMock = new Mock<ISqlDbContext>();
+            DBMock.Setup(p => p.DbParcel).Throws(new Exception());
+            repo = new SqlParcelRepository(DBMock.Object, new NullLogger<SqlParcelRepository>(), client);
+
+            Assert.Throws<DALDataException>(() => repo.UpdateDelivered(validParcel));
+        }
     }
 }
