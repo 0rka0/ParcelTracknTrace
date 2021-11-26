@@ -28,6 +28,7 @@ using SKSGroupF.SKS.Package.DataAccess.Sql;
 using Microsoft.Extensions.Logging;
 using SKSGroupF.SKS.Package.BusinessLogic.Interfaces.Exceptions;
 using SKSGroupF.SKS.Package.Services.Interfaces.Exceptions;
+using FluentValidation.AspNetCore;
 
 namespace SKSGroupF.SKS.Package.Services.Controllers
 { 
@@ -137,7 +138,7 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
         [SwaggerOperation("GetWarehouse")]
         [SwaggerResponse(statusCode: 200, type: typeof(Warehouse), description: "Successful response")]
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "An error occurred loading.")]
-        public virtual IActionResult GetWarehouse([FromRoute][Required]string code)
+        public virtual IActionResult GetWarehouse([FromRoute][CustomizeValidator(Skip = true)][Required]string code)
         {
             logger.LogInformation("Trying to export a warehouse.");
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
@@ -190,7 +191,7 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
             logger.LogInformation("Warehouse exported succesfully.");
 
             var returnObject = warehouseJson != null
-                ? JsonConvert.DeserializeObject<Warehouse>(warehouseJson)
+                ? JsonConvert.DeserializeObject<Hop>(warehouseJson)
                 : default(Warehouse);            //TODO: Change the data returned
             return new ObjectResult(returnObject);
         }

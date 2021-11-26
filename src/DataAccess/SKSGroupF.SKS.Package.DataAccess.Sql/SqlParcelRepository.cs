@@ -152,7 +152,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
             }
             catch (Exception ex)
             {
-                string errorMsg = "HopArrival with specified code could not be found in Database.";
+                string errorMsg = "HopArrival with specified code could not be found in Database or has already been visited.";
                 logger.LogError(errorMsg, ex);
                 throw new DALDataNotFoundException(nameof(SqlHopRepository), nameof(GetHopArrivalByCode), errorMsg, ex);
             }
@@ -186,6 +186,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
 
                 parcel.FutureHops.Remove(hopArrival);
                 hopArrival.Visited = true;
+                hopArrival.DateTime = DateTime.Now;
                 if (parcel.VisitedHops == null)
                     parcel.VisitedHops = new List<DALHopArrival>();
                 parcel.VisitedHops.Add(hopArrival);
