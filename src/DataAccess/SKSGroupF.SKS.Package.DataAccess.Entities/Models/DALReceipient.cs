@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 
@@ -13,6 +14,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Entities.Models
         /// </summary>
         [Required, Key]
         [DataMember(Name = "id")]
+        [JsonIgnore]
         public int Id { get; set; }
 
         /// <summary>

@@ -11,6 +11,8 @@ using SKSGroupF.SKS.Package.DataAccess.Entities.Models;
 using FizzWare.NBuilder;
 using Microsoft.Extensions.Logging.Abstractions;
 using SKSGroupF.SKS.Package.DataAccess.Interfaces.Exceptions;
+using RichardSzalay.MockHttp;
+using System.Net.Http;
 
 namespace SKSGroupF.SKS.Package.DataAccess.Tests
 {
@@ -20,6 +22,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Tests
         List<DALParcel> parcels;
         List<DALHopArrival> hopArrivals;
         DALParcel validParcel;
+        HttpClient client;
 
         [SetUp]
         public void Setup()
@@ -44,6 +47,11 @@ namespace SKSGroupF.SKS.Package.DataAccess.Tests
             }
             hopArrivals = Builder<DALHopArrival>.CreateListOfSize(10).Build().ToList();
 
+            parcels[1].Receipient = validParcel.Receipient;
+            parcels[1].Sender = validParcel.Sender;
+            parcels[1].FutureHops = hopArrivals;
+            parcels[1].VisitedHops = new List<DALHopArrival>();
+
             hopArrivals[3] = validParcel.FutureHops[0];
 
             var DBMock = new Mock<ISqlDbContext>();
@@ -51,7 +59,11 @@ namespace SKSGroupF.SKS.Package.DataAccess.Tests
             DBMock.Setup(p => p.DbHopArrival).Returns(SqlDbContextMock.GetQueryableMockDbSet(hopArrivals));
             DBMock.Setup(p => p.SaveChangesToDb()).Returns(1);
 
-            repo = new SqlParcelRepository(DBMock.Object, new NullLogger<SqlParcelRepository>());
+            var mockHttp = new MockHttpMessageHandler();
+            mockHttp.When("http://test/*").Respond("application/json", "Success");
+            client = new HttpClient(mockHttp);
+
+            repo = new SqlParcelRepository(DBMock.Object, new NullLogger<SqlParcelRepository>(), client);
         }
 
         [Test]
@@ -146,7 +158,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Tests
             DBMock.Setup(p => p.DbParcel).Throws(new Exception());
             DBMock.Setup(p => p.DbHopArrival).Throws(new Exception());
 
-            repo = new SqlParcelRepository(DBMock.Object, new NullLogger<SqlParcelRepository>());
+            repo = new SqlParcelRepository(DBMock.Object, new NullLogger<SqlParcelRepository>(), client);
 
             Assert.Throws<DALDataNotFoundException>(() => repo.GetAll());
         }
@@ -165,83 +177,28 @@ namespace SKSGroupF.SKS.Package.DataAccess.Tests
             Assert.Throws<DALDataNotFoundException>(() => repo.GetByTrackingId("abc"));
         }
 
-        //[Test]
-        //public void GetByReceipient_SelectsParcelWithValidRec_SelectsCorrectParcels()
-        //{
-        //    var expected = parcels.Where(p => p.Receipient == parcels[1].Receipient);
-        //    var parcelList = repo.GetByReceipient(parcels[1].Receipient);
+        [Test]
+        public void UpdateHopState_TransfersFHopToVHop_HopStateGetsUpdated()
+        {
+            DALHop hop = new DALHop();
+            hop.HopType = "Warehouse";
+            var expectedF = parcels[1].FutureHops.Count - 1;
+            var expectedV = parcels[1].VisitedHops.Count + 1;
+            repo.UpdateHopState(parcels[1].TrackingId, validParcel.FutureHops[0].Code, hop);
 
-        //    Assert.AreEqual(expected, parcelList);
-        //}
-
-        //[Test]
-        //public void GetByReceipient_SelectsParcelWithNonexistingRec_ReturnsNull()
-        //{
-        //    var parcelList = repo.GetByReceipient(new DALReceipient());
-
-        //    Assert.IsEmpty(parcelList);
-        //}
-
-        //[Test]
-        //public void GetBySender_SelectsParcelWithValidRec_SelectsCorrectParcels()
-        //{
-        //    var expected = parcels.Where(p => p.Sender == parcels[1].Sender);
-        //    var parcelList = repo.GetBySender(parcels[1].Sender);
-
-        //    Assert.AreEqual(expected, parcelList);
-        //}
-
-        //[Test]
-        //public void GetBySender_SelectsParcelWithNonexistingRec_ReturnsNull()
-        //{
-        //    var parcelList = repo.GetBySender(new DALReceipient());
-
-        //    Assert.IsEmpty(parcelList);
-        //}
-
-        //[Test]
-        //public void GetByState_SelectsParcelWithValidState_SelectsCorrectParcels()
-        //{
-        //    var expected = parcels.Where(p => p.State == parcels[1].State);
-        //    var parcelList = repo.GetByState(parcels[1].State.Value);
-
-        //    Assert.AreEqual(expected, parcelList);
-        //}
-
-        //[Test]
-        //public void GetByState_SelectsParcelWithNonexistingState_ReturnsNull()
-        //{
-        //    var parcelList = repo.GetByState(DALParcel.StateEnum.InTruckDeliveryEnum);
-
-        //    Assert.IsEmpty(parcelList);
-        //}
-
-        //[Test]
-        //public void GetByWeight_SelectsParcelWithValidWeight_SelectsCorrectParcels()
-        //{
-        //    var expected = parcels.Where(p => p.Weight == parcels[1].Weight);
-        //    var parcelList = repo.GetByWeight(3.0f, 3.0f);
-
-        //    Assert.AreEqual(expected, parcelList);
-        //}
-
-        //[Test]
-        //public void GetByWeight_SelectsParcelWithNonexistingWeight_ReturnsNull()
-        //{
-        //    var parcelList = repo.GetByWeight(0.0f, 1.0f);
-
-        //    Assert.IsEmpty(parcelList);
-        //}
+            Assert.AreEqual(expectedF, parcels[1].FutureHops.Count);
+            Assert.AreEqual(expectedV, parcels[1].VisitedHops.Count);
+        }
 
         [Test]
-        public void UpdateHopState_GetsParcelAndCode_TransfersFutureHopToVisitedHop()
+        public void UpdateHopState_TransfersFHopToVHop_SendsRequestToLogisticsPartner()
         {
-            var expectedF = validParcel.FutureHops.Count - 1;
-            var expectedV = validParcel.VisitedHops.Count + 1;
-            repo.UpdateHopState(validParcel, "abcd");
+            DALTransferWarehouse hop = new DALTransferWarehouse();
+            hop.HopType = "TransferWarehouse";
+            hop.LogisticsPartnerUrl = "http://our-partner-in.slovenia.com";
+            repo.UpdateHopState(parcels[1].TrackingId, validParcel.FutureHops[0].Code, hop);
 
-            Assert.AreEqual(expectedF, validParcel.FutureHops.Count);
-            Assert.AreEqual(expectedV, validParcel.VisitedHops.Count);
+            Assert.True(true);
         }
     }
 }

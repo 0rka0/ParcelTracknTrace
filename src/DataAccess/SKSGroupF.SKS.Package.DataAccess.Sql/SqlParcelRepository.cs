@@ -1,11 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using SKSGroupF.SKS.Package.DataAccess.Entities.Models;
 using SKSGroupF.SKS.Package.DataAccess.Interfaces;
 using SKSGroupF.SKS.Package.DataAccess.Interfaces.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace SKSGroupF.SKS.Package.DataAccess.Sql
 {
@@ -13,11 +17,13 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
     {
         private ISqlDbContext context;
         private readonly ILogger logger;
+        private readonly HttpClient client;
 
-        public SqlParcelRepository(ISqlDbContext context, ILogger<SqlParcelRepository> logger)
+        public SqlParcelRepository(ISqlDbContext context, ILogger<SqlParcelRepository> logger, HttpClient client)
         {
             this.context = context;
             this.logger = logger;
+            this.client = client;
         }
 
         public int Create(DALParcel parcel)
@@ -170,42 +176,6 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
             }
         }
 
-        /*public IEnumerable<DALParcel> GetByReceipient(DALReceipient receipient)
-        {
-            try
-            {
-                return context.DbParcel.Where(p => p.Receipient == receipient).ToList();
-            }
-            catch { return null; }
-        }
-
-        public IEnumerable<DALParcel> GetBySender(DALReceipient sender)
-        {
-            try
-            {
-                return context.DbParcel.Where(p => p.Sender == sender).ToList();
-            }
-            catch { return null; }
-        }
-
-        public IEnumerable<DALParcel> GetByState(DALParcel.StateEnum state)
-        {
-            try
-            {
-                return context.DbParcel.Where(p => p.State == state).ToList();
-            }
-            catch { return null; }
-        }
-
-        public IEnumerable<DALParcel> GetByWeight(float min, float max)
-        {
-            try
-            {
-                return context.DbParcel.Where(p => p.Weight >= min && p.Weight <= max).ToList();
-            }
-            catch { return null; }
-        }*/
-
         public void UpdateHopState(string trackingId, string code, DALHop hop)
         {
             try
@@ -233,7 +203,14 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
                 }
                 if (string.Compare(hop.HopType, "TransferWarehouse") == 0)
                 {
-                    //(POST https://<partnerUrl>/parcel/<trackingId>) 
+                    DALJsonParcel jParcel = new DALJsonParcel(parcel.Weight, parcel.Receipient, parcel.Sender);
+                    string json = JsonConvert.SerializeObject(jParcel);
+                    var data = new StringContent(json, Encoding.UTF8, "application/json");
+                    var url = ((DALTransferWarehouse)hop).LogisticsPartnerUrl + "/parcel/" + parcel.TrackingId;
+
+                    Task<string> task = Task.Run<string>(async () => await SendRequestToLogisticsPartner(url, data));
+                    string responseString = task.Result;
+                    
                     logger.LogInformation("Changing to 'Tansferred' parcel state.");
                     parcel.State = DALParcel.StateEnum.TransferredEnum;
                 }
@@ -247,6 +224,14 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
                 throw new DALDataException(nameof(SqlHopRepository), nameof(GetAll), errorMsg, ex);
             }
             //Selects FutureHop by Code and marks it as VisitedHop
+        }
+
+        async Task<string> SendRequestToLogisticsPartner(string url, StringContent data)
+        {
+            var response = await client.PostAsync(url, data);
+            var responseString = await response.Content.ReadAsStringAsync();
+
+            return responseString;
         }
 
         public void UpdateDelivered(DALParcel parcel)

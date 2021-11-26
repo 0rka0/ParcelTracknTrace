@@ -5,6 +5,7 @@ using SKSGroupF.SKS.Package.DataAccess.Entities.Models;
 using NetTopologySuite.Algorithm;
 using NetTopologySuite.IO;
 using NetTopologySuite.Features;
+using SKSGroupF.SKS.Package.ServiceAgents.Entities;
 
 public class BlDalProfiles : Profile
 {
@@ -52,5 +53,11 @@ public class BlDalProfiles : Profile
                 Geometry = s.Region
             });
         });*/
+
+        CreateMap<BLReceipient, SAReceipient>().ReverseMap();
+
+        CreateMap<BLGeoCoordinate, SAGeoCoordinate>().ReverseMap();
+
+        CreateMap<BLHop, BLHopArrival>().ReverseMap();
     }
 }

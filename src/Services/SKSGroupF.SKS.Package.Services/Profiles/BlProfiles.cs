@@ -1,4 +1,4 @@
-using AutoMapper;
+/*using AutoMapper;
 using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
 
 public class BlProfiles : Profile
@@ -8,3 +8,4 @@ public class BlProfiles : Profile
         CreateMap<BLHop, BLHopArrival>().ReverseMap();
     }
 }
+*/

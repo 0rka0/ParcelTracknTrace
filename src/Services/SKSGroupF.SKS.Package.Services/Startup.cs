@@ -67,6 +67,8 @@ namespace SKSGroupF.SKS.Package.Services
 
             services.AddHttpClient<ServiceAgents.Interfaces.IGeoEncodingAgent, ServiceAgents.OSMGeoEncodingAgent>(p => p.BaseAddress = new System.Uri("https://nominatim.openstreetmap.org/"));
 
+            services.AddHttpClient<DataAccess.Interfaces.IParcelRepository, DataAccess.Sql.SqlParcelRepository>();
+
             services.AddTransient<DataAccess.Interfaces.ISqlDbContext, DataAccess.Sql.SqlDbContext>();
 
             services.AddDbContext<DataAccess.Sql.SqlDbContext>(options =>

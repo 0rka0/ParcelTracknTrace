@@ -1,4 +1,4 @@
-using AutoMapper;
+/*using AutoMapper;
 using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
 using SKSGroupF.SKS.Package.ServiceAgents;
 using SKSGroupF.SKS.Package.ServiceAgents.Entities;
@@ -14,4 +14,5 @@ public class BlSaProfiles : Profile
         CreateMap<BLGeoCoordinate, SAGeoCoordinate>().ReverseMap();
     }
 }
+*/
 

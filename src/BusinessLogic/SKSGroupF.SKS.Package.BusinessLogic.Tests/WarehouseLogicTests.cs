@@ -31,14 +31,16 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
 
             var hopList = Builder<DALHop>.CreateListOfSize(3).Build().ToList();
             var hop = new DALWarehouse();
-            hop.Code = "ABCD\\dddd";
+            hop.Code = "ABCD04";
 
-            Mock<IHopRepository> mockRepo = new();
-            mockRepo.Setup(m => m.Create(It.IsAny<DataAccess.Entities.Models.DALHop>())).Returns(1);
-            mockRepo.Setup(m => m.GetAll()).Returns(hopList);
-            mockRepo.Setup(m => m.GetByCode(It.IsAny<string>())).Returns(hop);
+            Mock<IParcelRepository> mockParcelRepo = new();
 
-            logic = new WarehouseLogic(mapper, mockRepo.Object, new NullLogger<WarehouseLogic>());
+            Mock<IHopRepository> mockHopRepo = new();
+            mockHopRepo.Setup(m => m.Create(It.IsAny<DataAccess.Entities.Models.DALHop>())).Returns(1);
+            mockHopRepo.Setup(m => m.GetAll()).Returns(hopList);
+            mockHopRepo.Setup(m => m.GetByCode(It.IsAny<string>())).Returns(hop);
+
+            logic = new WarehouseLogic(mapper, mockParcelRepo.Object, mockHopRepo.Object, new NullLogger<WarehouseLogic>());
         }
 
         [Test]
@@ -59,7 +61,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
         [Test]
         public void GetWarehouse_ReceivesValidCode_ReturnsWarehouseObjectWithCode()
         {
-            string code = "ABCD\\dddd";
+            string code = "ABCD04";
             var warehouse = logic.GetWarehouse(code);
 
             Assert.IsNotNull(warehouse);
