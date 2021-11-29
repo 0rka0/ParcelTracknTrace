@@ -9,6 +9,7 @@ using SKSGroupF.SKS.Package.BusinessLogic.Interfaces.Exceptions;
 using SKSGroupF.SKS.Package.BusinessLogic.Logic;
 using SKSGroupF.SKS.Package.DataAccess.Entities.Models;
 using SKSGroupF.SKS.Package.DataAccess.Interfaces;
+using SKSGroupF.SKS.Package.Webhooks.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,7 +41,10 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
             mockHopRepo.Setup(m => m.GetAll()).Returns(hopList);
             mockHopRepo.Setup(m => m.GetByCode(It.IsAny<string>())).Returns(hop);
 
-            logic = new WarehouseLogic(mapper, mockParcelRepo.Object, mockHopRepo.Object, new NullLogger<WarehouseLogic>());
+            Mock<IWebhookRepository> mockWebhookRepo = new();
+            Mock<IWebhookManager> mockManager = new();
+
+            logic = new WarehouseLogic(mapper, mockParcelRepo.Object, mockHopRepo.Object, mockWebhookRepo.Object, mockManager.Object, new NullLogger<WarehouseLogic>());
         }
 
         [Test]

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using NUnit.Framework;
+using FizzWare.NBuilder;
 using SKSGroupF.SKS.Package.BusinessLogic.Entities.Models;
 using SKSGroupF.SKS.Package.BusinessLogic.Interfaces;
 using SKSGroupF.SKS.Package.BusinessLogic.Interfaces.Exceptions;
@@ -9,6 +10,7 @@ using SKSGroupF.SKS.Package.BusinessLogic.Logic;
 using SKSGroupF.SKS.Package.DataAccess.Entities.Models;
 using SKSGroupF.SKS.Package.DataAccess.Interfaces;
 using SKSGroupF.SKS.Package.DataAccess.Interfaces.Exceptions;
+using SKSGroupF.SKS.Package.Webhooks.Interfaces;
 using System;
 using System.Collections.Generic;
 
@@ -19,6 +21,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
         private ITrackingLogic logic;
         private IMapper mapper;
         private Mock<IHopRepository> mockHopRepo;
+        private Mock<IWebhookManager> mockManager;
 
         [SetUp]
         public void Setup()
@@ -39,7 +42,14 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
 
             mockHopRepo = new();
 
-            logic = new TrackingLogic(mapper, mockParcelRepo.Object, mockHopRepo.Object, new NullLogger<TrackingLogic>());
+            DALHop hop = Builder<DALHop>.CreateNew().With(h => h.Code = "ABCD04").With(h => h.Description = "Test").With(h => h.HopType = "Type").Build();
+
+            mockHopRepo.Setup(m => m.GetByCode(It.IsAny<string>())).Returns(hop);
+
+            mockManager = new();
+
+
+            logic = new TrackingLogic(mapper, mockParcelRepo.Object, mockHopRepo.Object, mockManager.Object, new NullLogger<TrackingLogic>());
         }
 
         [Test]
@@ -63,7 +73,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
         {
             Mock<IParcelRepository> mockRepo = new();
             mockRepo.Setup(m => m.GetByTrackingId(It.IsAny<string>())).Throws(new Exception());
-            logic = new TrackingLogic(mapper, mockRepo.Object, mockHopRepo.Object, new NullLogger<TrackingLogic>());
+            logic = new TrackingLogic(mapper, mockRepo.Object, mockHopRepo.Object, mockManager.Object, new NullLogger<TrackingLogic>());
 
             Assert.Throws<BLLogicException>(() => logic.TrackParcel("PYJRB4HZ6"));
         }
@@ -73,7 +83,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
         {
             Mock<IParcelRepository> mockRepo = new();
             mockRepo.Setup(m => m.GetByTrackingId(It.IsAny<string>())).Throws(new DALDataNotFoundException(nameof(TrackingLogicTests), nameof(TrackParcel_ReceivesTrackingId_ThrowsDataNotFoundException), "test"));
-            logic = new TrackingLogic(mapper, mockRepo.Object, mockHopRepo.Object, new NullLogger<TrackingLogic>());
+            logic = new TrackingLogic(mapper, mockRepo.Object, mockHopRepo.Object, mockManager.Object, new NullLogger<TrackingLogic>());
 
             Assert.Throws<BLLogicException>(() => logic.TrackParcel("PYJRB4HZ6"));
         }

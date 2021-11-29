@@ -136,7 +136,6 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
         public virtual IActionResult ApiParcelWebhooksByIdDelete([FromRoute][Required] long? id)
         {
             logger.LogInformation("Trying to remove a webhook subscription.");
-            string webhookJson = null;
 
             try
             {
