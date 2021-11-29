@@ -43,6 +43,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKSGroupF.SKS.Package.Servi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKSGroupF.SKS.Package.ServiceAgents.Entities", "src\ServiceAgents\SKSGroupF.SKS.Package.ServiceAgents.Entities\SKSGroupF.SKS.Package.ServiceAgents.Entities.csproj", "{90186B8A-140B-4C8F-9DB1-7D5C2AF0E0B3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Webhooks", "Webhooks", "{65CC5B0A-D776-4A15-B94E-58BA1FC3C112}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKSGroupF.SKS.Package.Webhooks", "src\Webhooks\SKSGroupF.SKS.Package.Webhooks\SKSGroupF.SKS.Package.Webhooks.csproj", "{4AE4CC8A-F2F0-4B3F-8334-DA67E603D4F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKSGroupF.SKS.Package.Webhooks.Interfaces", "src\Webhooks\SKSGroupF.SKS.Package.Webhooks.Interfaces\SKSGroupF.SKS.Package.Webhooks.Interfaces.csproj", "{F1E18D51-A962-489B-80B7-9DAEFBE7BA7C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKSGroupF.SKS.Package.Webhooks.Tests", "src\Webhooks\SKSGroupF.SKS.Package.Webhooks.Tests\SKSGroupF.SKS.Package.Webhooks.Tests.csproj", "{FECFFBF8-C6CE-4A47-B50B-E859CF367312}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,6 +121,18 @@ Global
 		{90186B8A-140B-4C8F-9DB1-7D5C2AF0E0B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90186B8A-140B-4C8F-9DB1-7D5C2AF0E0B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90186B8A-140B-4C8F-9DB1-7D5C2AF0E0B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AE4CC8A-F2F0-4B3F-8334-DA67E603D4F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AE4CC8A-F2F0-4B3F-8334-DA67E603D4F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AE4CC8A-F2F0-4B3F-8334-DA67E603D4F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AE4CC8A-F2F0-4B3F-8334-DA67E603D4F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1E18D51-A962-489B-80B7-9DAEFBE7BA7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1E18D51-A962-489B-80B7-9DAEFBE7BA7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1E18D51-A962-489B-80B7-9DAEFBE7BA7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1E18D51-A962-489B-80B7-9DAEFBE7BA7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FECFFBF8-C6CE-4A47-B50B-E859CF367312}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FECFFBF8-C6CE-4A47-B50B-E859CF367312}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FECFFBF8-C6CE-4A47-B50B-E859CF367312}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FECFFBF8-C6CE-4A47-B50B-E859CF367312}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -134,6 +154,9 @@ Global
 		{D2DC3B66-3F2B-41A8-A5C7-8C385F3EB00A} = {E7638345-AD51-4E85-B022-599F410F3FC2}
 		{C3FCF20B-2F9A-47A5-A5D8-0329C71B3A20} = {E7638345-AD51-4E85-B022-599F410F3FC2}
 		{90186B8A-140B-4C8F-9DB1-7D5C2AF0E0B3} = {E7638345-AD51-4E85-B022-599F410F3FC2}
+		{4AE4CC8A-F2F0-4B3F-8334-DA67E603D4F5} = {65CC5B0A-D776-4A15-B94E-58BA1FC3C112}
+		{F1E18D51-A962-489B-80B7-9DAEFBE7BA7C} = {65CC5B0A-D776-4A15-B94E-58BA1FC3C112}
+		{FECFFBF8-C6CE-4A47-B50B-E859CF367312} = {65CC5B0A-D776-4A15-B94E-58BA1FC3C112}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9BCF6F00-7697-4143-B112-753A6B8C604A}
