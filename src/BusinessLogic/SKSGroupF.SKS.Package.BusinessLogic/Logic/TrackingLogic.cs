@@ -13,6 +13,7 @@ using SKSGroupF.SKS.Package.BusinessLogic.Validators;
 using SKSGroupF.SKS.Package.DataAccess.Entities.Models;
 using SKSGroupF.SKS.Package.DataAccess.Interfaces;
 using SKSGroupF.SKS.Package.DataAccess.Interfaces.Exceptions;
+using SKSGroupF.SKS.Package.Webhooks.Interfaces;
 
 namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
 {
@@ -20,14 +21,16 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
     {
         private readonly IParcelRepository parcelRepo;
         private readonly IHopRepository hopRepo;
+        private readonly IWebhookManager webhookManager;
         private readonly IMapper mapper;
         private readonly ILogger logger;
 
-        public TrackingLogic(IMapper mapper, IParcelRepository parcelRepo, IHopRepository hopRepo, ILogger<TrackingLogic> logger)
+        public TrackingLogic(IMapper mapper, IParcelRepository parcelRepo, IHopRepository hopRepo, IWebhookManager webhookManager, ILogger<TrackingLogic> logger)
         {
             this.mapper = mapper;
             this.parcelRepo = parcelRepo;
             this.hopRepo = hopRepo;
+            this.webhookManager = webhookManager;
             this.logger = logger;
         }
 
@@ -105,6 +108,11 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
                 {
                     logger.LogDebug("Trying to update delivered-state of a parcel.");
                     parcelRepo.UpdateDelivered(parcelRepo.GetByTrackingId(trackingID));
+
+                    var message = "Your subscription has been deleted.";
+                    var msgExtension = "The parcel has reached its destination and the subscription has therefore gotten removed.";
+                    webhookManager.AlertByTrackingId(trackingID, message, msgExtension);
+                    webhookManager.DeleteByTrackingId(trackingID);
                 }
                 catch (Exception ex)
                 {
@@ -147,7 +155,12 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
                 {
                     logger.LogDebug("Trying to update hop-state of a parcel.");
 
-                    parcelRepo.UpdateHopState(trackingID, code, hopRepo.GetByCode(code));
+                    var hop = hopRepo.GetByCode(code);
+                    parcelRepo.UpdateHopState(trackingID, code, hop);
+
+                    var message = "State of subscripted parcel has been changed.";
+                    var msgExtension = "The parcel has reached the " + hop.HopType + ": " + hop.Code + " - " + hop.Description + ".\nCheck for further information.";
+                    webhookManager.AlertByTrackingId(trackingID, message, msgExtension);
                 }
                 catch (Exception ex)
                 {

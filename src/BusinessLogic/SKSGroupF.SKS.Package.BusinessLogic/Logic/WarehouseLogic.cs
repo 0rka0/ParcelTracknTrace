@@ -8,6 +8,7 @@ using SKSGroupF.SKS.Package.BusinessLogic.Validators;
 using SKSGroupF.SKS.Package.DataAccess.Entities.Models;
 using SKSGroupF.SKS.Package.DataAccess.Interfaces;
 using SKSGroupF.SKS.Package.DataAccess.Interfaces.Exceptions;
+using SKSGroupF.SKS.Package.Webhooks.Interfaces;
 using System;
 using System.Collections.Generic;
 
@@ -17,13 +18,17 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
     {
         private readonly IParcelRepository parcelRepo;
         private readonly IHopRepository hopRepo;
+        private readonly IWebhookRepository webhookRepo;
+        private readonly IWebhookManager webhookManager;
         private readonly IMapper mapper;
         private readonly ILogger logger;
 
-        public WarehouseLogic(IMapper mapper, IParcelRepository parcelRepo, IHopRepository hopRepo, ILogger<WarehouseLogic> logger)
+        public WarehouseLogic(IMapper mapper, IParcelRepository parcelRepo, IHopRepository hopRepo, IWebhookRepository webhookRepo, IWebhookManager webhookManager, ILogger<WarehouseLogic> logger)
         {
             this.mapper = mapper;
             this.parcelRepo = parcelRepo;
+            this.webhookRepo = webhookRepo;
+            this.webhookManager = webhookManager;
             this.hopRepo = hopRepo;
             this.logger = logger;
         }
@@ -122,8 +127,12 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
                 }
                 logger.LogInformation("Validation of hop successful.");
 
+                var msgExtension = "The parcel has been removed and does no longer exist.";
+                webhookManager.AlertAll(msgExtension);
+
                 parcelRepo.Clear();
                 hopRepo.Clear();
+                webhookRepo.Clear();
                 warehouse = AddParentToHops(warehouse, null);
 
                 try

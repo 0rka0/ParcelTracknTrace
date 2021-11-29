@@ -22,6 +22,8 @@ using System.Diagnostics.CodeAnalysis;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
+using SKSGroupF.SKS.Package.Webhooks.Interfaces;
+using FluentValidation.AspNetCore;
 
 namespace SKSGroupF.SKS.Package.Services.Controllers
 {
@@ -34,11 +36,13 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
     {
         private readonly IMapper mapper;
         private readonly ILogger logger;
+        private readonly IWebhookManager manager;
 
         [ActivatorUtilitiesConstructor]
-        public ParcelWebhookApiController(IMapper mapper, ILogger<SenderApiController> logger)
+        public ParcelWebhookApiController(IMapper mapper, IWebhookManager manager, ILogger<ParcelWebhookApiController> logger)
         {
             this.mapper = mapper;
+            this.manager = manager;
             this.logger = logger;
         }
 
@@ -56,13 +60,29 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
         [SwaggerResponse(statusCode: 200, type: typeof(WebhookResponses), description: "List of webooks for the &#x60;trackingId&#x60;")]
         public virtual IActionResult ApiParcelByTrackingIdWebhooksGet([FromRoute][Required][RegularExpression("^[A-Z0-9]{9}$")] string trackingId)
         {
-            string exampleJson = null;
-            exampleJson = "[ {\n  \"created_at\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"id\" : 0,\n  \"url\" : \"url\",\n  \"trackingId\" : \"trackingId\"\n}, {\n  \"created_at\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"id\" : 0,\n  \"url\" : \"url\",\n  \"trackingId\" : \"trackingId\"\n} ]";
+            logger.LogInformation("Trying to get all webhook.");
+            string webhookJson = null;
+            WebhookResponses webhooks = new WebhookResponses();
 
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<WebhookResponses>(exampleJson)
+            try
+            {
+                foreach (var i in manager.GetSubscriptionsByTrackingId(trackingId))
+                {
+                    webhooks.Add(mapper.Map<WebhookResponse>(i));
+                }
+                webhookJson = webhooks.ToJson();
+            }
+            catch (Exception)
+            {
+                logger.LogError("Failed to get webhooks for specified tracking ID.");
+                return StatusCode(404, default(Error));
+            }
+
+            logger.LogInformation("Subscribed to parcel successfully.");
+            var returnObject = webhookJson != null
+            ? JsonConvert.DeserializeObject<WebhookResponses>(webhookJson)
             : default(WebhookResponses);            //TODO: Change the data returned
-            return new ObjectResult(example);
+            return new ObjectResult(returnObject);
         }
 
         /// <summary>
@@ -78,15 +98,28 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
         [ValidateModelState]
         [SwaggerOperation("ApiParcelByTrackingIdWebhooksPost")]
         [SwaggerResponse(statusCode: 200, type: typeof(WebhookResponse), description: "Successful response")]
-        public virtual IActionResult ApiParcelByTrackingIdWebhooksPost([FromRoute][Required][RegularExpression("^[A-Z0-9]{9}$")] string trackingId, [FromQuery][Required()] string url)
+        public virtual IActionResult ApiParcelByTrackingIdWebhooksPost([FromRoute][Required][CustomizeValidator(Skip = true)][RegularExpression("^[A-Z0-9]{9}$")] string trackingId, [FromQuery][Required()][CustomizeValidator(Skip = true)] string url)
         {
-            string exampleJson = null;
-            exampleJson = "{\n  \"created_at\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"id\" : 0,\n  \"url\" : \"url\",\n  \"trackingId\" : \"trackingId\"\n}";
+            logger.LogInformation("Trying to subscribe to a webhook.");
+            string webhookJson = null;
 
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<WebhookResponse>(exampleJson)
+            try
+            {
+                WebhookResponse response = mapper.Map<WebhookResponse>(manager.Subscribe(trackingId, url));
+                webhookJson = response.ToJson();
+            }
+            catch (Exception)
+            {
+                logger.LogError("Failed to subscribe to a webhook for specified parcel.");
+                return StatusCode(404, default(Error));
+            }
+
+            logger.LogInformation("Subscribed to parcel successfully.");
+
+            var returnObject = webhookJson != null
+            ? JsonConvert.DeserializeObject<WebhookResponse>(webhookJson)
             : default(WebhookResponse);            //TODO: Change the data returned
-            return new ObjectResult(example);
+            return new ObjectResult(returnObject);
         }
 
         /// <summary>
@@ -102,7 +135,22 @@ namespace SKSGroupF.SKS.Package.Services.Controllers
         [SwaggerOperation("ApiParcelWebhooksByIdDelete")]
         public virtual IActionResult ApiParcelWebhooksByIdDelete([FromRoute][Required] long? id)
         {
-            throw new NotImplementedException();
+            logger.LogInformation("Trying to remove a webhook subscription.");
+            string webhookJson = null;
+
+            try
+            {
+                manager.Remove(id);
+            }
+            catch (Exception)
+            {
+                logger.LogError("Failed to remove a webhook subscription for specified id.");
+                return StatusCode(404, default(Error));
+            }
+
+            logger.LogInformation("Removed subscription successfully.");
+
+            return StatusCode(200);
         }
     }
 }

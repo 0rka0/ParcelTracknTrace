@@ -42,6 +42,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
         public virtual DbSet<DALWarehouseNextHops> DbWarehouseNextHops { get; set; }
         public virtual DbSet<DALHopArrival> DbHopArrival { get; set; }
         public virtual DbSet<DALGeoCoordinate> DbGeoCoordinate { get; set; }
+        public virtual DbSet<DALWebhookResponse> DbWebhooks { get; set; }
 
         public int SaveChangesToDb()
         {
@@ -65,8 +66,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
 
                 builder.Entity<DALWarehouseNextHops>().HasKey(p => p.Id);
 
-                //builder.Entity<DALParcel>().HasMany(m => m.FutureHops).WithOne(n => n.FhopsId);
-                //builder.Entity<DALParcel>().HasMany(m => m.VisitedHops).WithOne(n => n.VhopsId);
+                builder.Entity<DALWebhookResponse>().HasKey(p => p.Id);
             }
             catch (Exception ex)
             {

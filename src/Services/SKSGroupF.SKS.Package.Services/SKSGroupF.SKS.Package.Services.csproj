@@ -27,6 +27,8 @@
     <ProjectReference Include="..\..\DataAccess\SKSGroupF.SKS.Package.DataAccess.Entities\SKSGroupF.SKS.Package.DataAccess.Entities.csproj" />
     <ProjectReference Include="..\..\DataAccess\SKSGroupF.SKS.Package.DataAccess.Sql\SKSGroupF.SKS.Package.DataAccess.Sql.csproj" />
     <ProjectReference Include="..\..\ServiceAgents\SKSGroupF.SKS.Package.ServiceAgents\SKSGroupF.SKS.Package.ServiceAgents.csproj" />
+    <ProjectReference Include="..\..\Webhooks\SKSGroupF.SKS.Package.Webhooks.Interfaces\SKSGroupF.SKS.Package.Webhooks.Interfaces.csproj" />
+    <ProjectReference Include="..\..\Webhooks\SKSGroupF.SKS.Package.Webhooks\SKSGroupF.SKS.Package.Webhooks.csproj" />
     <ProjectReference Include="..\SKSGroupF.SKS.Package.Services.DTOs\SKSGroupF.SKS.Package.Services.DTOs.csproj" />
     <ProjectReference Include="..\SKSGroupF.SKS.Package.Services.Interfaces\SKSGroupF.SKS.Package.Services.Interfaces.csproj" />
   </ItemGroup>

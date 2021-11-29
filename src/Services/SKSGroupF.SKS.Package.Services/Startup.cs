@@ -22,7 +22,6 @@ using SKSGroupF.SKS.Package.Services.Filters;
 using System.Diagnostics.CodeAnalysis;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
 
 namespace SKSGroupF.SKS.Package.Services
 {
@@ -60,14 +59,19 @@ namespace SKSGroupF.SKS.Package.Services
             services.AddTransient<BusinessLogic.Interfaces.ITrackingLogic, BusinessLogic.Logic.TrackingLogic>();
             services.AddTransient<BusinessLogic.Interfaces.IWarehouseLogic, BusinessLogic.Logic.WarehouseLogic>();
 
+            services.AddTransient<Webhooks.Interfaces.IWebhookManager, Webhooks.WebhookManager>();
+
             services.AddScoped<DataAccess.Interfaces.IParcelRepository, DataAccess.Sql.SqlParcelRepository>();
             services.AddScoped<DataAccess.Interfaces.IHopRepository, DataAccess.Sql.SqlHopRepository>();
+            services.AddScoped<DataAccess.Interfaces.IWebhookRepository, DataAccess.Sql.SqlWebhookRepository>();
 
             services.AddScoped<ServiceAgents.Interfaces.IGeoEncodingAgent, ServiceAgents.OSMGeoEncodingAgent>();
 
             services.AddHttpClient<ServiceAgents.Interfaces.IGeoEncodingAgent, ServiceAgents.OSMGeoEncodingAgent>(p => p.BaseAddress = new System.Uri("https://nominatim.openstreetmap.org/"));
 
             services.AddHttpClient<DataAccess.Interfaces.IParcelRepository, DataAccess.Sql.SqlParcelRepository>();
+
+            services.AddHttpClient<Webhooks.Interfaces.IWebhookManager, Webhooks.WebhookManager>();
 
             services.AddTransient<DataAccess.Interfaces.ISqlDbContext, DataAccess.Sql.SqlDbContext>();
 

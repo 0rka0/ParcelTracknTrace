@@ -15,6 +15,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Interfaces
         public DbSet<DALHopArrival> DbHopArrival { get; set; }
         public DbSet<DALGeoCoordinate> DbGeoCoordinate { get; set; }
         public DbSet<DALWarehouseNextHops> DbWarehouseNextHops { get; set; }
+        public DbSet<DALWebhookResponse> DbWebhooks { get; set; }
 
         int SaveChangesToDb();
     }
