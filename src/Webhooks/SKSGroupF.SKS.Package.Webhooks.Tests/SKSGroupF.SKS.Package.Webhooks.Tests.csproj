@@ -7,10 +7,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
+    <PackageReference Include="Moq" Version="4.16.1" />
+    <PackageReference Include="NBuilder" Version="6.1.0" />
     <PackageReference Include="NUnit" Version="3.13.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
     <PackageReference Include="coverlet.collector" Version="3.0.2" />
+    <PackageReference Include="RichardSzalay.MockHttp" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\DataAccess\SKSGroupF.SKS.Package.DataAccess.Interfaces\SKSGroupF.SKS.Package.DataAccess.Interfaces.csproj" />
+    <ProjectReference Include="..\..\Services\SKSGroupF.SKS.Package.Services\SKSGroupF.SKS.Package.Services.csproj" />
+    <ProjectReference Include="..\SKSGroupF.SKS.Package.Webhooks.Entities\SKSGroupF.SKS.Package.Webhooks.Entities.csproj" />
+    <ProjectReference Include="..\SKSGroupF.SKS.Package.Webhooks.Interfaces\SKSGroupF.SKS.Package.Webhooks.Interfaces.csproj" />
+    <ProjectReference Include="..\SKSGroupF.SKS.Package.Webhooks\SKSGroupF.SKS.Package.Webhooks.csproj" />
   </ItemGroup>
 
 </Project>

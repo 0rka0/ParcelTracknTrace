@@ -15,13 +15,11 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
     {
         private ISqlDbContext context;
         private readonly ILogger logger;
-        private readonly HttpClient client;
 
-        public SqlWebhookRepository(ISqlDbContext context, ILogger<SqlParcelRepository> logger, HttpClient client)
+        public SqlWebhookRepository(ISqlDbContext context, ILogger<SqlWebhookRepository> logger)
         {
             this.context = context;
             this.logger = logger;
-            this.client = client;
         }
 
         public long? Create(DALWebhookResponse response)

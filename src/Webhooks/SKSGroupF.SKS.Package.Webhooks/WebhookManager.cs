@@ -17,16 +17,14 @@ namespace SKSGroupF.SKS.Package.Webhooks
     public class WebhookManager : IWebhookManager
     {
         private readonly IWebhookRepository webhookRepo;
-        private readonly IParcelRepository parcelRepo;
         private readonly HttpClient client;
         private readonly IMapper mapper;
         private readonly ILogger logger;
 
-        public WebhookManager(IMapper mapper, IWebhookRepository webhookRepo, IParcelRepository parcelRepo, HttpClient client, ILogger<WebhookManager> logger)
+        public WebhookManager(IMapper mapper, IWebhookRepository webhookRepo, HttpClient client, ILogger<WebhookManager> logger)
         {
             this.mapper = mapper;
             this.webhookRepo = webhookRepo;
-            this.parcelRepo = parcelRepo;
             this.client = client;
             this.logger = logger;
         }
@@ -49,7 +47,7 @@ namespace SKSGroupF.SKS.Package.Webhooks
             {
                 errorMsg = "Error when alerting all subscriptions.";
                 logger.LogError(errorMsg);
-                throw new WebhookLogicException(nameof(WebhookManager), errorMsg, ex);
+                throw new AlertException(nameof(WebhookManager), errorMsg, ex);
             }
         }
 
@@ -70,7 +68,7 @@ namespace SKSGroupF.SKS.Package.Webhooks
             {
                 errorMsg = "Error when alerting all subscriptions for specified parcel.";
                 logger.LogError(errorMsg);
-                throw new WebhookLogicException(nameof(WebhookManager), errorMsg, ex);
+                throw new AlertException(nameof(WebhookManager), errorMsg, ex);
             }
         }
 
@@ -126,7 +124,7 @@ namespace SKSGroupF.SKS.Package.Webhooks
             {
                 errorMsg = "Error when selecting subscriptions to parcel.";
                 logger.LogError(errorMsg);
-                throw new WebhookLogicException(nameof(WebhookManager), errorMsg, ex);
+                throw new SubscriptionException(nameof(WebhookManager), errorMsg, ex);
             }
         }
 
@@ -188,7 +186,6 @@ namespace SKSGroupF.SKS.Package.Webhooks
 
             try
             {
-                parcelRepo.GetByTrackingId(trackingId);
                 webhook.Id = webhookRepo.Create(mapper.Map<DALWebhookResponse>(webhook));
 
                 var message = "You have successfully subscribed to this parcel.";
