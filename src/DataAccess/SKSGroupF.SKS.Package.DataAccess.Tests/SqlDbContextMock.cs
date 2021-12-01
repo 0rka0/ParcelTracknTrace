@@ -35,6 +35,10 @@ namespace SKSGroupF.SKS.Package.DataAccess.Tests
             {
                 dbSet.Setup(x => x.Find(It.IsAny<object[]>())).Returns<object[]>(x => (sourceList as List<DALHopArrival>).FirstOrDefault(y => y.Id == (int)x[0]) as T);
             }
+            else if (typeof(T) == typeof(DALWebhookResponse))
+            {
+                dbSet.Setup(x => x.Find(It.IsAny<object[]>())).Returns<object[]>(x => (sourceList as List<DALWebhookResponse>).FirstOrDefault(y => y.Id == (long?)x[0]) as T);
+            }
 
             return dbSet.Object;
         }

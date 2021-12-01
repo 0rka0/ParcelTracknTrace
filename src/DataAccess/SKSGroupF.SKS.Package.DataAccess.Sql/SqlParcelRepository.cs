@@ -227,7 +227,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
             //Selects FutureHop by Code and marks it as VisitedHop
         }
 
-        async Task<string> SendRequestToLogisticsPartner(string url, StringContent data)
+        public async Task<string> SendRequestToLogisticsPartner(string url, StringContent data)
         {
             var response = await client.PostAsync(url, data);
             var responseString = await response.Content.ReadAsStringAsync();

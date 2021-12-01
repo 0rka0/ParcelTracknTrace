@@ -28,7 +28,6 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
            
             try
             {
-                //Insert Parcel and return db ID
                 logger.LogInformation("Inserting subscirption into database.");
                 var ent = context.DbWebhooks.Add(response);
                 logger.LogInformation("Subscription inserted with ID + " + ent.Entity.Id + ".");
