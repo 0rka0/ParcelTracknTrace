@@ -64,6 +64,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
             invalidParcel = Builder<BLParcel>.CreateNew()
                 .With(p => p.Receipient = Builder<BLReceipient>.CreateNew().Build())
                 .With(p => p.Sender = Builder<BLReceipient>.CreateNew().Build())
+                .With(p => p.Receipient.Country = "Austria")
                 .With(p => p.Weight = 0)
                 .Build();
 

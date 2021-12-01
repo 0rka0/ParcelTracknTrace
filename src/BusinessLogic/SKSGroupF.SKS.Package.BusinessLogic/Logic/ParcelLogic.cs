@@ -165,11 +165,11 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
                 var coorRec = mapper.Map<BLGeoCoordinate>(agent.EncodeAddress(mapper.Map<SAReceipient>(parcel.Receipient)));
                 var coorSender = mapper.Map<BLGeoCoordinate>(agent.EncodeAddress(mapper.Map<SAReceipient>(parcel.Sender)));
 
-                var trucks = GetAllTrucks();
+                var hops = GetAllTrucksAndTWhs();
                 var reader = new GeoJsonReader();
 
-                var truckRec = GetTruckByCoor(reader, trucks, new Point((double)coorRec.Lon, (double)coorRec.Lat));
-                var truckSender = GetTruckByCoor(reader, trucks, new Point((double)coorSender.Lon, (double)coorSender.Lat));
+                var truckRec = GetHopByCoor(reader, hops, new Point((double)coorRec.Lon, (double)coorRec.Lat));
+                var truckSender = GetHopByCoor(reader, hops, new Point((double)coorSender.Lon, (double)coorSender.Lat));
 
                 if (truckRec == null || truckSender == null)
                 {
@@ -190,38 +190,45 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
             }
         }
 
-        private List<BLTruck> GetAllTrucks()
+        private List<BLHop> GetAllTrucksAndTWhs()
         {
             try
             {
-                logger.LogDebug("Trying to get all trucks from repository.");
+                logger.LogDebug("Trying to get all trucks and transfer warehouses from repository.");
 
                 var tmpHopList = hopRepo.GetAll();
-                List<BLTruck> truckList = new List<BLTruck>();
+                List<BLHop> truckList = new List<BLHop>();
                 foreach (var i in tmpHopList)
                 {
                     if (String.Compare(i.HopType, "Truck") == 0)
-                        truckList.Add((BLTruck)mapper.Map<BLHop>(i));
+                        truckList.Add(mapper.Map<BLHop>(i));
+                    if (String.Compare(i.HopType, "TransferWarehouse") == 0)
+                        truckList.Add(mapper.Map<BLHop>(i));
                 }
                 return truckList;
 
             }
             catch (Exception ex)
             {
-                string errorMsg = "An error occurred when getting all trucks from repository.";
+                string errorMsg = "An error occurred when getting all trucks and transfer warehouses from repository.";
                 logger.LogError(errorMsg);
                 throw new BLLogicException(nameof(ParcelLogic), errorMsg, ex);
             }
 
         }
 
-        private Geometry GetGeometry(GeoJsonReader reader, BLTruck truck)
+        private Geometry GetGeometry(GeoJsonReader reader, BLHop hop)
         {
             try
             {
                 logger.LogDebug("Trying to create a geometry.");
+                Feature g;
 
-                Feature g = reader.Read<Feature>(truck.RegionGeoJson);
+                if (String.Compare(hop.HopType, "Truck") == 0)
+                    g = reader.Read<Feature>(((BLTruck)hop).RegionGeoJson);
+                else
+                    g = reader.Read<Feature>(((BLTransferWarehouse)hop).RegionGeoJson);
+
                 if (!Orientation.IsCCW(g.Geometry.Coordinates))
                     g.Geometry = g.Geometry.Reverse();
                 return g.Geometry;
@@ -234,12 +241,12 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
             }
         }
 
-        private BLTruck GetTruckByCoor(GeoJsonReader reader, List<BLTruck> trucks, Point point)
+        private BLHop GetHopByCoor(GeoJsonReader reader, List<BLHop> hops, Point point)
         {
             try
             {
                 logger.LogDebug("Trying to get a truck by his coordinates.");
-                foreach (var truck in trucks)
+                foreach (var truck in hops)
                 {
                     Geometry region = GetGeometry(reader, truck);
                     if (region.Contains(point))

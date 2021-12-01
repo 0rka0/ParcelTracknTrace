@@ -29,10 +29,10 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Tests
         public void ReceipientValidator_ReceivesInvalidData_IsValidIsFalse()
         {
             var receipient = Builder<BLReceipient>.CreateNew()
-                .With(p => p.Country = "Atria")
+                .With(p => p.Country = "Austria")
                 .With(p => p.City = "Vienna")
                 .With(p => p.Name = "David")
-                .With(p => p.PostalCode = "A-0000")
+                .With(p => p.PostalCode = "B-0000")
                 .With(p => p.Street = "Hauptstraße 1")
                 .Build();
 
