@@ -18,7 +18,7 @@ namespace SKSGroupF.SKS.Package.DataAccess.Sql
         public SqlDbContext(DbContextOptions<SqlDbContext> options, ILogger<SqlDbContext> logger) : base(options)
         {
             this.logger = logger;
-            //this.Database.EnsureDeleted();
+            this.Database.EnsureDeleted();
 
             try
             {
