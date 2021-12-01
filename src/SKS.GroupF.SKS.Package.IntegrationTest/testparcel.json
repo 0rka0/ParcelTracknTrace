@@ -1,0 +1,17 @@
+{
+  "weight": 5.0,
+  "receipient": {
+    "name": "Herbert",
+    "street": "Landstraße 1",
+    "postalCode": "A-1010",
+    "city": "Wien",
+    "country": "Austria"
+  },
+  "sender": {
+    "name": "Ulrik",
+    "street": "Industriestraße 1",
+    "postalCode": "A-1010",
+    "city": "Wien",
+    "country": "Austria"
+  }
+}

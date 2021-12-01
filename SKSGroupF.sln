@@ -51,7 +51,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKSGroupF.SKS.Package.Webho
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKSGroupF.SKS.Package.Webhooks.Tests", "src\Webhooks\SKSGroupF.SKS.Package.Webhooks.Tests\SKSGroupF.SKS.Package.Webhooks.Tests.csproj", "{FECFFBF8-C6CE-4A47-B50B-E859CF367312}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKSGroupF.SKS.Package.Webhooks.Entities", "src\Webhooks\SKSGroupF.SKS.Package.Webhooks.Entities\SKSGroupF.SKS.Package.Webhooks.Entities.csproj", "{E4841E5B-0A80-4D7E-AE3C-BB79905AA0CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKSGroupF.SKS.Package.Webhooks.Entities", "src\Webhooks\SKSGroupF.SKS.Package.Webhooks.Entities\SKSGroupF.SKS.Package.Webhooks.Entities.csproj", "{E4841E5B-0A80-4D7E-AE3C-BB79905AA0CB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKS.GroupF.SKS.Package.IntegrationTest", "src\SKS.GroupF.SKS.Package.IntegrationTest\SKS.GroupF.SKS.Package.IntegrationTest.csproj", "{F30C92D1-577D-4F31-85AE-D7EB130FDF78}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9A030DB0-0D88-4A61-A4E8-E1A69C1777BE}"
+	ProjectSection(SolutionItems) = preProject
+		integrationtest.runsettings = integrationtest.runsettings
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -139,6 +146,10 @@ Global
 		{E4841E5B-0A80-4D7E-AE3C-BB79905AA0CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4841E5B-0A80-4D7E-AE3C-BB79905AA0CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4841E5B-0A80-4D7E-AE3C-BB79905AA0CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F30C92D1-577D-4F31-85AE-D7EB130FDF78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F30C92D1-577D-4F31-85AE-D7EB130FDF78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F30C92D1-577D-4F31-85AE-D7EB130FDF78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F30C92D1-577D-4F31-85AE-D7EB130FDF78}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Runsettings>
+	<RunConfiguration>
+		<!--<MaxCpuCount>1</MaxCpuCount>
+		<TestSessionTimeout>300000</TestSessionTimeout>-->
+	</RunConfiguration>
+	<TestRunParameters>
+		<Parameter name="url" value = "http://www.google.com"/>
+	</TestRunParameters>
+</Runsettings>
