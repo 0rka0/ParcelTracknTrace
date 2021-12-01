@@ -17,7 +17,7 @@ namespace SKS.GroupF.SKS.Package.IntegrationTest
         [SetUp]
         public void Setup()
         {
-            url = TestContext.Parameters.Get("url", "https://sksgroupf-webapp.azurewebsites.net");
+            url = TestContext.Parameters.Get("url", "https://localhost:5001");
 
             client = new HttpClient()
             {

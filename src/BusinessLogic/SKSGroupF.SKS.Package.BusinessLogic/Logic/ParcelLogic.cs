@@ -104,6 +104,8 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
             parcel.State = BLParcel.StateEnum.PickupEnum;
             parcel.TrackingId = trackingId;
 
+            parcel = PredictRoute(parcel);
+
             IValidator<string> trackingIdValidator = new TrackingIdValidator();
             IValidator<BLParcel> parcelValidator = new ParcelValidator();
 
@@ -112,8 +114,6 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
 
             logger.LogDebug("Trying to validate submitted parcel.");
             var parcelResult = parcelValidator.Validate(parcel);
-
-            parcel = PredictRoute(parcel);
 
             try
             {
