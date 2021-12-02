@@ -52,7 +52,7 @@ steps:
 - task: DotNetCoreCLI@2
   displayName: 'Publish Tests'
   inputs:
-    command: 'publish'
+    command: publish
     publishWebProjects: false
     projects: '**/*Test/*.csproj'
     arguments: '--output $(Build.ArtifactStagingDirectory)'
