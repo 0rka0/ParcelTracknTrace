@@ -40,7 +40,7 @@ steps:
   inputs:
     command: publish
     publishWebProjects: True
-    arguments: '--output $(System.DefaultWorkingDirectory)'
+    arguments: '--output $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: True
 
 - task: DotNetCoreCLI@2
