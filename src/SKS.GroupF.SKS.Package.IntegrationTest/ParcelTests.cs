@@ -141,7 +141,7 @@ namespace SKS.GroupF.SKS.Package.IntegrationTest
             Assert.AreEqual(TrackingInformation.StateEnum.DeliveredEnum, trackingInfo.State);
         }
 
-        [Order(6), Test, Description("TransferringParcel")]
+        [Order(7), Test, Description("TransferringParcel")]
         public async Task TransferParcel()
         {
             var trackingId = "QZJRB4HZ7";

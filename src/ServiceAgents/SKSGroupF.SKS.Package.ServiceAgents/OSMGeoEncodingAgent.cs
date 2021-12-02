@@ -97,7 +97,7 @@ namespace SKSGroupF.SKS.Package.ServiceAgents
             }
 
             logger.LogInformation("Parsing the URL.");
-            string url = $"search?format=json&street={rec.Street}&postalcode={rec.PostalCode}&city={rec.City}&country={rec.Country}";
+            string url = $"search?format=json&street={rec.Street}&plz={rec.PostalCode}&city={rec.City}&country={rec.Country}";
             return url;
         }
     }

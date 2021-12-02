@@ -168,17 +168,17 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
                 var hops = GetAllTrucksAndTWhs();
                 var reader = new GeoJsonReader();
 
-                var truckRec = GetHopByCoor(reader, hops, new Point((double)coorRec.Lon, (double)coorRec.Lat));
-                var truckSender = GetHopByCoor(reader, hops, new Point((double)coorSender.Lon, (double)coorSender.Lat));
+                var hopRec = GetHopByCoor(reader, hops, new Point((double)coorRec.Lon, (double)coorRec.Lat));
+                var hopSender = GetHopByCoor(reader, hops, new Point((double)coorSender.Lon, (double)coorSender.Lat));
 
-                if (truckRec == null || truckSender == null)
+                if (hopRec == null || hopSender == null)
                 {
                     string errorMsg = "Could not find truck for either sender or receipient.";
                     logger.LogError(errorMsg);
                     throw new BLDataNotFoundException(nameof(ParcelLogic), errorMsg);
                 }
 
-                parcel.FutureHops = GetRouteFromHop(truckRec, truckSender);
+                parcel.FutureHops = GetRouteFromHop(hopRec, hopSender);
 
                 return parcel;
             }
