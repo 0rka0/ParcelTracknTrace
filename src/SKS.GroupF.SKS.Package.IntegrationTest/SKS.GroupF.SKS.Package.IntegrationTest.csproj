@@ -17,4 +17,13 @@
     <ProjectReference Include="..\Services\SKSGroupF.SKS.Package.Services.DTOs\SKSGroupF.SKS.Package.Services.DTOs.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="testparcel.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="trucks-new2-light-transferwh.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
