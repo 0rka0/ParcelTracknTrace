@@ -35,7 +35,7 @@ namespace SKS.GroupF.SKS.Package.IntegrationTest
         {
             Console.WriteLine($"Calling {url}/parcel");
 
-            StreamReader reader = new StreamReader("../../../testparcel.json");
+            StreamReader reader = new StreamReader("testparcel.json");
             string fileContent = reader.ReadToEnd();
             var content = new StringContent(fileContent, Encoding.UTF8, "application/json");
 
@@ -67,7 +67,7 @@ namespace SKS.GroupF.SKS.Package.IntegrationTest
         {
             Console.WriteLine($"Calling {url}/parcel");
 
-            StreamReader reader = new StreamReader("../../../testparcel.json");
+            StreamReader reader = new StreamReader("testparcel.json");
             string fileContent = reader.ReadToEnd();
             var content = new StringContent(fileContent, Encoding.UTF8, "application/json");
 
@@ -107,7 +107,7 @@ namespace SKS.GroupF.SKS.Package.IntegrationTest
         {
             Console.WriteLine($"Calling {url}/parcel");
 
-            StreamReader reader = new StreamReader("../../../testparcel.json");
+            StreamReader reader = new StreamReader("testparcel.json");
             string fileContent = reader.ReadToEnd();
             var content = new StringContent(fileContent, Encoding.UTF8, "application/json");
 

@@ -29,7 +29,7 @@ namespace SKS.GroupF.SKS.Package.IntegrationTest
         public async Task ImportWarehouse()
         {
             Console.WriteLine($"Calling {url}/Warehouse");
-            StreamReader reader = new StreamReader("../../../trucks-new2-light-transferwh.json");
+            StreamReader reader = new StreamReader("trucks-new2-light-transferwh.json");
             string fileContent = reader.ReadToEnd();
             var content = new StringContent(fileContent, Encoding.UTF8, "application/json");
 
