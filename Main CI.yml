@@ -50,8 +50,9 @@ steps:
     arguments: '--configuration $(buildConfiguration) --collect:"XPlat Code Coverage"'
 
 - task: DotNetCoreCLI@2
+  displayName: 'Publish Tests'
   inputs:
-    command: 'Publish Tests'
+    command: publish
     publishWebProjects: false
     projects: '**/*Test/*.csproj'
     arguments: '--output $(Build.ArtifactStagingDirectory)'
