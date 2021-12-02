@@ -36,18 +36,10 @@ steps:
     projects: '**/SKSGroupF.SKS.Package.Services.csproj'
 
 - task: DotNetCoreCLI@2
-  displayName: 'Publish'
-  inputs:
-    command: publish
-    publishWebProjects: True
-    arguments: '--output $(Build.ArtifactStagingDirectory)'
-    zipAfterPublish: True
-
-- task: DotNetCoreCLI@2
   displayName: 'Build Tests'
   inputs:
     command: build
-    projects: '**/*Tests/*.csproj'
+    projects: '**/*Test*/*.csproj'
 
 - task: DotNetCoreCLI@2
   displayName: 'Run Unit Tests'
@@ -56,6 +48,22 @@ steps:
     projects: '**/*Tests/*.csproj'
     publishTestResults: true
     arguments: '--configuration $(buildConfiguration) --collect:"XPlat Code Coverage"'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    projects: '**/*Test/*.csproj'
+    arguments: '--output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: false
+
+- task: DotNetCoreCLI@2
+  displayName: 'Publish'
+  inputs:
+    command: publish
+    publishWebProjects: True
+    arguments: '--output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: True
 
 - task: reportgenerator@4
   displayName: "Merge code coverage reports"
