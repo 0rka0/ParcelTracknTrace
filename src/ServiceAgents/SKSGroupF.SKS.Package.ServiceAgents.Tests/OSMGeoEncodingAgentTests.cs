@@ -63,7 +63,7 @@ namespace SKSGroupF.SKS.Package.ServiceAgents.Tests
         [Test]
         public void ParseUrl_ReceivesReceipient_ReturnsUrlWithReceipientData()
         {
-            string expected = $"search?format=json&street={receipient.Street}&postalcode={receipient.PostalCode}&city={receipient.City}&country={receipient.Country}";
+            string expected = $"search?format=json&street={receipient.Street}&plz={receipient.PostalCode}&city={receipient.City}&country={receipient.Country}";
 
             string actual = agent.ParseUrlRessource(receipient);
 
