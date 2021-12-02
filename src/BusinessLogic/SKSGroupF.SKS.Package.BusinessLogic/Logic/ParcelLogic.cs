@@ -178,7 +178,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
                     throw new BLDataNotFoundException(nameof(ParcelLogic), errorMsg);
                 }
 
-                parcel.FutureHops = GetRouteFromTrucks(truckRec, truckSender);
+                parcel.FutureHops = GetRouteFromHop(truckRec, truckSender);
 
                 return parcel;
             }
@@ -262,7 +262,7 @@ namespace SKSGroupF.SKS.Package.BusinessLogic.Logic
             }
         }
 
-        private List<BLHopArrival> GetRouteFromTrucks(BLHop hopRec, BLHop hopSender)
+        private List<BLHopArrival> GetRouteFromHop(BLHop hopRec, BLHop hopSender)
         {
             logger.LogDebug("Trying to get route from trucks.");
 
