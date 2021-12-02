@@ -33,7 +33,7 @@ namespace SKS.GroupF.SKS.Package.IntegrationTest
         }
 
 
-        [Test, Description("Submitting a parcel")]
+        [Order(4), Test, Description("Submitting a parcel")]
         public async Task SubmitParcelAndTrackParcel()
         {
             Console.WriteLine($"Calling {url}/parcel");
@@ -64,7 +64,7 @@ namespace SKS.GroupF.SKS.Package.IntegrationTest
             Assert.AreEqual(TrackingInformation.StateEnum.PickupEnum, trackingInfo.State); ;
         }
 
-        [Test, Description("ParcelJourney")]
+        [Order(5), Test, Description("ParcelJourney")]
         public async Task SubmitParcelTrackJourney()
         {
             Console.WriteLine($"Calling {url}/parcel");
@@ -104,7 +104,7 @@ namespace SKS.GroupF.SKS.Package.IntegrationTest
             Assert.AreEqual(3, trackingInfo.VisitedHops.Count);
         }
 
-        [Test, Description("ParcelDelivery")]
+        [Order(6), Test, Description("ParcelDelivery")]
         public async Task SubmitParcelTrackDelivery()
         {
             Console.WriteLine($"Calling {url}/parcel");
@@ -141,7 +141,7 @@ namespace SKS.GroupF.SKS.Package.IntegrationTest
             Assert.AreEqual(TrackingInformation.StateEnum.DeliveredEnum, trackingInfo.State);
         }
 
-        [Test, Description("TransferringParcel")]
+        [Order(6), Test, Description("TransferringParcel")]
         public async Task TransferParcel()
         {
             var trackingId = "QZJRB4HZ7";

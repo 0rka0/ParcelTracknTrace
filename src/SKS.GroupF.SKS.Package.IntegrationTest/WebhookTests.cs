@@ -30,7 +30,7 @@ namespace SKS.GroupF.SKS.Package.IntegrationTest
             };
         }
 
-        [Test, Description("Subscribing to parcel")]
+        [Order(8), Test, Description("Subscribing to parcel")]
         public async Task CreateWebhook()
         {
             Console.WriteLine($"Calling {url}/parcel");
@@ -62,7 +62,7 @@ namespace SKS.GroupF.SKS.Package.IntegrationTest
             Assert.AreEqual(testUrl, webhookResponse.Url);
         }
 
-        [Test, Description("Gets all Webhooks")]
+        [Order(9), Test, Description("Gets all Webhooks")]
         public async Task GetWebhooks()
         {
             Console.WriteLine($"Calling {url}/parcel");
@@ -102,7 +102,7 @@ namespace SKS.GroupF.SKS.Package.IntegrationTest
             Assert.That(jsonBody2, Contains.Substring($"\"url\":\"{testUrl}\""), "Sample Text not within the JSON");
         }
 
-        [Test, Description("Deletes a webhook by Id")]
+        [Order(10), Test, Description("Deletes a webhook by Id")]
         public async Task DeleteWebhook()
         {
             Console.WriteLine($"Calling {url}/parcel");

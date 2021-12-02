@@ -25,7 +25,7 @@ namespace SKS.GroupF.SKS.Package.IntegrationTest
             };
         }
 
-        [Test, Description("Importing Warehouse Tree")]
+        [Order(1), Test, Description("Importing Warehouse Tree")]
         public async Task ImportWarehouse()
         {
             Console.WriteLine($"Calling {url}/Warehouse");
@@ -43,7 +43,7 @@ namespace SKS.GroupF.SKS.Package.IntegrationTest
             Assert.That(jsonBody, Contains.Substring("Warehouse Level 1 - Wien"), "Sample Text not within the JSON");
         }
          
-        [Test, Description("Exporting Warehouse Tree")]
+        [Order(2), Test, Description("Exporting Warehouse Tree")]
         public async Task ExportWarehouse()
         {
             Console.WriteLine($"Calling {url}/Warehouse");
@@ -57,7 +57,7 @@ namespace SKS.GroupF.SKS.Package.IntegrationTest
         }
 
 
-        [Test, Description("Getting Warehouse Tree")]
+        [Order(3), Test, Description("Getting Warehouse Tree")]
         public async Task GetSingleWarehouseByCode()
         {
             var code = "WTTA080";
