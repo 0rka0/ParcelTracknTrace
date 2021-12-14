@@ -1,0 +1,89 @@
+<div>
+  <h1>Submit a parcel</h1>
+  <form novalidate #form="ngForm" (submit)="onSubmit(form)">
+    <div class="form-group">
+      <label>Weight: </label>
+      <input class="form-control form-control-lg" placeholder="0.0"
+             name="weight" #weight="ngModel" [(ngModel)]="service.parcelData.weight"
+             required [class.invalid]="weight.invalid && weight.touched">
+    </div>
+    <div class="row">
+      <div class="form-group col-md-6">
+        <h4>Receipient:</h4>
+        <div class="form-group">
+          <label>Name: </label>
+          <input class="form-control form-control-lg" placeholder="Max Mustermann"
+                 name="name1" #name1="ngModel" [(ngModel)]="service.parcelData.receipient.name"
+                 required [class.invalid]="name1.invalid && name1.touched">
+        </div>
+        <div class="form-group">
+          <label>Street: </label>
+          <input class="form-control form-control-lg" placeholder="Musterstraße 1"
+                 name="street1" #street1="ngModel" [(ngModel)]="service.parcelData.receipient.street"
+                 required [class.invalid]="street1.invalid && street1.touched">
+        </div>
+        <div class="form-group">
+          <label>Postalcode: </label>
+          <input class="form-control form-control-lg" placeholder="A-0000"
+                 name="postalcode1" #postalcode1="ngModel" [(ngModel)]="service.parcelData.receipient.postalcode"
+                 required maxlength="6" minlength="6" [class.invalid]="postalcode1.invalid && postalcode1.touched">
+        </div>
+        <div class="form-group">
+          <label>City: </label>
+          <input class="form-control form-control-lg" placeholder="Musterstadt"
+                 name="city1" #city1="ngModel" [(ngModel)]="service.parcelData.receipient.city"
+                 required [class.invalid]="city1.invalid && city1.touched">
+        </div>
+        <div class="form-group">
+          <label>Country: </label>
+          <input class="form-control form-control-lg" placeholder="Musterland"
+                 name="country1" #country1="ngModel" [(ngModel)]="service.parcelData.receipient.country"
+                 required [class.invalid]="country1.invalid && country1.touched">
+        </div>
+      </div>
+      <div class="form-group col-md-6">
+        <h4>Sender:</h4>
+        <div class="form-group">
+          <label>Name: </label>
+          <input class="form-control form-control-lg" placeholder="Martina Musterfrau"
+                 name="name2" #name2="ngModel" [(ngModel)]="service.parcelData.sender.name"
+                 required [class.invalid]="name2.invalid && name2.touched">
+        </div>
+        <div class="form-group">
+          <label>Street: </label>
+          <input class="form-control form-control-lg" placeholder="Musterstraße 1"
+                 name="street2" #street2="ngModel" [(ngModel)]="service.parcelData.sender.street"
+                 required [class.invalid]="street2.invalid && street2.touched">
+        </div>
+        <div class="form-group">
+          <label>Postalcode: </label>
+          <input class="form-control form-control-lg" placeholder="A-0000"
+                 name="postalcode2" #postalcode2="ngModel" [(ngModel)]="service.parcelData.sender.postalcode"
+                 required maxlength="6" minlength="6" [class.invalid]="postalcode2.invalid && postalcode2.touched">
+        </div>
+        <div class="form-group">
+          <label>City: </label>
+          <input class="form-control form-control-lg" placeholder="Musterstadt"
+                 name="city2" #city2="ngModel" [(ngModel)]="service.parcelData.sender.city"
+                 required [class.invalid]="city2.invalid && city2.touched">
+        </div>
+        <div class="form-group">
+          <label>Country: </label>
+          <input class="form-control form-control-lg" placeholder="Musterland"
+                 name="country2" #country2="ngModel" [(ngModel)]="service.parcelData.sender.country"
+                 required [class.invalid]="country2.invalid && country2.touched">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group py-3 col-md-6">
+        <button class="btn btn-info btn-lg btn-block" type="submit" [disabled]="form.invalid">Submit</button>
+      </div>
+      <div class="form-group py-3 col-md-6">
+        <label>Your tracking ID: </label>
+        <label>{{service.returnedTrackingId}}</label>
+      </div>
+    </div>
+  </form>
+</div>
+

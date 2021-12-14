@@ -22,6 +22,7 @@ using SKSGroupF.SKS.Package.Services.Filters;
 using System.Diagnostics.CodeAnalysis;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.SpaServices;
 
 namespace SKSGroupF.SKS.Package.Services
 {
@@ -125,6 +126,8 @@ namespace SKSGroupF.SKS.Package.Services
                     // Use [ValidateModelState] on Actions to actually validate it in C# as well!
                     c.OperationFilter<GeneratePathParamsValidationFilter>();
                 });
+
+            services.AddCors();
         }
 
         /// <summary>
@@ -135,10 +138,15 @@ namespace SKSGroupF.SKS.Package.Services
         /// <param name="loggerFactory"></param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
+            app.UseCors(options =>
+            options.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod());
+
             app.UseRouting();
 
             //TODO: Uncomment this if you need wwwroot folder
-            // app.UseStaticFiles();
+            app.UseStaticFiles();
 
             app.UseAuthorization();
 

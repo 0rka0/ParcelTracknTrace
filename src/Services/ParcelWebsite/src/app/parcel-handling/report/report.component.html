@@ -1,0 +1,35 @@
+<div>
+  <h1>Report parcel Hop</h1>
+  <div class="row">
+    <div class="form-group col-md-6">
+      <form novalidate #form1="ngForm" (submit)="onReport(form1)">
+        <div class="form-group">
+          <label>Tracking ID: </label>
+          <input class="form-control form-control-lg" placeholder="ABCDEFGHI"
+                 name="tid1" #tid1="ngModel" [(ngModel)]="service.inputTrackingId1"
+                 required [class.invalid]="tid1.invalid && tid1.touched">
+          <label>Code: </label>
+          <input class="form-control form-control-lg" placeholder="ABCD01"
+                 name="code" #code="ngModel" [(ngModel)]="service.inputCode"
+                 required [class.invalid]="code.invalid && code.touched">
+        </div>
+        <div class="form-group py-3 col-md-6">
+          <button class="btn btn-info btn-lg btn-block" type="submit" [disabled]="form1.invalid">Report Hop</button>
+        </div>
+      </form>
+    </div>
+    <div class="form-group col-md-6">
+      <form novalidate #form2="ngForm" (submit)="onDelivery(form2)">
+        <div class="form-group">
+        <label>Tracking ID: </label>
+        <input class="form-control form-control-lg" placeholder="ABCDEFGHI"
+               name="tid2" #tid2="ngModel" [(ngModel)]="service.inputTrackingId2"
+               required [class.invalid]="tid2.invalid && tid2.touched">
+        </div>
+        <div class="form-group py-3 col-md-6">
+          <button class="btn btn-info btn-lg btn-block" type="submit" [disabled]="form2.invalid">Report Delivery</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
