@@ -35,6 +35,27 @@ steps:
     command: build
     projects: '**/*Test*/*.csproj'
 
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.13.1'
+  displayName: 'Install Node.js'
+
+- script: |
+    cd '$(System.DefaultWorkingDirectory)/src/Services/ParcelWebsite'
+    npm install -g @angular/cli
+    npm install
+    ng build --prod
+  displayName: 'npm install and build'
+  
+- task: ArchiveFiles@2
+  displayName: 'Archive files'
+  inputs:
+   rootFolderOrFile: '$(System.DefaultWorkingDirectory)/src/Services/ParcelWebsite/dist/ParcelWebsite/'
+   includeRootFolder: false
+   archiveType: zip
+   archiveFile: $(Build.ArtifactStagingDirectory)
+   replaceExistingArchive: true
+
 - task: DotNetCoreCLI@2
   displayName: 'Run Unit Tests'
   inputs:
