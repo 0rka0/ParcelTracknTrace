@@ -53,7 +53,7 @@ steps:
    rootFolderOrFile: '$(System.DefaultWorkingDirectory)/src/Services/ParcelWebsite/dist/ParcelWebsite/'
    includeRootFolder: false
    archiveType: zip
-   archiveFile: $(Build.ArtifactStagingDirectory)
+   archiveFile: $(Build.ArtifactStagingDirectory)/ParcelWebsite.zip
    replaceExistingArchive: true
 
 - task: DotNetCoreCLI@2
