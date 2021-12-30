@@ -3,6 +3,7 @@ import { Parcel } from './parcel.model';
 import { HttpClient } from "@angular/common/http";
 import { BehaviorSubject } from 'rxjs';
 import { TrackingInf } from './tracking-inf.model';
+import { environment } from 'src/environments/environment'
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,9 @@ import { TrackingInf } from './tracking-inf.model';
 export class ParcelService {
   private showNav$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.baseUrl = environment.appUrl;
+  }
 
   response: string;
   parcelData: Parcel = new Parcel();
@@ -20,7 +23,7 @@ export class ParcelService {
   inputTrackingId1: string;
   inputTrackingId2: string;
   inputCode: string;
-  readonly baseUrl = 'https://localhost:5001/parcel/';
+  baseUrl = 'API Url';
 
   postSubmit()
   {
